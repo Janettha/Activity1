@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="janettha.activity1.Ex1.Ex1_ScrollingActivity">
+    tools:context="janettha.activity1.Act0.Ex1_ScrollingActivity">
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

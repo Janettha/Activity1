@@ -26,7 +26,7 @@
         <activity android:name=".Activities_Login.SignUpActivity" />
         <activity android:name=".MainmenuActivity" />
         <activity
-            android:name=".Ex1.Ex1Activity"
+            android:name=".Act0.PreActividad"
             android:label="@string/title_activity_ex1"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
