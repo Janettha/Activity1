@@ -1,7 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+<<<<<<< HEAD
     tools:context="janettha.activity1.MainActivity">
+=======
+    tools:context="janettha.activity1.Activities_Login.MainActivity">
+>>>>>>> 58a2a1c0e87ed64cd3f75db890d8a755db1f0649
     <item
         android:id="@+id/sign_out_menu"
         android:orderInCategory="100"

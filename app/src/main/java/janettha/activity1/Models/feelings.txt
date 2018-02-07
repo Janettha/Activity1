@@ -1,0 +1,19 @@
+Divertido - Amarillo
+Feliz - Amarillo
+Tranquilo - Amarillo
+Sorprendido - Amarillo
+
+Tímido - Morado
+Preocupado - Morado
+Temeroso - Morado
+
+Triste - Azul
+Culpable - Azul
+
+Aburrido - Verde
+Cansado - Verde
+Confundido - Verde
+
+Enojado - Rojo
+Adolorido - Rojo
+Apenado - Rojo
