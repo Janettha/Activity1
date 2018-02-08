@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="janettha.activity1">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -25,9 +26,9 @@
         <activity android:name=".Activities_Login.SignUpActivity" />
         <activity android:name=".MainmenuActivity" />
         <activity
-            android:name=".Act0.PreActividad"
-            android:label="@string/title_activity_ex1__scrolling"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".Act0.Preactivity"
+            android:label="@string/title_activity_preactivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

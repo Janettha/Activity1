@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import janettha.activity1.Act0.PreActividad;
+import janettha.activity1.Act0.Preactivity;
 
 public class MainmenuActivity extends AppCompatActivity {
 
@@ -23,7 +23,7 @@ public class MainmenuActivity extends AppCompatActivity {
         btnA1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainmenuActivity.this, PreActividad.class));
+                startActivity(new Intent(MainmenuActivity.this, Preactivity.class));
             }
         });
 

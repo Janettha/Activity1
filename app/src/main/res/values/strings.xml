@@ -122,6 +122,7 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_ex1">Ex1Activity</string>
->>>>>>> 58a2a1c0e87ed64cd3f75db890d8a755db1f0649
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_pre_actividad">PreActividad</string>
+    <string name="title_activity_preactivity">Preactivity</string>
 </resources>

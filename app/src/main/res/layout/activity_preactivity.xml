@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="janettha.activity1.Act0.PreActividad">
+    tools:context="janettha.activity1.Act0.Preactivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
