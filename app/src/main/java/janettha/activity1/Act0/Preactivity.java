@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import janettha.activity1.R;
@@ -115,8 +117,18 @@ public class Preactivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_preactivity, container, false);
+
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            ImageView imgFeel = (ImageView) rootView.findViewById(R.id.imgFeel);
+            Button btnA1 = (Button) rootView.findViewById(R.id.ans1);
+            Button btnA2 = (Button) rootView.findViewById(R.id.ans2);
+            Button btnA3 = (Button) rootView.findViewById(R.id.ans3);
+
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            btnA1.setText("EMOCION");
+            btnA2.setText("LLANTO");
+            btnA3.setText("FELICIDAD");
+
             return rootView;
         }
     }
