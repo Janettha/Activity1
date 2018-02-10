@@ -6,11 +6,13 @@ package janettha.activity1.Models;
 
 public class ImageUpload {
     private String nombre;
-    private int id;
+    private String id;
     private String sexo;
     private String url;
 
-    public ImageUpload(String nombre, int id, String sexo, String url) {
+    public ImageUpload(){}
+
+    public ImageUpload(String id, String nombre, String sexo, String url) {
         this.nombre = nombre;
         this.id = id;
         this.sexo = sexo;
@@ -21,9 +23,9 @@ public class ImageUpload {
 
     public void setNombre(String nombre) {        this.nombre = nombre;    }
 
-    public int getId() {        return id;    }
+    public String getId() {        return id;    }
 
-    public void setId(int id) {        this.id = id;    }
+    public void setId(String id) {        this.id = id;    }
 
     public String getSexo() {        return sexo;    }
 

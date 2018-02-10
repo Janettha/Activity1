@@ -1,25 +1,32 @@
 package janettha.activity1.Act0;
 
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import janettha.activity1.Models.Emocion;
 import janettha.activity1.R;
 
 public class Preactivity extends AppCompatActivity {
@@ -92,6 +99,7 @@ public class Preactivity extends AppCompatActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+        List<Emocion> emociones = new ArrayList<Emocion>();
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -124,7 +132,25 @@ public class Preactivity extends AppCompatActivity {
             Button btnA2 = (Button) rootView.findViewById(R.id.ans2);
             Button btnA3 = (Button) rootView.findViewById(R.id.ans3);
 
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            try {
+                InputStream fileE = rootView.getResources().openRawResource(R.raw.emociones);
+                BufferedReader brE = new BufferedReader(new InputStreamReader(fileE));
+                //Lectura de emocion
+                int i = 0;
+                String line1;
+                if (fileE != null) {
+                    while ((line1 = brE.readLine()) != null) {
+                        String[] array = line1.split(","); // Split according to the hyphen and put them in an array
+                        emociones.add(i, new Emocion(Integer.parseInt(array[0]), array[1], array[2], array[0]+".png", array[3]));
+                        i++;
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            textView.setText(emociones.get(18).getName());
+            Toast.makeText(getContext(), emociones.toString(), Toast.LENGTH_SHORT).show();
+
             btnA1.setText("EMOCION");
             btnA2.setText("LLANTO");
             btnA3.setText("FELICIDAD");
@@ -133,7 +159,7 @@ public class Preactivity extends AppCompatActivity {
         }
     }
 
-    /**
+            /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
@@ -156,4 +182,6 @@ public class Preactivity extends AppCompatActivity {
             return 3;
         }
     }
+
+
 }
