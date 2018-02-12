@@ -11,6 +11,8 @@ public class Emocion {
     private String sexo;
     private String url;
 
+    public Emocion(){}
+
     public Emocion(int id, String nombre, String sexo, String url, String color){
         this.id = id;
         this.name = nombre;

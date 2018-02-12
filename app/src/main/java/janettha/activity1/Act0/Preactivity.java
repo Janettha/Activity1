@@ -1,5 +1,6 @@
 package janettha.activity1.Act0;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import janettha.activity1.Models.Emocion;
+import janettha.activity1.Models.Emociones;
 import janettha.activity1.R;
 
 public class Preactivity extends AppCompatActivity {
@@ -100,6 +102,8 @@ public class Preactivity extends AppCompatActivity {
      */
     public static class PlaceholderFragment extends Fragment {
         List<Emocion> emociones = new ArrayList<Emocion>();
+        List<Actividad0> btnList = new ArrayList<Actividad0>();
+        private final int LIM_emociones = 12;
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -125,6 +129,8 @@ public class Preactivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_preactivity, container, false);
+            Emociones e = new Emociones();
+            int r1, r2, r3 = 0;
 
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             ImageView imgFeel = (ImageView) rootView.findViewById(R.id.imgFeel);
@@ -132,8 +138,34 @@ public class Preactivity extends AppCompatActivity {
             Button btnA2 = (Button) rootView.findViewById(R.id.ans2);
             Button btnA3 = (Button) rootView.findViewById(R.id.ans3);
 
+            Uri descaragarFoto = taskSnapshot
+
+            emociones = e.Emociones(rootView);
+            listEmociones(rootView);
+
+            //textView.setText(emociones.get(18).getName());
+            textView.setText("¿Cómo creés que se siente Laura?");
+            r1 = (int) (Math.random() * LIM_emociones ) + 1;
+            r2 = (int) (Math.random() * LIM_emociones ) + 1;
+            r3 = (int) (Math.random() * LIM_emociones ) + 1;
+
+            Toast.makeText(getContext(), emociones.get(r1).getName()+", "+emociones.get(r2).getName()+", "+emociones.get(r3).getName(), Toast.LENGTH_SHORT).show();
+            //switch (sectionnumber){            }
+
+            btnA1.setText(btnList.get(r1).emocionMain().getName());
+            btnA2.setText("LLANTO");
+            btnA3.setText("FELICIDAD");
+
+            return rootView;
+        }
+
+        public void listEmociones(View view)  {
+
+            Emocion eMain, e2, e3 = new Emocion();
+            Actividad0 a0;
+
             try {
-                InputStream fileE = rootView.getResources().openRawResource(R.raw.emociones);
+                InputStream fileE = view.getResources().openRawResource(R.raw.preactividad);
                 BufferedReader brE = new BufferedReader(new InputStreamReader(fileE));
                 //Lectura de emocion
                 int i = 0;
@@ -141,21 +173,22 @@ public class Preactivity extends AppCompatActivity {
                 if (fileE != null) {
                     while ((line1 = brE.readLine()) != null) {
                         String[] array = line1.split(","); // Split according to the hyphen and put them in an array
-                        emociones.add(i, new Emocion(Integer.parseInt(array[0]), array[1], array[2], array[0]+".png", array[3]));
+                        //btnList.add(i, new Emocion(Integer.parseInt(array[0]), array[1], array[2], array[0]+".png", array[3]));
+                        int id = Integer.parseInt(array[0]);
+                        int id2 = Integer.parseInt(array[1]);
+                        int id3 = Integer.parseInt(array[2]);
+                        System.out.print("----------------------ID-----------------"+id+","+id2+","+id3);
+                        eMain = new Emocion(0, emociones.get(id).getName(), emociones.get(id).getSexo(), id+".png", emociones.get(id).getColor());
+                        e2 = new Emocion(1, emociones.get(id2).getName(), emociones.get(id2).getSexo(), id2+".png", emociones.get(id2).getColor());
+                        e3 = new Emocion(2, emociones.get(id3).getName(), emociones.get(id3).getSexo(), id3+".png", emociones.get(id3).getColor());
+                        a0 = new Actividad0(0, eMain, e2, e3);
+                        btnList.add(i, a0);
                         i++;
                     }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            textView.setText(emociones.get(18).getName());
-            Toast.makeText(getContext(), emociones.toString(), Toast.LENGTH_SHORT).show();
-
-            btnA1.setText("EMOCION");
-            btnA2.setText("LLANTO");
-            btnA3.setText("FELICIDAD");
-
-            return rootView;
         }
     }
 
