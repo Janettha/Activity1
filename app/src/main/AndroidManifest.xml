@@ -28,6 +28,10 @@
         <activity
             android:name=".Act0.Preactivity"
             android:label="@string/title_activity_preactivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Act1.Activity1"
+            android:label="@string/title_activity_1"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

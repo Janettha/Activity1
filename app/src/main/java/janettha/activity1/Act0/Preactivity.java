@@ -1,6 +1,5 @@
 package janettha.activity1.Act0;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +29,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import janettha.activity1.GlideApp;
 import janettha.activity1.Models.Emocion;
 import janettha.activity1.Models.Emociones;
 import janettha.activity1.R;
@@ -133,12 +136,13 @@ public class Preactivity extends AppCompatActivity {
             int r1, r2, r3 = 0;
 
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            ImageView imgFeel = (ImageView) rootView.findViewById(R.id.imgFeel);
+            final ImageView imgFeel = (ImageView) rootView.findViewById(R.id.imgFeel);
             Button btnA1 = (Button) rootView.findViewById(R.id.ans1);
             Button btnA2 = (Button) rootView.findViewById(R.id.ans2);
             Button btnA3 = (Button) rootView.findViewById(R.id.ans3);
 
-            Uri descaragarFoto = taskSnapshot
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference();
 
             emociones = e.Emociones(rootView);
             listEmociones(rootView);
@@ -149,11 +153,19 @@ public class Preactivity extends AppCompatActivity {
             r2 = (int) (Math.random() * LIM_emociones ) + 1;
             r3 = (int) (Math.random() * LIM_emociones ) + 1;
 
+            String foto = String.valueOf(r1)+".png";
+            StorageReference pathReference = storageRef.child("sentimientos/").child(foto);
+            //String url = "https://firebasestorage.googleapis.com/v0/b/adhdact1.appspot.com/o/sentimientos%2F1.png?alt=media&token=d416baf2-f9f2-4c9f-bdf2-a06eb08393c7";
+            GlideApp.with(getContext())
+                    .load(pathReference)
+                    .into(imgFeel);
+
+
             Toast.makeText(getContext(), emociones.get(r1).getName()+", "+emociones.get(r2).getName()+", "+emociones.get(r3).getName(), Toast.LENGTH_SHORT).show();
             //switch (sectionnumber){            }
 
             btnA1.setText(btnList.get(r1).emocionMain().getName());
-            btnA2.setText("LLANTO");
+            btnA2.setText(btnList.get(r1).emocionMain().getName());
             btnA3.setText("FELICIDAD");
 
             return rootView;
@@ -191,6 +203,7 @@ public class Preactivity extends AppCompatActivity {
             }
         }
     }
+
 
             /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
