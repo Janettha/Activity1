@@ -8,61 +8,45 @@
     tools:context="janettha.activity1.Activities_Login.LoginActivity">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
-
-
-        <ImageView
-            android:layout_width="@dimen/logo_w_h"
-            android:layout_height="@dimen/logo_w_h"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="30dp"
-            android:src="@mipmap/ic_launcher"
-            android:contentDescription=""
-            tools:ignore="ContentDescription" />
-
 
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_margin="@dimen/activity_margin"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
-            android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white" />
-
-
+            android:textColorHint="@android:color/white"
+            />
 
         <EditText
             android:id="@+id/password"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_margin="@dimen/activity_margin"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white" />
 
-
         <!-- Login Button -->
-
         <Button
             android:id="@+id/btn_login"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:background="@color/colorAccent"
+            android:layout_marginTop="20dp"
             android:text="@string/btn_login"
-            android:textColor="@android:color/black" />
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@android:color/white"/>
 
         <Button
             android:id="@+id/btn_reset_password"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
             android:background="@null"
@@ -74,13 +58,12 @@
 
         <Button
             android:id="@+id/btn_signup"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
             android:background="@null"
             android:text="@string/btn_link_to_register"
             android:textAllCaps="false"
-            android:textColor="@color/white"
             android:textSize="15dp"
             tools:ignore="SpUsage" />
     </LinearLayout>
@@ -91,8 +74,6 @@
         android:layout_height="100dp"
         android:layout_gravity="center|bottom"
         android:visibility="gone"
-        tools:layout_editor_absoluteX="142dp"
-        tools:layout_editor_absoluteY="162dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"/>
 
 </android.support.constraint.ConstraintLayout>

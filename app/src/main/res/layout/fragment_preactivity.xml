@@ -1,7 +1,8 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
+    android:id="@+id/Layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="janettha.activity1.Act0.Preactivity$PlaceholderFragment">
@@ -10,13 +11,51 @@
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:textSize="8dp"
+        android:text="¿Cómo se siente Juanita?"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+    />
+    <ImageView
+        android:id="@+id/imgFeel"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/section_label"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@mipmap/ic_play"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/imgFeel"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        >
+        <Button
+            android:id="@+id/ans1"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Answer 1"
+            android:layout_margin="@dimen/activity_vertical_margin"/>
+        <Button
+            android:id="@+id/ans2"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Answer 2"
+            android:layout_margin="@dimen/activity_vertical_margin"/>
+        <Button
+            android:id="@+id/ans3"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Answer 3"
+            android:layout_margin="@dimen/activity_vertical_margin"/>
 
-</android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>
