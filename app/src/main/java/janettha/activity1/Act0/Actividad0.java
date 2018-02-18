@@ -22,10 +22,14 @@ public class Actividad0 {
         this.listEmociones.add(2,e3);
     }
 
-    public int getID(){ return this.id; }
+    public int getIDMain(){ return this.id; }
 
     public Emocion emocionMain(){
         return this.listEmociones.get(0);
     }
+    public Emocion emocionB(){
+        return this.listEmociones.get(1);
+    }
+    public Emocion emocionC(){ return this.listEmociones.get(2); }
 
 }

@@ -1,5 +1,7 @@
 package janettha.activity1.Act0;
 
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,8 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,7 +30,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import janettha.activity1.GlideApp;
 import janettha.activity1.Models.Emocion;
 import janettha.activity1.Models.Emociones;
 import janettha.activity1.R;
@@ -50,6 +50,7 @@ public class Preactivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +107,7 @@ public class Preactivity extends AppCompatActivity {
     public static class PlaceholderFragment extends Fragment {
         List<Emocion> emociones = new ArrayList<Emocion>();
         List<Actividad0> btnList = new ArrayList<Actividad0>();
-        private final int LIM_emociones = 12;
+        private final int LIM_emociones = 11;
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -136,42 +137,35 @@ public class Preactivity extends AppCompatActivity {
             int r1, r2, r3 = 0;
 
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            final ImageView imgFeel = (ImageView) rootView.findViewById(R.id.imgFeel);
+            ImageView imgFeel = (ImageView) rootView.findViewById(R.id.imgFeel);
             Button btnA1 = (Button) rootView.findViewById(R.id.ans1);
             Button btnA2 = (Button) rootView.findViewById(R.id.ans2);
             Button btnA3 = (Button) rootView.findViewById(R.id.ans3);
 
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageRef = storage.getReference();
-
             emociones = e.Emociones(rootView);
             listEmociones(rootView);
 
-            //textView.setText(emociones.get(18).getName());
+            //            Toast.makeText(getContext(), emociones.get(r1).getName()+", "+emociones.get(r2).getName()+", "+emociones.get(r3).getName(), Toast.LENGTH_SHORT).show();
             textView.setText("¿Cómo creés que se siente Laura?");
-            r1 = (int) (Math.random() * LIM_emociones ) + 1;
-            r2 = (int) (Math.random() * LIM_emociones ) + 1;
-            r3 = (int) (Math.random() * LIM_emociones ) + 1;
 
-            String foto = String.valueOf(r1)+".png";
-            StorageReference pathReference = storageRef.child("sentimientos/").child(foto);
-            //String url = "https://firebasestorage.googleapis.com/v0/b/adhdact1.appspot.com/o/sentimientos%2F1.png?alt=media&token=d416baf2-f9f2-4c9f-bdf2-a06eb08393c7";
-            GlideApp.with(getContext())
-                    .load(pathReference)
-                    .into(imgFeel);
-
-
-            Toast.makeText(getContext(), emociones.get(r1).getName()+", "+emociones.get(r2).getName()+", "+emociones.get(r3).getName(), Toast.LENGTH_SHORT).show();
-            //switch (sectionnumber){            }
-
-            btnA1.setText(btnList.get(r1).emocionMain().getName());
-            btnA2.setText(btnList.get(r1).emocionMain().getName());
-            btnA3.setText("FELICIDAD");
+            if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
+                r1 = (int) (Math.random() * LIM_emociones ) ;
+                interfaceFrame(rootView, imgFeel,btnA1,btnA2,btnA3, emociones.get(r1).getSexo(),r1, btnList.get(r1).emocionMain().getId(), btnList.get(r1).emocionB().getId(),btnList.get(r1).emocionC().getId());
+                Toast.makeText(getContext(), "->"+btnList.get(r1).emocionMain().getId()+","+btnList.get(r1).emocionB().getId()+","+btnList.get(r1).emocionC().getId(), Toast.LENGTH_SHORT).show();
+            }else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2) {
+                r1 = (int) (Math.random() * LIM_emociones ) ;
+                interfaceFrame(rootView, imgFeel,btnA1,btnA2,btnA3, emociones.get(r1).getSexo(),r1, btnList.get(r1).emocionB().getId(), btnList.get(r1).emocionMain().getId(),btnList.get(r1).emocionC().getId());
+                Toast.makeText(getContext(), btnList.get(r1).emocionB().getId()+"->"+btnList.get(r1).emocionMain().getId()+","+btnList.get(r1).emocionC().getId(), Toast.LENGTH_SHORT).show();
+            }else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3) {
+                r1 = (int) (Math.random() * LIM_emociones ) ;
+                interfaceFrame(rootView, imgFeel,btnA1,btnA2,btnA3, emociones.get(r1).getSexo(),r1, btnList.get(r1).emocionC().getId(), btnList.get(r1).emocionB().getId(),btnList.get(r1).emocionMain().getId());
+                Toast.makeText(getContext(), btnList.get(r1).emocionC().getId()+","+btnList.get(r1).emocionC().getId()+"->"+btnList.get(r1).emocionMain().getId(), Toast.LENGTH_SHORT).show();
+            }
 
             return rootView;
         }
 
-        public void listEmociones(View view)  {
+        private void listEmociones(View view)  {
 
             Emocion eMain, e2, e3 = new Emocion();
             Actividad0 a0;
@@ -189,11 +183,11 @@ public class Preactivity extends AppCompatActivity {
                         int id = Integer.parseInt(array[0]);
                         int id2 = Integer.parseInt(array[1]);
                         int id3 = Integer.parseInt(array[2]);
-                        System.out.print("----------------------ID-----------------"+id+","+id2+","+id3);
-                        eMain = new Emocion(0, emociones.get(id).getName(), emociones.get(id).getSexo(), id+".png", emociones.get(id).getColor());
-                        e2 = new Emocion(1, emociones.get(id2).getName(), emociones.get(id2).getSexo(), id2+".png", emociones.get(id2).getColor());
-                        e3 = new Emocion(2, emociones.get(id3).getName(), emociones.get(id3).getSexo(), id3+".png", emociones.get(id3).getColor());
-                        a0 = new Actividad0(0, eMain, e2, e3);
+                        //System.out.print("----------------------ID-----------------"+id+","+id2+","+id3);
+                        eMain = new Emocion(id, emociones.get(id).getName(), emociones.get(id).getSexo(), emociones.get(id).getUrl(), emociones.get(id).getColor(), emociones.get(id).getColorB());
+                        e2 = new Emocion(id2, emociones.get(id2).getName(), emociones.get(id2).getSexo(), emociones.get(id2).getUrl(), emociones.get(id2).getColor(), emociones.get(id2).getColorB());
+                        e3 = new Emocion(id3, emociones.get(id3).getName(), emociones.get(id3).getSexo(), emociones.get(id3).getUrl(), emociones.get(id3).getColor(), emociones.get(id3).getColorB());
+                        a0 = new Actividad0(i, eMain, e2, e3);
                         btnList.add(i, a0);
                         i++;
                     }
@@ -201,6 +195,32 @@ public class Preactivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        private void interfaceFrame(View v, ImageView imgFeel, Button b1, Button b2, Button b3, String s, int r, int r1, int r2, int r3){
+
+            String foto="";//="android.resource://janettha.activity1/drawable/f"+String.valueOf(r);
+            Uri ruta;
+
+            v.setBackgroundColor(Color.parseColor(btnList.get(r).emocionMain().getColor()));
+            b1.setBackgroundColor(Color.parseColor(emociones.get(r).getColorB()));
+            b2.setBackgroundColor(Color.parseColor(emociones.get(r).getColorB()));
+            b3.setBackgroundColor(Color.parseColor(emociones.get(r).getColorB()));
+
+
+            b1.setText(emociones.get(r1).getName());
+            b2.setText(emociones.get(r2).getName());
+            b3.setText(emociones.get(r3).getName());
+
+            if(s.equals("f")){
+                foto = "android.resource://janettha.activity1/drawable/f"+String.valueOf(r);
+            }else if(s.equals("m")){
+                foto = "android.resource://janettha.activity1/drawable/m"+String.valueOf(r);
+            }
+            ruta = Uri.parse(foto);
+            Picasso.with(v.getContext())
+                    .load(ruta).fit()
+                    .into(imgFeel); //fit para la imagen en la vista
         }
     }
 

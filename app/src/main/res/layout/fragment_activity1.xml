@@ -6,32 +6,45 @@
     android:layout_height="match_parent"
     tools:context="janettha.activity1.Act1.Activity1$PlaceholderFragment">
 
+    <TextView
+        android:id="@+id/Instruccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lee o escucha la pequeña situación y elije ¿Cómo se siente flanita de tal?"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:background="#aaaaaa"
+        />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
+        android:layout_below="@+id/Instruccion"
         android:layout_margin="@dimen/activity_vertical_margin"
         android:id="@+id/LRed">
         <TextView
             android:id="@+id/redaccion"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight=".3"
             android:layout_gravity="center_horizontal"
             android:layout_centerHorizontal="true"
-            android:layout_marginRight="@dimen/activity_vertical_margin"
-            android:text="Redaccion"
+            android:text="Redaccion sobre la actividad de Juanita y sus actividades recreativas acerca de Redaccion sobre la actividad de Juanita y sus actividades recreativas acerca de "
             />
         <Button
             android:id="@+id/buttonPlay"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
             android:background="@mipmap/ic_play"
             />
     </LinearLayout>
-
-
 
     <LinearLayout
         android:id="@+id/LRes"
@@ -41,83 +54,84 @@
         android:layout_below="@+id/LRed"
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/activity_vertical_margin"
         >
         <LinearLayout
-            android:layout_width="300dp"
-            android:layout_height="120dp"
-            android:orientation="horizontal">
-            <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin">
+            <Button
                 android:id="@+id/imgRedaccion"
-                android:layout_margin="@dimen/activity_vertical_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight=".7"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
                 android:background="@mipmap/ic_play"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
                 />
-            <Button
-                android:id="@+id/buttonR1"
+            <TextView
+                android:id="@+id/txRedaccion"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_weight=".3"
-                android:layout_gravity="center_vertical"
-                android:layout_centerVertical="true"
-                android:text="Respuesta1"
-                />
+                android:layout_height="wrap_content"
+                android:text="Respuesta 1"
+                android:layout_below="@+id/imgRedaccion"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="300dp"
-            android:layout_height="120dp"
-            android:orientation="horizontal">
-            <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin">
+            <Button
                 android:id="@+id/imgRedaccion2"
-                android:layout_margin="@dimen/activity_vertical_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight=".7"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
                 android:background="@mipmap/ic_play"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
                 />
-            <Button
-                android:id="@+id/buttonR2"
+            <TextView
+                android:id="@+id/txRedaccion2"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_weight=".3"
-                android:layout_gravity="center_vertical"
-                android:layout_centerVertical="true"
-                android:text="Respuesta1"
-                />
+                android:layout_height="wrap_content"
+                android:text="Respuesta 1"
+                android:layout_below="@+id/imgRedaccion"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="300dp"
-            android:layout_height="120dp"
-            android:orientation="horizontal">
-            <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin">
+            <Button
                 android:id="@+id/imgRedaccion3"
-                android:layout_margin="@dimen/activity_vertical_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight=".7"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
                 android:background="@mipmap/ic_play"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
                 />
-            <Button
-                android:id="@+id/buttonR3"
+            <TextView
+                android:id="@+id/txRedaccion3"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_weight=".3"
-                android:layout_gravity="center_vertical"
-                android:layout_centerVertical="true"
-                android:text="Respuesta1"
-                />
+                android:layout_height="wrap_content"
+                android:text="Respuesta 1"
+                android:layout_below="@+id/imgRedaccion"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true"/>
         </LinearLayout>
 
     </LinearLayout>
     <Button
         android:id="@+id/buttonNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="Siguiente"
         android:layout_below="@+id/LRes"

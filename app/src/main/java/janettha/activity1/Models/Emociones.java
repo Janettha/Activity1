@@ -32,7 +32,7 @@ public class Emociones {
             if (fileE != null) {
                 while ((line1 = brE.readLine()) != null) {
                     String[] array = line1.split(","); // Split according to the hyphen and put them in an array
-                    emociones.add(i, new Emocion(Integer.parseInt(array[0]), array[1], array[2], array[0]+".png", array[3]));
+                    emociones.add(i, new Emocion(Integer.parseInt(array[0]), array[1], array[2], array[0]+".png", array[3], array[4]));
                     i++;
                 }
             }
