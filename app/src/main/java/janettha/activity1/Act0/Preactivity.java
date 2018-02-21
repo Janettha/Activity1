@@ -142,7 +142,7 @@ public class Preactivity extends AppCompatActivity {
             Button btnA2 = (Button) rootView.findViewById(R.id.ans2);
             Button btnA3 = (Button) rootView.findViewById(R.id.ans3);
 
-            emociones = e.Emociones(rootView);
+            emociones = e.Emociones(rootView,"f");
             listEmociones(rootView);
 
             //            Toast.makeText(getContext(), emociones.get(r1).getName()+", "+emociones.get(r2).getName()+", "+emociones.get(r3).getName(), Toast.LENGTH_SHORT).show();
@@ -212,12 +212,14 @@ public class Preactivity extends AppCompatActivity {
             b2.setText(emociones.get(r2).getName());
             b3.setText(emociones.get(r3).getName());
 
+            /*
             if(s.equals("f")){
                 foto = "android.resource://janettha.activity1/drawable/f"+String.valueOf(r);
             }else if(s.equals("m")){
                 foto = "android.resource://janettha.activity1/drawable/m"+String.valueOf(r);
             }
-            ruta = Uri.parse(foto);
+            */
+            ruta = Uri.parse(emociones.get(r).getUrl());
             Picasso.with(v.getContext())
                     .load(ruta).fit()
                     .into(imgFeel); //fit para la imagen en la vista
