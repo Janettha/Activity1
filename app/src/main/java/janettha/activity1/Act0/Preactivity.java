@@ -142,7 +142,7 @@ public class Preactivity extends AppCompatActivity {
             Button btnA2 = (Button) rootView.findViewById(R.id.ans2);
             Button btnA3 = (Button) rootView.findViewById(R.id.ans3);
 
-            emociones = e.Emociones(rootView,"f");
+            emociones = e.Emociones(getContext(),"f");
             listEmociones(rootView);
 
             //            Toast.makeText(getContext(), emociones.get(r1).getName()+", "+emociones.get(r2).getName()+", "+emociones.get(r3).getName(), Toast.LENGTH_SHORT).show();

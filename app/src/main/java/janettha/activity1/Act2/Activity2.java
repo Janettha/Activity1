@@ -32,7 +32,7 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
 
     private void loadData(String s, View view) {
         Emociones e = new Emociones();
-        listImg = e.Emociones(view, s);
+        listImg = e.Emociones(getApplicationContext(),s);
         WheelmageAdapter adapter = new WheelmageAdapter(getBaseContext(),view, "f");
         wheel_img.setAdapter(adapter);
     }

@@ -30,7 +30,7 @@ public class WheelmageAdapter extends CursorWheelLayout.CycleWheelAdapter {
     public WheelmageAdapter(Context context, View view, String s) {
         Emociones e = new Emociones();
         this.context = context;
-        this.listEmociones = e.Emociones(view, s);
+        this.listEmociones = e.Emociones(context, s);
         this.inflater = LayoutInflater.from(context);
     }
 

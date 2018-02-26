@@ -4,7 +4,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="janettha.activity1.MainActivity$PlaceholderFragment">
+    tools:context="janettha.activity1.Activities_Login.MainActivity">
 
     <TextView
         android:id="@+id/section_label"

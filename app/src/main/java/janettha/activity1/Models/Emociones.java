@@ -1,6 +1,6 @@
 package janettha.activity1.Models;
 
-import android.view.View;
+import android.content.Context;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,10 +21,11 @@ public class Emociones {
 
     public Emociones(){};
 
-    public List<Emocion> Emociones(View view,String s)  {
+    public List<Emocion> Emociones(Context c, String s)  {
 
         try {
-            InputStream fileE = view.getResources().openRawResource(R.raw.emociones);
+            //InputStream fileE = view.getResources().openRawResource(R.raw.emociones);
+            InputStream fileE = c.getResources().openRawResource(R.raw.emociones);
             BufferedReader brE = new BufferedReader(new InputStreamReader(fileE));
             //Lectura de emocion
             int i = 0;
