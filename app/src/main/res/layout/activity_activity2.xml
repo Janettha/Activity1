@@ -31,4 +31,12 @@
             />
     </github.hellocsl.cursorwheel.CursorWheelLayout>
 
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@mipmap/ic_play"
+        android:layout_gravity="center"
+        android:layout_below="@id/id_wheel_menu_center_item"
+        tools:ignore="NotSibling" />
+
 </android.support.constraint.ConstraintLayout>
