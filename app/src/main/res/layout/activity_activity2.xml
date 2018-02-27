@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="janettha.activity1.Act2.Activity2">
 
     <github.hellocsl.cursorwheel.CursorWheelLayout
+        android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:id="@+id/wheel"
         android:layout_width="280dip"
@@ -32,11 +34,12 @@
     </github.hellocsl.cursorwheel.CursorWheelLayout>
 
     <Button
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@mipmap/ic_play"
+        android:id="@+id/EmocionDialog"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/id_wheel_menu_center_item"
         android:layout_gravity="center"
-        android:layout_below="@id/id_wheel_menu_center_item"
-        tools:ignore="NotSibling" />
+        android:text="Click"
+        tools:ignore="MissingConstraints" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
