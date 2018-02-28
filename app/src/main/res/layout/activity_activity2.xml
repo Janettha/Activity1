@@ -8,13 +8,23 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="janettha.activity1.Act2.Activity2">
-
+    <TextView
+        android:padding="@dimen/activity_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/activity_margin"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:text="Gira la ruleta para contar una historia acerca de cuando sientes... "
+        />
     <github.hellocsl.cursorwheel.CursorWheelLayout
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:id="@+id/wheel"
         android:layout_width="280dip"
         android:layout_height="280dip"
+        android:layout_margin="30dp"
         app:wheelBackgroundColor="@color/colorAccent_Translucent"
         app:wheelCursorColor="@color/red"
         app:wheelCursorHeight="30dip"
@@ -32,14 +42,15 @@
             android:layout_height="wrap_content"
             />
     </github.hellocsl.cursorwheel.CursorWheelLayout>
-
     <Button
         android:id="@+id/EmocionDialog"
         android:layout_width="150dp"
         android:layout_height="100dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:layout_below="@+id/id_wheel_menu_center_item"
         android:layout_gravity="center"
-        android:text="Click"
+        android:text="Gira la ruleta"
+        android:visibility="gone"
         tools:ignore="MissingConstraints" />
 
 </LinearLayout>
