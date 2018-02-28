@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
-        android:textSize="8dp"
+        android:textSize="16dp"
         android:text="¿Cómo se siente Juanita?"
         android:layout_margin="@dimen/activity_horizontal_margin"
     />
