@@ -6,7 +6,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
@@ -133,7 +132,7 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
 
     public void MyCustomAlertDialog(int pos){
         dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_act3);
+        dialog.setContentView(R.layout.dialog_act2);
         dialog.setTitle(listImg.get(pos).getName());
 
         Toast.makeText(this,"Dialog", Toast.LENGTH_SHORT).show();

@@ -1,5 +1,6 @@
 package janettha.activity1.Act0;
 
+import android.app.Dialog;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -108,6 +109,13 @@ public class Preactivity extends AppCompatActivity {
         List<Emocion> emociones = new ArrayList<Emocion>();
         List<Actividad0> btnList = new ArrayList<Actividad0>();
         private final int LIM_emociones = 11;
+
+
+        /*DIALOG*/
+        Dialog dialog;
+        TextView nameEmocionDialog;
+        ImageView imgEmocionDialog;
+        Button btnBack;
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -134,7 +142,7 @@ public class Preactivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_preactivity, container, false);
             Emociones e = new Emociones();
-            int r1, r2, r3 = 0;
+            int r1, r2, r3;
 
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             ImageView imgFeel = (ImageView) rootView.findViewById(R.id.imgFeel);
@@ -148,23 +156,57 @@ public class Preactivity extends AppCompatActivity {
             //            Toast.makeText(getContext(), emociones.get(r1).getName()+", "+emociones.get(r2).getName()+", "+emociones.get(r3).getName(), Toast.LENGTH_SHORT).show();
             textView.setText("¿Cómo creés que se siente Laura?");
 
+            r1 = (int) (Math.random() * LIM_emociones ) ;
+            r2 = (int) (Math.random() * LIM_emociones ) ;
+            r3 = (int) (Math.random() * LIM_emociones ) ;
+            while(r1 == r2){
+                r2 = (int) (Math.random() * LIM_emociones ) ;
+            }
+            while(r3 == r1 || r3 == r2){
+                r3 = (int) (Math.random() * LIM_emociones ) ;
+            }
+
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
-                r1 = (int) (Math.random() * LIM_emociones ) ;
                 interfaceFrame(rootView, imgFeel,btnA1,btnA2,btnA3, emociones.get(r1).getSexo(),r1, btnList.get(r1).emocionMain().getId(), btnList.get(r1).emocionB().getId(),btnList.get(r1).emocionC().getId());
                 Toast.makeText(getContext(), "->"+btnList.get(r1).emocionMain().getId()+","+btnList.get(r1).emocionB().getId()+","+btnList.get(r1).emocionC().getId(), Toast.LENGTH_SHORT).show();
             }else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2) {
-                r1 = (int) (Math.random() * LIM_emociones ) ;
-                interfaceFrame(rootView, imgFeel,btnA1,btnA2,btnA3, emociones.get(r1).getSexo(),r1, btnList.get(r1).emocionB().getId(), btnList.get(r1).emocionMain().getId(),btnList.get(r1).emocionC().getId());
-                Toast.makeText(getContext(), btnList.get(r1).emocionB().getId()+"->"+btnList.get(r1).emocionMain().getId()+","+btnList.get(r1).emocionC().getId(), Toast.LENGTH_SHORT).show();
+                interfaceFrame(rootView, imgFeel,btnA1,btnA2,btnA3, emociones.get(r2).getSexo(),r2, btnList.get(r2).emocionB().getId(), btnList.get(r2).emocionMain().getId(),btnList.get(r2).emocionC().getId());
+                Toast.makeText(getContext(), btnList.get(r2).emocionB().getId()+"->"+btnList.get(r2).emocionMain().getId()+","+btnList.get(r2).emocionC().getId(), Toast.LENGTH_SHORT).show();
             }else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3) {
-                r1 = (int) (Math.random() * LIM_emociones ) ;
-                interfaceFrame(rootView, imgFeel,btnA1,btnA2,btnA3, emociones.get(r1).getSexo(),r1, btnList.get(r1).emocionC().getId(), btnList.get(r1).emocionB().getId(),btnList.get(r1).emocionMain().getId());
-                Toast.makeText(getContext(), btnList.get(r1).emocionC().getId()+","+btnList.get(r1).emocionC().getId()+"->"+btnList.get(r1).emocionMain().getId(), Toast.LENGTH_SHORT).show();
+                interfaceFrame(rootView, imgFeel,btnA1,btnA2,btnA3, emociones.get(r3).getSexo(),r3, btnList.get(r3).emocionC().getId(), btnList.get(r3).emocionB().getId(),btnList.get(r3).emocionMain().getId());
+                Toast.makeText(getContext(), btnList.get(r3).emocionC().getId()+","+btnList.get(r3).emocionC().getId()+"->"+btnList.get(r3).emocionMain().getId(), Toast.LENGTH_SHORT).show();
             }
 
             return rootView;
         }
+        public void MyCustomAlertDialog(View v, Emocion em, String respuesta, boolean resp) {
+            dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.dialog_act0);
+            dialog.setTitle("Ya casi lo logras");
 
+            nameEmocionDialog = (TextView) dialog.findViewById(R.id.nameRespuesta);
+            imgEmocionDialog = (ImageView) dialog.findViewById(R.id.imgRespuesta);
+            btnBack = (Button) dialog.findViewById(R.id.btnBack);
+
+            if(resp == false) {
+                //dialog.setTitle("Inténtalo de nuevo");
+                btnBack.setBackgroundColor(Color.RED);
+                btnBack.setText("Inténtalo de nuevo");
+            }else if(resp == true) {
+                //dialog.setTitle("Correcto");
+                btnBack.setText("Correcto");
+                btnBack.setBackgroundColor(Color.GREEN);
+            }
+
+            Uri ruta = Uri.parse(em.getUrl());
+            Picasso.with(getContext())
+                    .load(ruta).fit()
+                    .into(imgEmocionDialog);
+            nameEmocionDialog.setText(respuesta);
+
+            dialog.show();
+
+        }
         private void listEmociones(View view)  {
 
             Emocion eMain, e2, e3 = new Emocion();
@@ -202,6 +244,12 @@ public class Preactivity extends AppCompatActivity {
             String foto="";//="android.resource://janettha.activity1/drawable/f"+String.valueOf(r);
             Uri ruta;
 
+            final int ran, ran1, ran2, ran3;
+            ran = r;
+            ran1 = r1;
+            ran2 = r2;
+            ran3 = r3;
+
             v.setBackgroundColor(Color.parseColor(btnList.get(r).emocionMain().getColor()));
             b1.setBackgroundColor(Color.parseColor(emociones.get(r).getColorB()));
             b2.setBackgroundColor(Color.parseColor(emociones.get(r).getColorB()));
@@ -223,6 +271,37 @@ public class Preactivity extends AppCompatActivity {
             Picasso.with(v.getContext())
                     .load(ruta).fit()
                     .into(imgFeel); //fit para la imagen en la vista
+
+            b1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(ran == ran1)
+                        MyCustomAlertDialog(v,emociones.get(ran1),emociones.get(ran1).getName(),true);
+                    else {
+                        MyCustomAlertDialog(v,emociones.get(ran1),emociones.get(ran1).getName(),false);
+                    }
+                }
+            });
+            b2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(ran == ran2)
+                        MyCustomAlertDialog(v,emociones.get(ran2),emociones.get(ran2).getName(),true);
+                    else {
+                        MyCustomAlertDialog(v,emociones.get(ran2),emociones.get(ran2).getName(),false);
+                    }
+                }
+            });
+            b3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(ran == ran3)
+                        MyCustomAlertDialog(v,emociones.get(ran3),emociones.get(ran3).getName(),true);
+                    else {
+                        MyCustomAlertDialog(v,emociones.get(ran3),emociones.get(ran3).getName(),false);
+                    }
+                }
+            });
         }
     }
 
