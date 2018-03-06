@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/wheelLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical"
+    android:background="@color/BackgDialogs"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="janettha.activity1.Act2.Activity2">
     <TextView
@@ -16,6 +18,7 @@
         android:layout_margin="@dimen/activity_margin"
         android:textAlignment="center"
         android:textSize="20dp"
+        android:textColor="@color/colorPrimaryDark"
         android:text="Gira la ruleta para contar una historia acerca de cuando sientes... "
         />
     <github.hellocsl.cursorwheel.CursorWheelLayout

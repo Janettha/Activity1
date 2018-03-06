@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,10 +44,12 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
     CursorWheelLayout wheel_img;
     List<Emocion> listImg ;
     View v;
+    LinearLayout lwheel;
     ImageView EmocionDialog;
     TextView NameEmocionDialog;
     Button buttonRecord, buttonStop;
     Dialog dialog;
+    LinearLayout llActivity2;
     boolean DialogFlag=false;
 
     private static final String LOG_TAG = "AudioRecordTest";
@@ -96,6 +99,7 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
     @Override
     public void onItemSelected(CursorWheelLayout parent, View view, int pos) {
         //TextView t = (TextView) findViewById(R.id.id_wheel_menu_center_item);
+        final LinearLayout lwheel = (LinearLayout) findViewById(R.id.wheelLayout);
         final Button buttonDialog = (Button) findViewById(R.id.EmocionDialog);
         if(parent.getId() == R.id.wheel){
             Toast.makeText(getBaseContext(), listImg.get(pos).getName(), Toast.LENGTH_SHORT).show();
@@ -113,7 +117,7 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
 
                     mFileName += listImg.get(wheel_img.getSelectedPosition()).getId() + "_" + listImg.get(wheel_img.getSelectedPosition()).getName() + extension;
 
-
+                    lwheel.setBackgroundColor(Color.parseColor(listImg.get(posicion).getColor()));
                     buttonDialog.setVisibility(View.VISIBLE);
                     buttonDialog.setText(listImg.get(posicion).getName());
                     buttonDialog.setBackgroundColor(Color.parseColor(listImg.get(posicion).getColorB()));
@@ -137,6 +141,7 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
 
         Toast.makeText(this,"Dialog", Toast.LENGTH_SHORT).show();
 
+        llActivity2 = (LinearLayout) dialog.findViewById(R.id.llact2);
         buttonRecord = (Button) dialog.findViewById(R.id.btnRecord);
         buttonStop = (Button) dialog.findViewById(R.id.btnStop);
         EmocionDialog = (ImageView) dialog.findViewById(R.id.imgEmocion);
@@ -146,6 +151,7 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
         Picasso.with(v.getContext())
                 .load(ruta).fit()
                 .into(EmocionDialog);
+        llActivity2.setBackgroundColor(Color.parseColor(listImg.get(pos).getColor()));
         NameEmocionDialog.setText(listImg.get(pos).getName());
         buttonRecord.setEnabled(true);
         buttonStop.setEnabled(false);
@@ -204,7 +210,7 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
                 buttonStop.setEnabled(false);
                 stopRecording();
                 Toast.makeText(getApplicationContext(), "Record Stopped...", Toast.LENGTH_SHORT).show();
-
+                dialog.cancel();
                 //DialogFlag = false;
             }
         });

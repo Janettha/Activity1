@@ -4,21 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="janettha.activity1.Act1.Activity1$PlaceholderFragment">
+    android:background="@color/BackgDialogs"
+    tools:context="janettha.activity1.Act1.Activity1">
 
     <TextView
         android:id="@+id/Instruccion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lee o escucha la pequeña situación y elije ¿Cómo se siente flanita de tal?"
+        android:text="Lee o escucha la pequeña situación y elije
+        ¿Cómo se siente flanita de tal?"
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:textAlignment="center"
         android:textStyle="bold"
-        android:background="#aaaaaa"
+        android:textSize="@dimen/activity_horizontal_margin"
+        android:textColor="@color/white"
+        android:background="@color/Act2Clear"
         />
 
     <LinearLayout
+        android:id="@+id/LRed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -26,18 +31,21 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/Instruccion"
         android:layout_margin="@dimen/activity_vertical_margin"
-        android:id="@+id/LRed">
+        android:background="@color/BackgDialogs"
+        >
         <TextView
-            android:id="@+id/redaccion"
+            android:id="@+id/txtText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".3"
             android:layout_gravity="center_horizontal"
             android:layout_centerHorizontal="true"
+            android:background="@color/BackgDialogs"
             android:text="Redaccion sobre la actividad de Juanita y sus actividades recreativas acerca de Redaccion sobre la actividad de Juanita y sus actividades recreativas acerca de "
+            android:textColor="@color/colorTxt"
             />
         <Button
-            android:id="@+id/buttonPlay"
+            android:id="@+id/btnSpeak"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -45,31 +53,23 @@
             android:background="@mipmap/ic_play"
             />
     </LinearLayout>
-
     <LinearLayout
         android:id="@+id/LRes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/imgLayout_w"
+        android:layout_height="@dimen/imgLayout_h"
         android:orientation="vertical"
         android:layout_below="@+id/LRed"
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
-        android:layout_margin="@dimen/activity_vertical_margin"
+        android:padding="@dimen/activity_margin"
         >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginEnd="@dimen/activity_vertical_margin"
-            android:layout_marginRight="@dimen/activity_vertical_margin">
-            <Button
+            <ImageButton
                 android:id="@+id/imgRedaccion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/imgAct1"
+                android:layout_height="@dimen/imgAct1"
                 android:layout_gravity="center_horizontal"
                 android:layout_centerHorizontal="true"
-                android:background="@mipmap/ic_play"
-                />
+                android:background="@mipmap/ic_play"/>
             <TextView
                 android:id="@+id/txRedaccion"
                 android:layout_width="wrap_content"
@@ -77,19 +77,15 @@
                 android:text="Respuesta 1"
                 android:layout_below="@+id/imgRedaccion"
                 android:layout_gravity="center_horizontal"
-                android:layout_centerHorizontal="true"/>
-        </LinearLayout>
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/activity_margin"
+                android:textColor="@color/colorTxt"
+                />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginEnd="@dimen/activity_vertical_margin"
-            android:layout_marginRight="@dimen/activity_vertical_margin">
-            <Button
+            <ImageButton
                 android:id="@+id/imgRedaccion2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/imgAct1"
+                android:layout_height="@dimen/imgAct1"
                 android:layout_gravity="center_horizontal"
                 android:layout_centerHorizontal="true"
                 android:background="@mipmap/ic_play"
@@ -101,18 +97,14 @@
                 android:text="Respuesta 1"
                 android:layout_below="@+id/imgRedaccion"
                 android:layout_gravity="center_horizontal"
-                android:layout_centerHorizontal="true"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginEnd="@dimen/activity_vertical_margin"
-            android:layout_marginRight="@dimen/activity_vertical_margin">
-            <Button
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/activity_margin"
+                android:textColor="@color/colorTxt"
+                />
+            <ImageButton
                 android:id="@+id/imgRedaccion3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/imgAct1"
+                android:layout_height="@dimen/imgAct1"
                 android:layout_gravity="center_horizontal"
                 android:layout_centerHorizontal="true"
                 android:background="@mipmap/ic_play"
@@ -124,18 +116,22 @@
                 android:text="Respuesta 1"
                 android:layout_below="@+id/imgRedaccion"
                 android:layout_gravity="center_horizontal"
-                android:layout_centerHorizontal="true"/>
-        </LinearLayout>
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/activity_margin"
+                android:textColor="@color/colorTxt"
+                />
 
     </LinearLayout>
+
     <Button
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="50dp"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="Siguiente"
         android:layout_below="@+id/LRes"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="bottom"
+        android:visibility="gone"
         android:layout_centerHorizontal="true"
         />
 

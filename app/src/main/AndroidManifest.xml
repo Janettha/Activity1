@@ -29,17 +29,21 @@
         <activity
             android:name=".Act0.Preactivity"
             android:label="@string/title_activity_preactivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Act1.Activity1"
-            android:label="@string/title_activity_1"
-            android:theme="@android:style/Theme.Holo.Light.DarkActionBar" />
-        <activity android:name=".Act2.Activity2" />
-        <activity android:name=".Act3.Activity3"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="Menu.MainmenuActivity" />
+        </activity>
+        <activity android:name=".Act2.Activity2"
+            android:label="@string/title_activity_preactivity"
+            android:parentActivityName="Menu.MainmenuActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="Menu.MainmenuActivity"/>
+        </activity>
+        <activity android:name=".Act1.Activity1"
             android:label="@string/title_screen_slide"
             android:parentActivityName="Menu.MainmenuActivity"
-            android:uiOptions="splitActionBarWhenNarrow"
-            android:theme="@android:style/Theme.Holo.Light.DarkActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="Menu.MainmenuActivity" />
         </activity>

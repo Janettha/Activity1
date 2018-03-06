@@ -5,7 +5,8 @@
     android:id="@+id/Layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="janettha.activity1.Act0.Preactivity$PlaceholderFragment">
+    android:background="@color/white"
+    tools:context="janettha.activity1.Act0.Preactivity">
 
     <TextView
         android:id="@+id/section_label"
@@ -14,6 +15,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:textSize="16dp"
+        android:textColor="@color/colorTxt"
         android:text="¿Cómo se siente Juanita?"
         android:layout_margin="@dimen/activity_horizontal_margin"
     />

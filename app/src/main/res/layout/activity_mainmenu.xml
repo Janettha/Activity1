@@ -21,13 +21,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:background="#5cbfde"/>
+                android:background="@color/Act0"/>
             <Button
                 android:id="@+id/menu_act1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:background="#abd6df"
+                android:background="@color/Act0Clear"
                 android:text="Actividad 1"
                 android:gravity="center"/>
         </LinearLayout>
@@ -41,13 +41,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:background="#fff184"/>
+                android:background="@color/Act1"/>
             <Button
                 android:id="@+id/menu_act2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:background="#b5fff4a0"
+                android:background="@color/Act1Clear"
                 android:text="Actividad 2"
                 android:gravity="center"/>
         </LinearLayout>
@@ -61,13 +61,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:background="#d491fd38"/>
+                android:background="@color/Act2"/>
             <Button
                 android:id="@+id/menu_act3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:background="#d4bbff84"
+                android:background="@color/Act2Clear"
                 android:text="Actividad 3"
                 android:gravity="center"
                 />

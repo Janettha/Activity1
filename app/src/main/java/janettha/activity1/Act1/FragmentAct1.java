@@ -1,7 +1,9 @@
-package janettha.activity1.Act3;
+package janettha.activity1.Act1;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,12 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import janettha.activity1.Menu.MainmenuActivity;
 import janettha.activity1.Models.Emocion;
 import janettha.activity1.Models.Emociones;
 import janettha.activity1.R;
 
 
-public class FragmentAct3 extends Fragment {
+public class FragmentAct1 extends Fragment {
 
     List<Emocion> emociones = new ArrayList<Emocion>();
     public final int LIM_emociones = 11;
@@ -45,27 +49,27 @@ public class FragmentAct3 extends Fragment {
     ImageView imgEmocionDialog;
     Button btnBack;
 
-    public static FragmentAct3 create(int pageNumber, Context context, Actividad3 actividad3) {
+    public static FragmentAct1 create(int pageNumber, Context context, Actividad1 actividad3) {
 
-        FragmentAct3 fragment = new FragmentAct3();
+        FragmentAct1 fragment = new FragmentAct1();
         Bundle args = new Bundle();
 
         args.putInt(ARG_PAGE, actividad3.getID());
-        //args.putString(Activity3.ARG_tx,emociones.get(id).getName());
-        args.putString(Activity3.ARG_r,actividad3.getRedaccion());
-        args.putString(Activity3.ARG_e1,actividad3.getExpl1());
-        args.putInt(Activity3.ARG_IDe1,actividad3.getEmocion1().getId());
-        args.putString(Activity3.ARG_e2,actividad3.getExpl2());
-        args.putInt(Activity3.ARG_IDe2,actividad3.getEmocion2().getId());
-        args.putString(Activity3.ARG_e3,actividad3.getExpl3());
-        args.putInt(Activity3.ARG_IDe3,actividad3.getEmocion3().getId());
+        //args.putString(Activity1.ARG_tx,emociones.get(id).getName());
+        args.putString(Activity1.ARG_r,actividad3.getRedaccion());
+        args.putString(Activity1.ARG_e1,actividad3.getExpl1());
+        args.putInt(Activity1.ARG_IDe1,actividad3.getEmocion1().getId());
+        args.putString(Activity1.ARG_e2,actividad3.getExpl2());
+        args.putInt(Activity1.ARG_IDe2,actividad3.getEmocion2().getId());
+        args.putString(Activity1.ARG_e3,actividad3.getExpl3());
+        args.putInt(Activity1.ARG_IDe3,actividad3.getEmocion3().getId());
 
 
         fragment.setArguments(args);
         return fragment;
     }
 
-    public FragmentAct3() {
+    public FragmentAct1() {
     }
 
     @Override
@@ -77,13 +81,13 @@ public class FragmentAct3 extends Fragment {
 
         if(getArguments() != null) {
             mPageNumber = getArguments().getInt(ARG_PAGE);
-            textoRedaccion = getArguments().getString(Activity3.ARG_r);
-            idEmocion1 = getArguments().getInt(Activity3.ARG_IDe1);
-            exEmocion1 = getArguments().getString(Activity3.ARG_e1);
-            idEmocion2 = getArguments().getInt(Activity3.ARG_IDe2);
-            exEmocion2 = getArguments().getString(Activity3.ARG_e2);
-            idEmocion3 = getArguments().getInt(Activity3.ARG_IDe3);
-            exEmocion3 = getArguments().getString(Activity3.ARG_e3);
+            textoRedaccion = getArguments().getString(Activity1.ARG_r);
+            idEmocion1 = getArguments().getInt(Activity1.ARG_IDe1);
+            exEmocion1 = getArguments().getString(Activity1.ARG_e1);
+            idEmocion2 = getArguments().getInt(Activity1.ARG_IDe2);
+            exEmocion2 = getArguments().getString(Activity1.ARG_e2);
+            idEmocion3 = getArguments().getInt(Activity1.ARG_IDe3);
+            exEmocion3 = getArguments().getString(Activity1.ARG_e3);
         }
 
     }
@@ -98,7 +102,7 @@ public class FragmentAct3 extends Fragment {
         int r = 0;
 
         // Inflate the layout containing a title and body text.
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_fragment_act3, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_act1, container, false);
 
         // Set the title view to show the page number.
         /*((TextView) rootView.findViewById(R.id.text1)).setText(
@@ -107,6 +111,11 @@ public class FragmentAct3 extends Fragment {
         /*REDACCION*/
         ((TextView) rootView.findViewById(R.id.txtText)).setText(textoRedaccion);
         Button btn = (Button) rootView.findViewById(R.id.btnSpeak);
+
+        /*background*/
+        LinearLayout bgAct1 = (LinearLayout) rootView.findViewById(R.id.LRed);
+        TextView txRedaccion = (TextView) rootView.findViewById(R.id.txtText);
+
         /*RESPUESTAS*/
         ImageButton btnE1 = (ImageButton) rootView.findViewById(R.id.imgRedaccion);
         TextView txR1 = (TextView) rootView.findViewById(R.id.txRedaccion);
@@ -118,6 +127,11 @@ public class FragmentAct3 extends Fragment {
         id1 = emociones.get(idEmocion1).getId();
         id2 = emociones.get(idEmocion2).getId();
         id3 = emociones.get(idEmocion3).getId();
+
+
+        bgAct1.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
+        txRedaccion.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
+
 
         r = (int) (Math.random() * LIM_emociones ) ;
         if(r < 4){
@@ -172,7 +186,7 @@ public class FragmentAct3 extends Fragment {
         Uri ruta;
 
         final String ex_1, ex_2, ex_3;
-        //expl = getArguments().getString(Activity3.ARG_r);
+        //expl = getArguments().getString(Activity1.ARG_r);
         ex_1 = e1;
         ex_2 = e2;
         ex_3 = e3;
@@ -237,28 +251,47 @@ public class FragmentAct3 extends Fragment {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     public void MyCustomAlertDialog(View v, Emocion em, String explicacion) {
         dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.dialog_act3);
+        dialog.setContentView(R.layout.dialog_act1);
         dialog.setTitle(em.getName());
 
-
+        LinearLayout llDialog = (LinearLayout) dialog.findViewById(R.id.LLDialogA1);
         explicacionDialogo = (TextView) dialog.findViewById(R.id.Explicacion);
         nameEmocionDialog = (TextView) dialog.findViewById(R.id.nameRespuesta);
         imgEmocionDialog = (ImageView) dialog.findViewById(R.id.imgRespuesta);
         btnBack = (Button) dialog.findViewById(R.id.btnBack);
 
-        if(explicacion.substring(0,1).equals("¿"))
-            btnBack.setBackgroundColor(Color.RED);
-        if(explicacion.equals("CORRECTO"))
-            btnBack.setBackgroundColor(Color.GREEN);
+        llDialog.setBackgroundColor(Color.parseColor(em.getColor()));
 
         Uri ruta = Uri.parse(em.getUrl());
         Picasso.with(getContext())
                 .load(ruta).fit()
                 .into(imgEmocionDialog);
         explicacionDialogo.setText(explicacion);
+        //explicacionDialogo.setTextColor(Color.parseColor(em.getColorB()));
         nameEmocionDialog.setText(em.getName());
+        //nameEmocionDialog.setTextColor(Color.parseColor(em.getColorB()));
+
+        if(explicacion.substring(0,1).equals("¿")) {
+            btnBack.setBackgroundResource(R.color.Incorrecto);
+            btnBack.setText(" Inténtalo de nuevo ");
+        }else if(explicacion.equals("CORRECTO")) {
+            btnBack.setBackgroundResource(R.color.Correcto);
+            nameEmocionDialog.setText(" ");
+            btnBack.setText(" Correcto ");
+            explicacionDialogo.setText(" ¡LO LOGRASTE! ");
+
+
+        }
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
 
         dialog.show();
 

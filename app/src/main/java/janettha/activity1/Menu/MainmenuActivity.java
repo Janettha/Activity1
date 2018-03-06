@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import janettha.activity1.Act0.Preactivity;
 import janettha.activity1.Act2.Activity2;
-import janettha.activity1.Act3.Activity3;
+import janettha.activity1.Act1.Activity1;
 import janettha.activity1.R;
 
 public class MainmenuActivity extends AppCompatActivity {
@@ -34,7 +34,7 @@ public class MainmenuActivity extends AppCompatActivity {
         btnA2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainmenuActivity.this, Activity3.class));
+                startActivity(new Intent(MainmenuActivity.this, Activity1.class));
             }
         });
 

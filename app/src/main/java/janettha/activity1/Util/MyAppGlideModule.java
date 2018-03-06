@@ -1,4 +1,4 @@
-package janettha.activity1;
+package janettha.activity1.Util;
 
 import android.content.Context;
 
