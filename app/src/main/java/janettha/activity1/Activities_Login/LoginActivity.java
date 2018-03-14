@@ -16,7 +16,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import janettha.activity1.Menu.MainmenuActivity;
 import janettha.activity1.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -34,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         if (mFirebaseAuth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainmenuActivity.class));
+            startActivity(new Intent(LoginActivity.this, loginUser.class));
             finish();
         }
 
@@ -98,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(LoginActivity.this, MainmenuActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, loginUser.class);
                                     startActivity(intent);
                                     finish();
                                 }

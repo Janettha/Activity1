@@ -2,6 +2,7 @@ package janettha.activity1.Act1;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -49,20 +50,20 @@ public class FragmentAct1 extends Fragment {
     ImageView imgEmocionDialog;
     Button btnBack;
 
-    public static FragmentAct1 create(int pageNumber, Context context, Actividad1 actividad3) {
+    public static FragmentAct1 create(int pageNumber, Context context, Actividad1 actividad1) {
 
         FragmentAct1 fragment = new FragmentAct1();
         Bundle args = new Bundle();
 
-        args.putInt(ARG_PAGE, actividad3.getID());
+        args.putInt(ARG_PAGE, actividad1.getID());
         //args.putString(Activity1.ARG_tx,emociones.get(id).getName());
-        args.putString(Activity1.ARG_r,actividad3.getRedaccion());
-        args.putString(Activity1.ARG_e1,actividad3.getExpl1());
-        args.putInt(Activity1.ARG_IDe1,actividad3.getEmocion1().getId());
-        args.putString(Activity1.ARG_e2,actividad3.getExpl2());
-        args.putInt(Activity1.ARG_IDe2,actividad3.getEmocion2().getId());
-        args.putString(Activity1.ARG_e3,actividad3.getExpl3());
-        args.putInt(Activity1.ARG_IDe3,actividad3.getEmocion3().getId());
+        args.putString(Activity1.ARG_r,actividad1.getRedaccion());
+        args.putString(Activity1.ARG_e1,actividad1.getExpl1());
+        args.putInt(Activity1.ARG_IDe1,actividad1.getEmocion1().getId());
+        args.putString(Activity1.ARG_e2,actividad1.getExpl2());
+        args.putInt(Activity1.ARG_IDe2,actividad1.getEmocion2().getId());
+        args.putString(Activity1.ARG_e3,actividad1.getExpl3());
+        args.putInt(Activity1.ARG_IDe3,actividad1.getEmocion3().getId());
 
 
         fragment.setArguments(args);
@@ -280,21 +281,24 @@ public class FragmentAct1 extends Fragment {
         }else if(explicacion.equals("CORRECTO")) {
             btnBack.setBackgroundResource(R.color.Correcto);
             nameEmocionDialog.setText(" ");
-            btnBack.setText(" Correcto ");
+            //btnBack.setText(" Correcto ");
+            btnBack.setText(em.getName());
             explicacionDialogo.setText(" ¡LO LOGRASTE! ");
-
-
         }
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.cancel();
+                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, getPageNumber());
+                if(mPageNumber == 3){
+                }
             }
         });
 
         dialog.show();
 
     }
+
 
 }

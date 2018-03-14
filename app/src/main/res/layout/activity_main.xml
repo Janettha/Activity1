@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryBackg"
     tools:context="janettha.activity1.Activities_Login.MainActivity">
 
     <LinearLayout
@@ -111,6 +112,8 @@
             android:layout_height="wrap_content"
             android:text="@string/change_password"
             android:textStyle="bold"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorTxt"
             android:layout_gravity="center_horizontal"
             android:layout_centerHorizontal="true"
             android:layout_above="@+id/remove_user_button"
@@ -123,6 +126,8 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:text="@string/remove_user"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorTxt"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
             android:layout_centerHorizontal="true"
@@ -136,8 +141,8 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
+            android:textColor="@color/colorTxt"
             android:text="@string/btn_sign_out"
-            android:textColor="@android:color/white"
             android:textStyle="bold"
             android:layout_below="@+id/remove_user_button"
             android:layout_gravity="center_horizontal"

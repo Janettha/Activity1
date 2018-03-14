@@ -82,7 +82,7 @@ public class Preactivity extends AppCompatActivity {
         while(r1 == r2){
             r2 = (int) (Math.random() * LIM_emociones ) ;
         }
-        while(r3 == r1 || r3 == r2){
+        while(r3 == r1 && r3 == r2){
             r3 = (int) (Math.random() * LIM_emociones ) ;
         }
 
@@ -142,11 +142,11 @@ public class Preactivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             if(position == 0) {
-                return FragmentAct0.create(position, getBaseContext(), listAct0.get(r1));
+                return FragmentAct0.create(0, getBaseContext(), listAct0.get(r1));
             }else if(position == 1) {
-                return FragmentAct0.create(position, getBaseContext(), listAct0.get(r2));
+                return FragmentAct0.create(1, getBaseContext(), listAct0.get(r2));
             }else if(position == 2) {
-                return FragmentAct0.create(position, getBaseContext(), listAct0.get(r3));
+                return FragmentAct0.create(2, getBaseContext(), listAct0.get(r3));
             }else return null;
         }
 

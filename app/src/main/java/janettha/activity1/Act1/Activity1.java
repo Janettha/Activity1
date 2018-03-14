@@ -95,7 +95,7 @@ public class Activity1 extends FragmentActivity {
         while(r1 == r2){
             r2 = (int) (Math.random() * LIM_emociones ) ;
         }
-        while(r3 == r1 || r3 == r2){
+        while(r3 == r1 && r3 == r2){
             r3 = (int) (Math.random() * LIM_emociones ) ;
         }
 

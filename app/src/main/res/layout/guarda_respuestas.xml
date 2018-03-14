@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/colorPrimaryBackg"
+    >
+
+    <TextView
+        android:id="@+id/preguntaGuardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/colorTxt"
+        android:textSize="@dimen/dialogText"
+        android:textStyle="bold"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:text="¿Deseas guardar las respuestas de esta sección?"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/activity_margin"
+        android:layout_below="@+id/preguntaGuardar"
+        android:background="@color/colorPrimaryBackg"
+        >
+        <Button
+            android:id="@+id/GuardarSI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@color/colorPrimary"
+            android:text="SI"
+            />
+        <Button
+            android:id="@+id/GuardarNO"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/activity_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:background="@color/colorPrimary"
+            android:text="NO"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

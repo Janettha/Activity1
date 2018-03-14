@@ -98,20 +98,16 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
 
     @Override
     public void onItemSelected(CursorWheelLayout parent, View view, int pos) {
-        //TextView t = (TextView) findViewById(R.id.id_wheel_menu_center_item);
+
         final LinearLayout lwheel = (LinearLayout) findViewById(R.id.wheelLayout);
         final Button buttonDialog = (Button) findViewById(R.id.EmocionDialog);
         if(parent.getId() == R.id.wheel){
-            Toast.makeText(getBaseContext(), listImg.get(pos).getName(), Toast.LENGTH_SHORT).show();
-            //t.setText(listImg.get(pos).getName());
-            //                if(pos != 0)
-            /*
-            MyCustomAlertDialog(pos);
-            */
+            //Toast.makeText(getBaseContext(), listImg.get(pos).getName(), Toast.LENGTH_SHORT).show();
+
             wheel_img.setOnMenuSelectedListener(new CursorWheelLayout.OnMenuSelectedListener() {
                 public void onItemSelected(CursorWheelLayout parent, View view, int pos) {
                     DialogFlag = true;
-                    Toast.makeText(Activity2.this, "Top Menu click position:" + pos + " Dialog: "+DialogFlag, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(Activity2.this, "Top Menu click position:" + pos + " Dialog: "+DialogFlag, Toast.LENGTH_SHORT).show();
 
                     final int posicion = wheel_img.getSelectedPosition();
 
@@ -156,34 +152,8 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
         buttonRecord.setEnabled(true);
         buttonStop.setEnabled(false);
 
-        /*
-        buttonRecord.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Recording...", Toast.LENGTH_SHORT).show();
-            }
-        });
-        */
         // Permisos
         if(checkPermissionFromDevice()) {
-
-            /*
-            buttonRecord.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        startRecording();
-                        Toast.makeText(getApplicationContext(), "Recording...", Toast.LENGTH_SHORT).show();
-                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                        stopRecording();
-                        Toast.makeText(getApplicationContext(), "Record Stopped...", Toast.LENGTH_SHORT).show();
-                    }
-
-                    return false;
-                }
-            });
-            */
-
             buttonRecord.setEnabled(true);
             buttonRecord.setOnClickListener(new View.OnClickListener() {
                 @Override

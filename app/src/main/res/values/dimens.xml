@@ -10,7 +10,7 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">8dp</dimen>
     <!-- Actividad 1 -->
-    <dimen name="imgLayout_h">380dp</dimen>
+    <dimen name="imgLayout_h">350dp</dimen>
     <dimen name="imgLayout_w">380dp</dimen>
     <dimen name="imgAct1">80dp</dimen>
 </resources>

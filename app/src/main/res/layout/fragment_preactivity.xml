@@ -10,15 +10,17 @@
 
     <TextView
         android:id="@+id/section_label"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Elige el nombre correcto de la emoción que se muestra en la siguiente imagen."
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
-        android:textSize="16dp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="@dimen/activity_horizontal_margin"
         android:textColor="@color/colorTxt"
-        android:text="¿Cómo se siente Juanita?"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-    />
+        android:background="@color/Act0Clear"
+        />
     <ImageView
         android:id="@+id/imgFeel"
         android:layout_width="200dp"
@@ -30,13 +32,14 @@
         android:background="@mipmap/ic_play"
         />
     <LinearLayout
+        android:id="@+id/respuestas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@+id/imgFeel"
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
-        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_margin="@dimen/activity_margin"
         >
         <Button
             android:id="@+id/ans1"
@@ -58,6 +61,16 @@
             android:layout_margin="@dimen/activity_vertical_margin"/>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/SaveResultados"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/respuestas"
+        android:text=" Guardar resultados "
+        android:visibility="gone"
+        android:textStyle="bold"
+        />
 
 
 </RelativeLayout>

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -39,7 +40,6 @@ public class FragmentAct0 extends Fragment {
     List<Emocion> emociones = new ArrayList<Emocion>();
     List<Actividad0> btnList = new ArrayList<Actividad0>();
     private final int LIM_emociones = 11;
-
 
     private int idEmocionMain, idEmocionB, idEmocionC;
 
@@ -76,6 +76,7 @@ public class FragmentAct0 extends Fragment {
         emociones = em.Emociones(getContext(), "f");
 
         if(getArguments() != null) {
+            mPageNumber = getArguments().getInt(ARG_PAGE);
             idEmocionMain = getArguments().getInt(Preactivity.ARG_Main);
             idEmocionB = getArguments().getInt(Preactivity.ARG_B);
             idEmocionC = getArguments().getInt(Preactivity.ARG_C);
@@ -87,11 +88,12 @@ public class FragmentAct0 extends Fragment {
                              Bundle savedInstanceState) {
         /*VIEW*/
         ImageView imgFeel;
-        Button btnA1, btnA2, btnA3;
+        Button btnA1, btnA2, btnA3, btNext;
 
         Uri ruta;
         int rMain, rB, rC;
         int r = 0;
+
 
         // Inflate the layout containing a title and body text.
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_preactivity, container, false);
@@ -100,6 +102,7 @@ public class FragmentAct0 extends Fragment {
         btnA1 = (Button) rootView.findViewById(R.id.ans1);
         btnA2 = (Button) rootView.findViewById(R.id.ans2);
         btnA3 = (Button) rootView.findViewById(R.id.ans3);
+        btNext = (Button) rootView.findViewById(R.id.SaveResultados);
 
         rMain = emociones.get(idEmocionMain).getId();
         rB = emociones.get(idEmocionB).getId();
@@ -108,13 +111,13 @@ public class FragmentAct0 extends Fragment {
         r = (int) (Math.random() * LIM_emociones ) ;
         if(r < 4){
             rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
-            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, "f",rMain, rMain, rB, rC);
+            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, btNext, "f",rMain, rMain, rB, rC);
         }else if(r>3 && r<8) {
             rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
-            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, "f",rMain, rC, rMain, rB);
+            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, btNext, "f",rMain, rC, rMain, rB);
         }else if(r>7 && r<12) {
             rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
-            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, "f",rMain, rB, rC, rMain);
+            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, btNext, "f",rMain, rB, rC, rMain);
         }
 
         return rootView;
@@ -124,7 +127,7 @@ public class FragmentAct0 extends Fragment {
         return mPageNumber;
     }
 
-    private void interfaceFrame(View v, ImageView txFeel, Button txtFeel1, Button txtFeel2, Button txtFeel3, String s, int r, int r1, int r2, int r3){
+    private void interfaceFrame(View v, ImageView txFeel, Button txtFeel1, Button txtFeel2, Button txtFeel3, Button next, String s, int r, int r1, int r2, int r3){
 
         Uri ruta;
 
@@ -160,9 +163,10 @@ public class FragmentAct0 extends Fragment {
         txtFeel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ran == ran1)
-                    MyCustomAlertDialog(v,emociones.get(ran1),emociones.get(ran1).getName(),true);
-                else {
+                if(ran == ran1) {
+                    MyCustomAlertDialog(v, emociones.get(ran1), emociones.get(ran1).getName(), true);
+
+                }else {
                     MyCustomAlertDialog(v,emociones.get(ran1),emociones.get(ran1).getName(),false);
                 }
 
@@ -171,9 +175,9 @@ public class FragmentAct0 extends Fragment {
         txtFeel2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ran == ran2)
+                if(ran == ran2){
                     MyCustomAlertDialog(v,emociones.get(ran2),emociones.get(ran2).getName(),true);
-                else {
+                }else {
                     MyCustomAlertDialog(v,emociones.get(ran2),emociones.get(ran2).getName(),false);
                 }
             }
@@ -181,13 +185,14 @@ public class FragmentAct0 extends Fragment {
         txtFeel3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ran == ran3)
-                    MyCustomAlertDialog(v,emociones.get(ran3),emociones.get(ran3).getName(),true);
-                else {
+                if(ran == ran3) {
+                    MyCustomAlertDialog(v, emociones.get(ran3), emociones.get(ran3).getName(), true);
+                }else {
                     MyCustomAlertDialog(v,emociones.get(ran3),emociones.get(ran3).getName(),false);
                 }
             }
         });
+
 
     }
 

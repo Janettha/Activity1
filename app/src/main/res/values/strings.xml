@@ -123,9 +123,10 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_ex1">Ex1Activity</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="title_activity_pre_actividad">PreActividad</string>
     <string name="title_activity_preactivity">Preactivity</string>
     <string name="title_activity_1">Activity1</string>
+    <string name="title_activity_2">Activity2</string>
+    <string name="title_activity_loginUser">2nd Login User</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
