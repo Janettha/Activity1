@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         email = (TextView) findViewById(R.id.useremail);
 
         //get current user
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();  //Esto puede causar conflicto ya que lo estas haciendo Final
         setDataToView(user);
 
         authListener = new FirebaseAuth.AuthStateListener() {
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                     } else {
                         user.updatePassword(newPassword.getText().toString().trim())
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {

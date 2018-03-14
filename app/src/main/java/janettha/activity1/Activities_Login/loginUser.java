@@ -74,7 +74,7 @@ public class loginUser extends AppCompatActivity {
         final DatabaseReference Usuarios = refDB.getReference("Usuarios");
 
         final DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference("User_1");
+        mDatabase = FirebaseDatabase.getInstance().getReference("User_1"); //Los finales ya no se puden modificar despues
 
         //setDataToView(user);
         if (user == null) {
