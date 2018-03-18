@@ -3,6 +3,8 @@ package janettha.activity1.Activities_Login;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.provider.SyncStateContract;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,10 +19,20 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import janettha.activity1.Models.Tutores;
 import janettha.activity1.Models.Usuarios;
 import janettha.activity1.Util.DBPrueba;
 import janettha.activity1.Util.DatePickerFragment;
@@ -38,9 +50,13 @@ public class loginUser extends AppCompatActivity {
     private RadioButton rf, rm;
 
     /* Firebase autentificación y DB */
-    private FirebaseAuth auth;
-    //private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    //private FirebaseAuth.AuthStateListener authListener;
+    private FirebaseAuth mAuth;
+    private FirebaseUser tutor;
+    private DatabaseReference mReferenceTutor;
+    private DatabaseReference mDatabaseUser;
+    private ValueEventListener mTutorListener;
+
+    private static final String TAG = "loginUserActivity";
 
     private String userTutor, userU, passU, nameU, surnamesU, sexo, fechaU;
     int edadU;
@@ -51,7 +67,17 @@ public class loginUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_user);
 
+        //get current user
+        mAuth = FirebaseAuth.getInstance();
+
+        mReferenceTutor = FirebaseDatabase.getInstance().getReference("tutores");
+        mDatabaseUser = FirebaseDatabase.getInstance().getReference("usuarios");
+        //tutor = mAuth.getCurrentUser();
+        /*
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseDatabase refDB = FirebaseDatabase.getInstance();
         userChild = new Usuarios();
+         */
 
         email = (TextView) findViewById(R.id.userTutor);
 
@@ -67,30 +93,12 @@ public class loginUser extends AppCompatActivity {
 
         btnStart = (Button) findViewById(R.id.Iniciar);
 
-        //get current user
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        auth = FirebaseAuth.getInstance();
-        FirebaseDatabase refDB = FirebaseDatabase.getInstance();
-        final DatabaseReference Usuarios = refDB.getReference("Usuarios");
-
-        final DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference("User_1"); //Los finales ya no se puden modificar despues
-
-        //setDataToView(user);
-        if (user == null) {
-            // user auth state is changed - user is null
-            // launch login activity
-            startActivity(new Intent(loginUser.this, LoginActivity.class));
-            finish();
-        } else {
-            setDataToView(user);
-        }
-
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // TODO Auto-generated method stub
-                switch (group.getCheckedRadioButtonId()){
+                View radioButton = rg.findViewById(checkedId);
+                int index = rg.indexOfChild(radioButton);
+                switch (index){
                     case 0:
                         rf.setTextColor(getResources().getColor(R.color.colorTxt));
                         sexo = "f";
@@ -99,7 +107,6 @@ public class loginUser extends AppCompatActivity {
                         sexo = "m";
                         rm.setTextColor(getResources().getColor(R.color.colorTxt));
                         break;
-                    default: sexo = "f";
                 }
             }
 
@@ -126,48 +133,75 @@ public class loginUser extends AppCompatActivity {
                 surnamesU = surnames.getText().toString();
                 fechaU = dateU.getText().toString();
 
-                //userChild = new Usuarios(edadU, fechaU, userU, passU, sexo, surnamesU, userTutor, nameU);
-                //userChild = new Usuarios("janethsg_23", "dianamag2", "abc123","Diana Maritza","Álvarez Gómez", "f","22/Julio/1999", 8);
-                User_1 user1 = new User_1("jsalasgo", "Janeth", "Salas", "f", 1);
-                User_1 user2 = new User_1("dianamag", "Mariana", "Salas", "f", 4);
-                //addUserDB(userChild);
-                mDatabase.child(user1.getUser()).child("Apellido").setValue(user1.getToString(), new DatabaseReference.CompletionListener() {
+                //writeNewTutor();
+                //writeNewUser();
+
+                // copy for removing at onStop()
+                mTutorListener = mReferenceTutor.addValueEventListener( new ValueEventListener() {
                     @Override
-                    public void onComplete(DatabaseError error, DatabaseReference reference) {
-                        if (error != null) {
-                            Log.e("TAG", "Failed to write message", error.toException());
-                            Toast.makeText(loginUser.this, "Error 1", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(loginUser.this, "Good 1", Toast.LENGTH_SHORT).show();
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {}
+                        GenericTypeIndicator<HashMap<String, Tutores>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Tutores>>() {};
+                        Map<String, Tutores> objectHashMap = dataSnapshot.getValue(objectsGTypeInd);
+                        ArrayList<Tutores> objectArrayList = new ArrayList<Tutores>(objectHashMap.values());
+                        for(int i = 0; i < objectArrayList.size(); i++) {
+                            Tutores tutor = objectArrayList.get(i);
+                            //Tutores tutor = dataSnapshot.getValue(Tutores.class);
+                            if (tutor.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
+                                Log.e(TAG, "onDataChange: Message data is updated: " + tutor.getName());
+
+                                Toast.makeText(loginUser.this, tutor.toString(), Toast.LENGTH_SHORT).show();
+
+                                //FirebaseUser tutor = mAuth.getCurrentUser();
+                                User_1 user = new User_1(userU, nameU, surnamesU, sexo, edadU, tutor.getUser());
+                                FirebaseDatabase.getInstance().getReference().child("users").child(user.getUser()).setValue(user);
+                            }
                         }
                     }
-                });
 
-                mDatabase.child(user2.getUser()).push().setValue(user2);
-                mDatabase.child("msalasgo").setValue(user2, new DatabaseReference.CompletionListener() {
                     @Override
-                    public void onComplete(DatabaseError error, DatabaseReference reference) {
-                        if (error != null) {
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Failed to read value
+                        Log.e(TAG, "onCancelled: Failed to read message");
 
-                            Log.e("TAG", "Failed to write message", error.toException());
-                            Toast.makeText(loginUser.this, "Error 2", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(loginUser.this, "Good 2", Toast.LENGTH_SHORT).show();
-                        }
                     }
                 });
-                //Toast.makeText(v.getContext(), userChild.getUserName(), Toast.LENGTH_SHORT).show();
 
                 startActivity(new Intent(loginUser.this, DBPrueba.class));
             }
         });
+    }
+
+    private void writeNewTutor() {
+        FirebaseUser tutor = mAuth.getCurrentUser();
+        //,  )
+        Tutores user = new Tutores(getUsernameFromEmail(tutor.getEmail()), tutor.getDisplayName(), tutor.getEmail());
+
+        Toast.makeText(this, getUsernameFromEmail(tutor.getEmail()), Toast.LENGTH_SHORT).show();
+
+        Calendar time = Calendar.getInstance();
+        String idUser = time.getTime() + mAuth.getCurrentUser().getDisplayName();
+
+        FirebaseDatabase.getInstance().getReference().child("tutores").child(idUser).setValue(user);
 
     }
 
-    private void addUserDB(Usuarios user){
-        //mensajeRef = redDB.child("Tutores").child("janethsg_23").child("Usuarios").child("0");
-        //Usuarios.child(userU).push().setValue(user);
-        //Toast.makeText(this, mensajeRef.toString(), Toast.LENGTH_SHORT).show();
+    private void writeNewUser() {
+        FirebaseUser tutor = mAuth.getCurrentUser();
+        //,  )
+        //Tutores user = new Tutores(getUsernameFromEmail(u.getEmail()), u.getDisplayName(), u.getEmail());
+        User_1 user = new User_1(userU, nameU, surnamesU, sexo, edadU, tutor.getProviderId());
+        Toast.makeText(this, getUsernameFromEmail(tutor.getEmail()), Toast.LENGTH_SHORT).show();
+        //FirebaseDatabase.getInstance().getReference().child("users").child("janettha").setValue(user);
+        FirebaseDatabase.getInstance().getReference().child("usuarios").child(userU).setValue(user);
+    }
+
+    private String getUsernameFromEmail(String email) {
+        if (email.contains("@")) {
+            return email.split("@")[0];
+        } else {
+            return email;
+        }
     }
 
     private void showDatePickerDialog() {
@@ -182,7 +216,10 @@ public class loginUser extends AppCompatActivity {
                 dateU.setText(selectedDate);
 
                 edadU = d.calculaEdad();
-                edad.setText(edadU+" años");
+                if(edadU != 1)
+                    edad.setText(edadU+" años");
+                else
+                    edad.setText(edadU+" año");
             }
         });
         newFragment.show(getSupportFragmentManager(), "datePicker");
@@ -192,22 +229,26 @@ public class loginUser extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void setDataToView(FirebaseUser user) {
         if(user != null)
-            //email.setText("User Email: " + user.getEmail());
-            email.setText("User: " + user.getDisplayName());
+            email.setText("User: " + user.getUid());
         else
             email.setText("Welcome");
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        tutor = mAuth.getCurrentUser();
+        setDataToView(tutor);
+    }
 
-    /*
-    public String getUserName(){ return this.userName; }
+    @Override
+    protected void onStop() {
+        super.onStop();
 
-    public String getSexo(){ return this.sexo; }
-
-    public String getFechaU(){ return this.fechaU; }
-
-    public int getEdadU(){ return this.edadU; }
-    */
+        if (mTutorListener != null) {
+            mReferenceTutor.removeEventListener(mTutorListener);
+        }
+    }
 
 }

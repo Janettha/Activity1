@@ -13,11 +13,41 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
-
+        <EditText
+            android:id="@+id/nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_margin"
+            android:hint="@string/nombre"
+            android:inputType="textPersonName"
+            android:textColor="@color/txtDialogs"
+            android:textColorHint="@color/colorPrimaryTxt"
+            />
+        <EditText
+            android:id="@+id/apellidos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_margin"
+            android:hint="@string/apellidos"
+            android:inputType="textPersonName"
+            android:textColor="@color/txtDialogs"
+            android:textColorHint="@color/colorPrimaryTxt"
+            />
+        <EditText
+            android:id="@+id/usuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_margin"
+            android:hint="@string/usuario"
+            android:inputType="text"
+            android:textColor="@color/txtDialogs"
+            android:textColorHint="@color/colorPrimaryTxt"
+            />
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_margin"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:maxLines="1"
@@ -28,6 +58,7 @@
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+           android:layout_margin="@dimen/activity_margin"
             android:focusableInTouchMode="true"
             android:hint="@string/hint_password"
             android:imeActionId="@+id/login"

@@ -1,61 +1,51 @@
 package janettha.activity1.Models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by janettha on 11/03/18.
  */
 
+
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@IgnoreExtraProperties
 public class Tutores {
+    private String name;
+    private String user;
+    private String email;
 
-    String username, email, name, users;
-    List<Usuarios> U = new ArrayList<Usuarios>();
+    public Tutores() {
+        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    }
 
-    public Tutores(String username, String email, String name, String users) {
-        this.username = username;
-        this.email = email;
+    public Tutores(String username, String name, String email) {
+        this.user = username;
         this.name = name;
-        this.users = users;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getName() {
-        return name;
+    public String getName(){
+        return this.name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getEmail(){
+        return this.email;
     }
 
-    public String getUsers() {
-        return users;
+    public String getUser(){
+        return this.user;
     }
 
-    public void setUsers(String users) {
-        this.users = users;
-    }
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("name", name);
+        result.put("user", user);
+        result.put("email", email);
 
-    public void addUser(Usuarios u){
-        U.add(u);
-    }
-
-    public Usuarios getUsuario(int id){
-        return U.get(id);
+        return result;
     }
 }
