@@ -3,6 +3,7 @@ package janettha.activity1.Act1;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import janettha.activity1.Activities_Login.loginUser;
 import janettha.activity1.Menu.MainmenuActivity;
 import janettha.activity1.Models.Emocion;
 import janettha.activity1.Models.Emociones;
@@ -47,7 +49,7 @@ public class Activity1 extends FragmentActivity {
     public final int LIM_emociones = 11;
 
     public static final String ARG_r = "Redaccion";
-    public static final String ARG_ex = "Explicacion";
+    public static final String ARG_sexo = "SexoUser";
     public static final String ARG_e1 = "Emocion1";
     public static final String ARG_IDe1 = "Emocion1ID";
     public static final String ARG_e2 = "Emocion2";
@@ -56,8 +58,14 @@ public class Activity1 extends FragmentActivity {
     public static final String ARG_IDe3 = "Emocion3ID";
     private TextToSpeech tts;
 
+
+    //public final String keySP = "UserSex";
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editorSP;
+    private String sexo;
+
     List<Emocion> emociones = new ArrayList<Emocion>();
-    List<Actividad1> listAct3 = new ArrayList<Actividad1>();
+    List<Actividad1> listAct1 = new ArrayList<Actividad1>();
 
     int r1, r2, r3;
 
@@ -66,9 +74,13 @@ public class Activity1 extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_1);
 
+        sharedPreferences = getSharedPreferences(loginUser.keySP, MODE_PRIVATE);
+        //editorSP = sharedPreferences.edit();
+        sexo = sharedPreferences.getString("sexo", "m");
+
         Emociones em = new Emociones();
-        emociones = em.Emociones(getBaseContext(),"f");
-        fillData(this, "f");
+        emociones = em.Emociones(getBaseContext(),sexo);
+        fillData(this, sexo);
 
         try {
             /* Se pasan parámetros a Bundle */
@@ -104,7 +116,7 @@ public class Activity1 extends FragmentActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_activity3, menu);
+        getMenuInflater().inflate(R.menu.menu_activity1, menu);
 
         menu.findItem(R.id.action_previous).setEnabled(mPager.getCurrentItem() > 0);
 
@@ -155,11 +167,11 @@ public class Activity1 extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             if(position == 0) {
-                return FragmentAct1.create(position, getBaseContext(), listAct3.get(r1));
+                return FragmentAct1.create(position, getBaseContext(), listAct1.get(r1), sexo);
             }else if(position == 1) {
-                return FragmentAct1.create(position, getBaseContext(), listAct3.get(r2));
+                return FragmentAct1.create(position, getBaseContext(), listAct1.get(r2), sexo);
             }else if(position == 2) {
-                return FragmentAct1.create(position, getBaseContext(), listAct3.get(r3));
+                return FragmentAct1.create(position, getBaseContext(), listAct1.get(r3), sexo);
             }else return null;
         }
 
@@ -187,10 +199,10 @@ public class Activity1 extends FragmentActivity {
                     }else if(s.equals("m")){
                         ruta = "android.resource://janettha.activity1/drawable/m";
                     }*/
-                    Actividad1 a3 = new Actividad1(Integer.parseInt(array[0]),array[1],emociones.get(Integer.parseInt(array[2])), array[3], emociones.get(Integer.parseInt(array[4])), array[5],emociones.get(Integer.parseInt(array[6])), array[7]);
+                    Actividad1 a1 = new Actividad1(Integer.parseInt(array[0]),array[1],emociones.get(Integer.parseInt(array[2])), array[3], emociones.get(Integer.parseInt(array[4])), array[5],emociones.get(Integer.parseInt(array[6])), array[7]);
                     //Actividad1 a3 = new Actividad1(0,array[1],emociones.get(0), array[3], emociones.get(0), array[5],emociones.get(0), array[7]);
                     //Actividad1 a3 = new Actividad1(0,array[0], emociones.get(0),array[0], emociones.get(0), array[0], emociones.get(0),array[0]);
-                    listAct3.add(i, a3);
+                    listAct1.add(i, a1);
                     i++;
                 }
             }
@@ -198,10 +210,10 @@ public class Activity1 extends FragmentActivity {
             e.printStackTrace();
         }
 
-        return listAct3;
+        return listAct1;
     }
 
-    public Actividad1 getAct3(int i) {
-        return listAct3.get(i);
+    public Actividad1 getAct1(int i) {
+        return listAct1.get(i);
     }
 }

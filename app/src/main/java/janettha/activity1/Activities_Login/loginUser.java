@@ -3,8 +3,7 @@ package janettha.activity1.Activities_Login;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.provider.SyncStateContract;
-import android.support.annotation.NonNull;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,14 +28,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import janettha.activity1.Menu.MainmenuActivity;
 import janettha.activity1.Models.Tutores;
 import janettha.activity1.Models.Usuarios;
 import janettha.activity1.Util.DBPrueba;
 import janettha.activity1.Util.DatePickerFragment;
-import janettha.activity1.Menu.MainmenuActivity;
 import janettha.activity1.R;
 import janettha.activity1.Util.Date;
 
@@ -56,11 +54,14 @@ public class loginUser extends AppCompatActivity {
     private DatabaseReference mDatabaseUser;
     private ValueEventListener mTutorListener;
 
+    public static final String keySP = "UserSex";
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editorSP;
+
     private static final String TAG = "loginUserActivity";
 
     private String userTutor, userU, passU, nameU, surnamesU, sexo, fechaU;
     int edadU;
-    Usuarios userChild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,10 @@ public class loginUser extends AppCompatActivity {
 
         mReferenceTutor = FirebaseDatabase.getInstance().getReference("tutores");
         mDatabaseUser = FirebaseDatabase.getInstance().getReference("usuarios");
+
+        sharedPreferences = getSharedPreferences(keySP, MODE_PRIVATE);
+        editorSP = sharedPreferences.edit();
+
         //tutor = mAuth.getCurrentUser();
         /*
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -108,6 +113,8 @@ public class loginUser extends AppCompatActivity {
                         rm.setTextColor(getResources().getColor(R.color.colorTxt));
                         break;
                 }
+                editorSP.putString("sexo",sexo);
+                editorSP.apply();
             }
 
         });
@@ -153,7 +160,7 @@ public class loginUser extends AppCompatActivity {
                                 Toast.makeText(loginUser.this, tutor.toString(), Toast.LENGTH_SHORT).show();
 
                                 //FirebaseUser tutor = mAuth.getCurrentUser();
-                                User_1 user = new User_1(userU, nameU, surnamesU, sexo, edadU, tutor.getUser());
+                                Usuarios user = new Usuarios(userU, nameU, surnamesU, sexo, edadU, tutor.getUser());
                                 FirebaseDatabase.getInstance().getReference().child("users").child(user.getUser()).setValue(user);
                             }
                         }
@@ -167,7 +174,7 @@ public class loginUser extends AppCompatActivity {
                     }
                 });
 
-                startActivity(new Intent(loginUser.this, DBPrueba.class));
+                startActivity(new Intent(loginUser.this, MainmenuActivity.class));
             }
         });
     }
@@ -190,7 +197,7 @@ public class loginUser extends AppCompatActivity {
         FirebaseUser tutor = mAuth.getCurrentUser();
         //,  )
         //Tutores user = new Tutores(getUsernameFromEmail(u.getEmail()), u.getDisplayName(), u.getEmail());
-        User_1 user = new User_1(userU, nameU, surnamesU, sexo, edadU, tutor.getProviderId());
+        Usuarios user = new Usuarios(userU, nameU, surnamesU, sexo, edadU, tutor.getProviderId());
         Toast.makeText(this, getUsernameFromEmail(tutor.getEmail()), Toast.LENGTH_SHORT).show();
         //FirebaseDatabase.getInstance().getReference().child("users").child("janettha").setValue(user);
         FirebaseDatabase.getInstance().getReference().child("usuarios").child(userU).setValue(user);

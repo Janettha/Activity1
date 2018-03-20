@@ -40,7 +40,7 @@ public class FragmentAct1 extends Fragment {
     public static final String ARG_PAGE = "page";
     private int mPageNumber;
     private String textoRedaccion;
-    private String exEmocion1, exEmocion2, exEmocion3;
+    private String exEmocion1, exEmocion2, exEmocion3, sexo;
     private int idEmocion1, idEmocion2, idEmocion3;
     TextToSpeech t1;
 
@@ -50,7 +50,7 @@ public class FragmentAct1 extends Fragment {
     ImageView imgEmocionDialog;
     Button btnBack;
 
-    public static FragmentAct1 create(int pageNumber, Context context, Actividad1 actividad1) {
+    public static FragmentAct1 create(int pageNumber, Context context, Actividad1 actividad1, String sexo) {
 
         FragmentAct1 fragment = new FragmentAct1();
         Bundle args = new Bundle();
@@ -64,7 +64,7 @@ public class FragmentAct1 extends Fragment {
         args.putInt(Activity1.ARG_IDe2,actividad1.getEmocion2().getId());
         args.putString(Activity1.ARG_e3,actividad1.getExpl3());
         args.putInt(Activity1.ARG_IDe3,actividad1.getEmocion3().getId());
-
+        args.putString(Activity1.ARG_sexo, sexo);
 
         fragment.setArguments(args);
         return fragment;
@@ -78,7 +78,6 @@ public class FragmentAct1 extends Fragment {
         super.onCreate(savedInstanceState);
 
         Emociones em = new Emociones();
-        emociones = em.Emociones(getContext(), "f");
 
         if(getArguments() != null) {
             mPageNumber = getArguments().getInt(ARG_PAGE);
@@ -89,6 +88,8 @@ public class FragmentAct1 extends Fragment {
             exEmocion2 = getArguments().getString(Activity1.ARG_e2);
             idEmocion3 = getArguments().getInt(Activity1.ARG_IDe3);
             exEmocion3 = getArguments().getString(Activity1.ARG_e3);
+            sexo = getArguments().getString(Activity1.ARG_sexo);
+            emociones = em.Emociones(getContext(), sexo);
         }
 
     }
@@ -137,13 +138,13 @@ public class FragmentAct1 extends Fragment {
         r = (int) (Math.random() * LIM_emociones ) ;
         if(r < 4){
             rootView.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
-            interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, "f",id1, id1, id2, id3, exEmocion1, exEmocion2, exEmocion3);
+            interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo,id1, id1, id2, id3, exEmocion1, exEmocion2, exEmocion3);
         }else if(r>3 && r<8) {
             rootView.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
-            interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, "f", id1, id3, id1, id2, exEmocion3, exEmocion1, exEmocion2);
+            interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo, id1, id3, id1, id2, exEmocion3, exEmocion1, exEmocion2);
         }else if(r>7 && r<12) {
             rootView.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
-            interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, "f", id1, id2, id3, id1, exEmocion2, exEmocion3, exEmocion1);
+            interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo, id1, id2, id3, id1, exEmocion2, exEmocion3, exEmocion1);
         }
 
         t1=new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {

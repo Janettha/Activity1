@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.MediaRecorder;
@@ -64,15 +65,24 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
 
     private final String extension = ".3gp";
 
+    public final String keySP = "UserSex";
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editorSP;
+    private String sexo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity2);
 
+
+        sharedPreferences = getSharedPreferences(keySP, MODE_PRIVATE);
+        //editorSP = sharedPreferences.edit();
+        sexo = sharedPreferences.getString("sexo", "m");
+
         //View rootView = R.layout.activity_activity2.inflate(R.layout.fragment_preactivity, container, false);
         v = initViews();
-        loadData("f",v);
+        loadData(sexo,v);
         wheel_img.setOnMenuSelectedListener(this);
                     /* Recording audio FIREBASE */
         mStorage = FirebaseStorage.getInstance().getReference();
@@ -86,7 +96,7 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
     private void loadData(String s, View view) {
         Emociones e = new Emociones();
         listImg = e.Emociones(getApplicationContext(),s);
-        WheelmageAdapter adapter = new WheelmageAdapter(getBaseContext(),view, "f");
+        WheelmageAdapter adapter = new WheelmageAdapter(getBaseContext(),view, sexo);
         wheel_img.setAdapter(adapter);
     }
 

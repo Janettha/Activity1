@@ -3,6 +3,7 @@ package janettha.activity1.Act0;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +23,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import janettha.activity1.Activities_Login.loginUser;
 import janettha.activity1.Menu.MainmenuActivity;
 import janettha.activity1.Models.Emocion;
 import janettha.activity1.Models.Emociones;
@@ -31,17 +33,19 @@ public class Preactivity extends AppCompatActivity {
 
     private static final int NUM_PAGES = 3;
 
-
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
 
     public final int LIM_emociones = 11;
 
+    //private static final String keySP = "UserSex";
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editorSP;
+    public String sexo;
+
     public static final String ARG_Main = "Answer 1";
     public static final String ARG_B = "Answer 2";
     public static final String ARG_C = "Answer 3";
-
-
 
     List<Emocion> emociones = new ArrayList<Emocion>();
     List<Actividad0> listAct0 = new ArrayList<Actividad0>();
@@ -53,9 +57,13 @@ public class Preactivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preactivity);
 
+        sharedPreferences = getSharedPreferences(loginUser.keySP, MODE_PRIVATE);
+        //editorSP = sharedPreferences.edit();
+        sexo = sharedPreferences.getString("sexo", "m");
+
         Emociones em = new Emociones();
-        emociones = em.Emociones(getBaseContext(),"f");
-        fillData(this, "f");
+        emociones = em.Emociones(getBaseContext(),sexo);
+        fillData(this, sexo);
 
         try {
             /* Se pasan parámetros a Bundle */
@@ -92,7 +100,7 @@ public class Preactivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_activity3, menu);
+        getMenuInflater().inflate(R.menu.menu_activity1, menu);
 
         menu.findItem(R.id.action_previous).setEnabled(mPager.getCurrentItem() > 0);
 
@@ -142,11 +150,11 @@ public class Preactivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             if(position == 0) {
-                return FragmentAct0.create(0, getBaseContext(), listAct0.get(r1));
+                return FragmentAct0.create(0, getBaseContext(), listAct0.get(r1), sexo);
             }else if(position == 1) {
-                return FragmentAct0.create(1, getBaseContext(), listAct0.get(r2));
+                return FragmentAct0.create(1, getBaseContext(), listAct0.get(r2), sexo);
             }else if(position == 2) {
-                return FragmentAct0.create(2, getBaseContext(), listAct0.get(r3));
+                return FragmentAct0.create(2, getBaseContext(), listAct0.get(r3), sexo);
             }else return null;
         }
 
@@ -176,9 +184,10 @@ public class Preactivity extends AppCompatActivity {
                     int id2 = Integer.parseInt(array[1]);
                     int id3 = Integer.parseInt(array[2]);
                     //System.out.print("----------------------ID-----------------"+id+","+id2+","+id3);
-                    eMain = new Emocion(id, emociones.get(id).getName(), emociones.get(id).getSexo(), emociones.get(id).getUrl(), emociones.get(id).getColor(), emociones.get(id).getColorB());
-                    e2 = new Emocion(id2, emociones.get(id2).getName(), emociones.get(id2).getSexo(), emociones.get(id2).getUrl(), emociones.get(id2).getColor(), emociones.get(id2).getColorB());
-                    e3 = new Emocion(id3, emociones.get(id3).getName(), emociones.get(id3).getSexo(), emociones.get(id3).getUrl(), emociones.get(id3).getColor(), emociones.get(id3).getColorB());
+                    // emociones.get(id).getSexo()
+                    eMain = new Emocion(id, emociones.get(id).getName(), s, emociones.get(id).getUrl(), emociones.get(id).getColor(), emociones.get(id).getColorB());
+                    e2 = new Emocion(id2, emociones.get(id2).getName(), s, emociones.get(id2).getUrl(), emociones.get(id2).getColor(), emociones.get(id2).getColorB());
+                    e3 = new Emocion(id3, emociones.get(id3).getName(), s, emociones.get(id3).getUrl(), emociones.get(id3).getColor(), emociones.get(id3).getColorB());
                     a0 = new Actividad0(i, eMain, e2, e3);
                     listAct0.add(i, a0);
                     i++;

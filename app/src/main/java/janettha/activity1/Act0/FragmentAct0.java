@@ -24,6 +24,7 @@ import java.util.List;
 
 import janettha.activity1.Activities_Login.MainActivity;
 import janettha.activity1.Activities_Login.SignUpActivity;
+import janettha.activity1.Activities_Login.loginUser;
 import janettha.activity1.Menu.MainmenuActivity;
 import janettha.activity1.Models.Emocion;
 import janettha.activity1.Models.Emociones;
@@ -42,6 +43,7 @@ public class FragmentAct0 extends Fragment {
     private final int LIM_emociones = 11;
 
     private int idEmocionMain, idEmocionB, idEmocionC;
+    private String idSexo;
 
     /*DIALOG*/
     Dialog dialog;
@@ -50,7 +52,7 @@ public class FragmentAct0 extends Fragment {
     ImageView imgEmocionDialog;
     Button btnBack;
 
-    public static FragmentAct0 create(int pageNumber, Context context, Actividad0 actividad0) {
+    public static FragmentAct0 create(int pageNumber, Context context, Actividad0 actividad0, String sexo) {
 
         FragmentAct0 fragment = new FragmentAct0();
         Bundle args = new Bundle();
@@ -60,6 +62,7 @@ public class FragmentAct0 extends Fragment {
         args.putInt(Preactivity.ARG_Main,actividad0.emocionMain().getId());
         args.putInt(Preactivity.ARG_B,actividad0.emocionB().getId());
         args.putInt(Preactivity.ARG_C,actividad0.emocionC().getId());
+        args.putString(loginUser.keySP, sexo);
 
         fragment.setArguments(args);
         return fragment;
@@ -73,13 +76,15 @@ public class FragmentAct0 extends Fragment {
         super.onCreate(savedInstanceState);
 
         Emociones em = new Emociones();
-        emociones = em.Emociones(getContext(), "f");
 
         if(getArguments() != null) {
             mPageNumber = getArguments().getInt(ARG_PAGE);
             idEmocionMain = getArguments().getInt(Preactivity.ARG_Main);
             idEmocionB = getArguments().getInt(Preactivity.ARG_B);
             idEmocionC = getArguments().getInt(Preactivity.ARG_C);
+
+            idSexo = getArguments().getString(loginUser.keySP);
+            emociones = em.Emociones(getContext(), idSexo);
         }
     }
 
@@ -111,13 +116,13 @@ public class FragmentAct0 extends Fragment {
         r = (int) (Math.random() * LIM_emociones ) ;
         if(r < 4){
             rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
-            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, btNext, "f",rMain, rMain, rB, rC);
+            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, btNext, idSexo,rMain, rMain, rB, rC);
         }else if(r>3 && r<8) {
             rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
-            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, btNext, "f",rMain, rC, rMain, rB);
+            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, btNext, idSexo,rMain, rC, rMain, rB);
         }else if(r>7 && r<12) {
             rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
-            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, btNext, "f",rMain, rB, rC, rMain);
+            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, btNext, idSexo,rMain, rB, rC, rMain);
         }
 
         return rootView;

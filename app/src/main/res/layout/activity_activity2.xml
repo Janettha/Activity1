@@ -62,13 +62,5 @@
         android:visibility="gone"
         tools:ignore="MissingConstraints" />
 
-    <Button
-        android:id="@+id/SaveResultados"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/EmocionDialog"
-        android:text=" Guardar resultados "
-        android:textStyle="bold"
-        />
 
 </LinearLayout>
