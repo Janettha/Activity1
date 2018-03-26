@@ -46,7 +46,7 @@ public class Activity1 extends FragmentActivity {
      */
     private PagerAdapter mPagerAdapter;
 
-    public final int LIM_emociones = 11;
+    public final int LIM_emociones = 16;
 
     public static final String ARG_r = "Redaccion";
     public static final String ARG_sexo = "SexoUser";
@@ -182,14 +182,18 @@ public class Activity1 extends FragmentActivity {
     }
 
     private List<Actividad1> fillData (Context c, String s){
-
+        InputStream fileE;
         try {
             //InputStream fileE = view.getResources().openRawResource(R.raw.emociones);
-            InputStream fileE = c.getResources().openRawResource(R.raw.redacciones);
+            if(s.equals("f"))
+                fileE = c.getResources().openRawResource(R.raw.redaccionesf);
+            else
+                fileE = c.getResources().openRawResource(R.raw.redaccionesm);
+
             BufferedReader brE = new BufferedReader(new InputStreamReader(fileE));
             //Lectura de emocion en actividad de redacciones
             int i = 0;
-            String line1, ruta="";
+            String line1="";
             if (fileE != null) {
                 while ((line1 = brE.readLine()) != null) {
                     String[] array = line1.split("-"); // Split according to the hyphen and put them in an array

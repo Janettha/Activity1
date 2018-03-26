@@ -1,10 +1,11 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/white"
     tools:context="janettha.activity1.Act0.Preactivity">
 
@@ -62,15 +63,4 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/SaveResultados"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/respuestas"
-        android:text=" Guardar resultados "
-        android:visibility="gone"
-        android:textStyle="bold"
-        />
-
-
-</RelativeLayout>
+</LinearLayout>

@@ -15,14 +15,13 @@
         android:text="Emocion"
         android:layout_gravity="center"
         android:textStyle="bold"
-        android:textSize="@dimen/dialogText"
+        android:textSize="25dp"
         android:textColor="@color/colorTxt"
         android:layout_margin="@dimen/activity_margin"/>
     <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:id="@+id/imgRespuesta"
-        android:background="@drawable/f0"
         android:layout_margin="@dimen/activity_margin"
         android:layout_gravity="center"/>
     <Button

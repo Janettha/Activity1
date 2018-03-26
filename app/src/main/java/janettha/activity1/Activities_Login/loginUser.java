@@ -2,8 +2,10 @@ package janettha.activity1.Activities_Login;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -98,12 +100,12 @@ public class loginUser extends AppCompatActivity {
 
         btnStart = (Button) findViewById(R.id.Iniciar);
 
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 View radioButton = rg.findViewById(checkedId);
                 int index = rg.indexOfChild(radioButton);
-                switch (index){
+                switch (index) {
                     case 0:
                         rf.setTextColor(getResources().getColor(R.color.colorTxt));
                         sexo = "f";
@@ -113,7 +115,7 @@ public class loginUser extends AppCompatActivity {
                         rm.setTextColor(getResources().getColor(R.color.colorTxt));
                         break;
                 }
-                editorSP.putString("sexo",sexo);
+                editorSP.putString("sexo", sexo);
                 editorSP.apply();
             }
 
@@ -140,18 +142,20 @@ public class loginUser extends AppCompatActivity {
                 surnamesU = surnames.getText().toString();
                 fechaU = dateU.getText().toString();
 
+                guardarDatos();
                 //writeNewTutor();
                 //writeNewUser();
 
                 // copy for removing at onStop()
-                mTutorListener = mReferenceTutor.addValueEventListener( new ValueEventListener() {
+                mTutorListener = mReferenceTutor.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {}
-                        GenericTypeIndicator<HashMap<String, Tutores>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Tutores>>() {};
+                        GenericTypeIndicator<HashMap<String, Tutores>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Tutores>>() {
+                        };
                         Map<String, Tutores> objectHashMap = dataSnapshot.getValue(objectsGTypeInd);
                         ArrayList<Tutores> objectArrayList = new ArrayList<Tutores>(objectHashMap.values());
-                        for(int i = 0; i < objectArrayList.size(); i++) {
+                        for (int i = 0; i < objectArrayList.size(); i++) {
                             Tutores tutor = objectArrayList.get(i);
                             //Tutores tutor = dataSnapshot.getValue(Tutores.class);
                             if (tutor.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
@@ -173,10 +177,69 @@ public class loginUser extends AppCompatActivity {
 
                     }
                 });
-
-                startActivity(new Intent(loginUser.this, MainmenuActivity.class));
+                if(userU != null || userU != "") {
+                    startActivity(new Intent(loginUser.this, MainmenuActivity.class));
+                }else{
+                    Toast.makeText(loginUser.this, "Ingrese los datos solicitados", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
+        if(! sharedPreferences.getString("usuario", "").isEmpty()){
+            cargarDatos();
+        }
+    }
+        @Override
+        public void onBackPressed() {
+            //final Intent intent = new Intent(this, loginUser.class);
+            new AlertDialog.Builder(this)
+                    .setTitle("¿Realmente deseas salir?")
+                    //.setMessage("El usuario actual será olvidado.")
+                    .setNegativeButton(android.R.string.no, null)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            loginUser.super.onBackPressed();
+                            finish();
+                            Intent intent = new Intent(Intent.ACTION_MAIN);
+                            intent.addCategory(Intent.CATEGORY_HOME);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    }).create().show();
+        }
+
+    private void guardarDatos(){
+        editorSP.putString("usuario", userU);
+        editorSP.putString("password", passU);
+        editorSP.putString("nombre", nameU);
+        editorSP.putString("apellidos", surnamesU);
+        editorSP.putString("sexo", sexo);
+        editorSP.putString("fechaNacimiento", String.valueOf(dateU));
+        editorSP.putInt("edad", edadU);
+        editorSP.apply();
+    }
+
+    private void cargarDatos(){
+        userName.setText(sharedPreferences.getString("usuario", ""));
+        pass.setText(sharedPreferences.getString("password", ""));
+        name.setText(sharedPreferences.getString("nombre", ""));
+        surnames.setText(sharedPreferences.getString("apellidos", ""));
+        //dateU.setText(sharedPreferences.getString("fechaNacimiento", ""));
+        //edad.setText(sharedPreferences.getInt("edad", 0)+" años");
+        /*
+        switch (sharedPreferences.getString("sexo", "f")){
+            case "m":
+                rm.setSelected(true);
+                rf.setSelected(false);
+                break;
+            case "f":
+                rf.setSelected(true);
+                rm.setSelected(false);
+                break;
+            default: rf.setSelected(true);
+        }
+        */
     }
 
     private void writeNewTutor() {
@@ -236,7 +299,7 @@ public class loginUser extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void setDataToView(FirebaseUser user) {
         if(user != null)
-            email.setText("User: " + user.getUid());
+            email.setText("User: " + getUsernameFromEmail(user.getEmail()));
         else
             email.setText("Welcome");
     }

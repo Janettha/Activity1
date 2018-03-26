@@ -46,7 +46,7 @@ public class FragmentAct1 extends Fragment {
 
     /*DIALOG*/
     Dialog dialog;
-    TextView explicacionDialogo, nameEmocionDialog;
+    TextView indicaciones, explicacionDialogo, nameEmocionDialog;
     ImageView imgEmocionDialog;
     Button btnBack;
 
@@ -76,6 +76,7 @@ public class FragmentAct1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         Emociones em = new Emociones();
 
@@ -112,6 +113,7 @@ public class FragmentAct1 extends Fragment {
                 */
         /*REDACCION*/
         ((TextView) rootView.findViewById(R.id.txtText)).setText(textoRedaccion);
+        indicaciones = (TextView) rootView.findViewById(R.id.Instruccion);
         Button btn = (Button) rootView.findViewById(R.id.btnSpeak);
 
         /*background*/
@@ -130,6 +132,11 @@ public class FragmentAct1 extends Fragment {
         id2 = emociones.get(idEmocion2).getId();
         id3 = emociones.get(idEmocion3).getId();
 
+        if(sexo.equals("f")){
+            indicaciones.setText("Lee o escucha la pequeña situación y elije ¿cómo se siente Lili?");
+        }else{
+            indicaciones.setText("Lee o escucha la pequeña situación y elije ¿cómo se siente Juan Carlos?");
+        }
 
         bgAct1.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
         txRedaccion.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));

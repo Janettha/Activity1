@@ -4,11 +4,15 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -40,6 +44,9 @@ import janettha.activity1.Models.Emocion;
 import janettha.activity1.Models.Emociones;
 import janettha.activity1.R;
 
+/*
+* https://github.com/lassana/continuous-audiorecorder
+* */
 public class Activity2 extends AppCompatActivity implements CursorWheelLayout.OnMenuSelectedListener {
 
     CursorWheelLayout wheel_img;
@@ -48,22 +55,25 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
     LinearLayout lwheel;
     ImageView EmocionDialog;
     TextView NameEmocionDialog;
-    Button buttonRecord, buttonStop;
+    Button buttonRecord, buttonStop, buttonPlay;
     Dialog dialog;
     LinearLayout llActivity2;
     boolean DialogFlag=false;
 
     private static final String LOG_TAG = "AudioRecordTest";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
+    private static final String mFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/audiosEmociones/";
+    private static final String mFileS = Environment.getExternalStorageDirectory().getAbsolutePath()+"/";
+
+    private final String extension = ".mp3";
     private static String mFileName = null;
 
     private RecordButton mRecordButton;
+
     private MediaRecorder mRecorder;
-
     private StorageReference mStorage;
-    private CompletableProgressDialog mProgress;
 
-    private final String extension = ".3gp";
+    private CompletableProgressDialog mProgress;
 
     public final String keySP = "UserSex";
     private SharedPreferences sharedPreferences;
@@ -75,6 +85,12 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity2);
 
+        //Crear directorio en la memoria interna.
+        File directorio = new File(mFileS, "audiosEmociones");
+        //Muestro un mensaje en el logcat si no se creo la carpeta por algun motivo
+        if(!directorio.mkdirs()){
+            Log.e("FILE", "Error: No se creo el directorio privado");
+        }
 
         sharedPreferences = getSharedPreferences(keySP, MODE_PRIVATE);
         //editorSP = sharedPreferences.edit();
@@ -86,13 +102,11 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
         wheel_img.setOnMenuSelectedListener(this);
                     /* Recording audio FIREBASE */
         mStorage = FirebaseStorage.getInstance().getReference();
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/";
         //mFileName += "/recorded_audio.3gp";
 
 
 
     }
-
     private void loadData(String s, View view) {
         Emociones e = new Emociones();
         listImg = e.Emociones(getApplicationContext(),s);
@@ -120,7 +134,8 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
                     //Toast.makeText(Activity2.this, "Top Menu click position:" + pos + " Dialog: "+DialogFlag, Toast.LENGTH_SHORT).show();
 
                     final int posicion = wheel_img.getSelectedPosition();
-
+                    //mFileName = ""mFile;
+                    mFileName = mFile;
                     mFileName += listImg.get(wheel_img.getSelectedPosition()).getId() + "_" + listImg.get(wheel_img.getSelectedPosition()).getName() + extension;
 
                     lwheel.setBackgroundColor(Color.parseColor(listImg.get(posicion).getColor()));
@@ -150,6 +165,7 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
         llActivity2 = (LinearLayout) dialog.findViewById(R.id.llact2);
         buttonRecord = (Button) dialog.findViewById(R.id.btnRecord);
         buttonStop = (Button) dialog.findViewById(R.id.btnStop);
+        buttonPlay = (Button) dialog.findViewById(R.id.btnPlay);
         EmocionDialog = (ImageView) dialog.findViewById(R.id.imgEmocion);
         NameEmocionDialog = (TextView) dialog.findViewById(R.id.nameEmocion);
 
@@ -172,8 +188,11 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
                         //mRecorder.start();
                     buttonRecord.setEnabled(false);
                     buttonStop.setEnabled(true);
-                    buttonRecord.setEnabled(false);
+                    //buttonRecord.setEnabled(false);
                     startRecording();
+                    buttonRecord.setVisibility(View.INVISIBLE);
+                    buttonStop.setVisibility(View.VISIBLE);
+                    buttonStop.setEnabled(true);
                     Toast.makeText(Activity2.this, "Recording...", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -186,20 +205,47 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
         buttonStop.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                buttonRecord.setEnabled(true);
-                buttonStop.setEnabled(false);
+                //buttonRecord.setEnabled(true);
+                buttonStop.setEnabled(true);
+
                 stopRecording();
+                buttonStop.setVisibility(View.INVISIBLE);
+                buttonPlay.setVisibility(View.VISIBLE);
+                buttonPlay.setEnabled(true);
                 Toast.makeText(getApplicationContext(), "Record Stopped...", Toast.LENGTH_SHORT).show();
-                dialog.cancel();
                 //DialogFlag = false;
+
             }
         });
+
+        buttonPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonStop.setVisibility(View.INVISIBLE);
+                mostrarFile();
+                dialog.cancel();
+            }
+        });
+
         dialog.show();
+    }
+
+    public void mostrarFile(){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        String path = mFileName;
+        Uri uri = Uri.parse(path);
+        Toast.makeText(this, path+"\n"+uri.toString(), Toast.LENGTH_SHORT).show();
+        intent.setDataAndType(uri,"audio/mp3");
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
     }
 
     private void requestPermissions() {
         ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.RECORD_AUDIO
         }, REQUEST_RECORD_AUDIO_PERMISSION);
     }
@@ -243,6 +289,7 @@ public class Activity2 extends AppCompatActivity implements CursorWheelLayout.On
 
         uploadAudio();
     }
+
 
     private void uploadAudio() {
         String path = listImg.get(wheel_img.getSelectedPosition()).getId() + "_" + listImg.get(wheel_img.getSelectedPosition()).getName() + extension;

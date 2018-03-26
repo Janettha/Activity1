@@ -107,7 +107,6 @@ public class FragmentAct0 extends Fragment {
         btnA1 = (Button) rootView.findViewById(R.id.ans1);
         btnA2 = (Button) rootView.findViewById(R.id.ans2);
         btnA3 = (Button) rootView.findViewById(R.id.ans3);
-        btNext = (Button) rootView.findViewById(R.id.SaveResultados);
 
         rMain = emociones.get(idEmocionMain).getId();
         rB = emociones.get(idEmocionB).getId();
@@ -116,13 +115,13 @@ public class FragmentAct0 extends Fragment {
         r = (int) (Math.random() * LIM_emociones ) ;
         if(r < 4){
             rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
-            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, btNext, idSexo,rMain, rMain, rB, rC);
+            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, idSexo,rMain, rMain, rB, rC);
         }else if(r>3 && r<8) {
             rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
-            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, btNext, idSexo,rMain, rC, rMain, rB);
+            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, idSexo,rMain, rC, rMain, rB);
         }else if(r>7 && r<12) {
             rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
-            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, btNext, idSexo,rMain, rB, rC, rMain);
+            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, idSexo,rMain, rB, rC, rMain);
         }
 
         return rootView;
@@ -132,7 +131,7 @@ public class FragmentAct0 extends Fragment {
         return mPageNumber;
     }
 
-    private void interfaceFrame(View v, ImageView txFeel, Button txtFeel1, Button txtFeel2, Button txtFeel3, Button next, String s, int r, int r1, int r2, int r3){
+    private void interfaceFrame(View v, ImageView txFeel, Button txtFeel1, Button txtFeel2, Button txtFeel3, String s, int r, int r1, int r2, int r3){
 
         Uri ruta;
 

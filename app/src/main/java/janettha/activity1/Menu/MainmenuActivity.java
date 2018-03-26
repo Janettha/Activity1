@@ -1,7 +1,9 @@
 package janettha.activity1.Menu;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import janettha.activity1.Act0.Preactivity;
 import janettha.activity1.Act2.Activity2;
 import janettha.activity1.Act1.Activity1;
+import janettha.activity1.Activities_Login.loginUser;
 import janettha.activity1.R;
 
 public class MainmenuActivity extends AppCompatActivity {
@@ -59,8 +62,33 @@ public class MainmenuActivity extends AppCompatActivity {
         });
 
 
+
         //getIntent().setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
         //getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //final Intent intent = new Intent(this, loginUser.class);
+        new AlertDialog.Builder(this)
+                .setTitle("¿Realmente deseas salir?")
+                .setMessage("El usuario actual será olvidado.")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        MainmenuActivity.super.onBackPressed();
+                        if (arg1 == 0) {
+                            startActivity(new Intent(MainmenuActivity.this, loginUser.class));
+                        }else{
+                            finish();
+                            Intent intent = new Intent(Intent.ACTION_MAIN);
+                            intent.addCategory(Intent.CATEGORY_HOME);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    }
+                }).create().show();
     }
 
     @Override

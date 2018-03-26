@@ -16,7 +16,7 @@
         android:id="@+id/section_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gira la ruleta para contar una historia acerca de cuando sientes... "
+        android:text="Gira la ruleta para contar una historia acerca de cuando sientes..."
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:textAlignment="center"

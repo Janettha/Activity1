@@ -28,7 +28,8 @@
         <activity android:name=".Activities_Login.SignUpActivity" />
         <activity
             android:name=".Menu.MainmenuActivity"
-            android:label="Menu Actividades"
+            android:label="Menu"
+            android:parentActivityName="Activities_Login.MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Act0.Preactivity"
@@ -55,15 +56,17 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="Menu.MainmenuActivity" />
+
+            <intent-filter
+                tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Activities_Login.loginUser"
             android:label="@string/title_activity_loginUser"
-            android:parentActivityName="Activities_Login.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="Activities_Login.MainActivity" />
         </activity>
         <activity android:name=".Util.DBPrueba" />
     </application>

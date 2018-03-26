@@ -15,6 +15,7 @@
         android:text="EMOCION"
         android:textAlignment="center"
         android:layout_gravity="center"
+        android:textSize="25dp"
         android:textColor="@color/colorTxt"
         android:textStyle="bold"
         />
@@ -33,10 +34,9 @@
         android:layout_below="@id/nameRespuesta"
         />
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:id="@+id/imgRespuesta"
-        android:background="@drawable/f0"
         android:layout_gravity="center"/>
     <Button
         android:id="@+id/btnBack"

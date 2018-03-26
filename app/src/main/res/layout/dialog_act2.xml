@@ -25,11 +25,12 @@
         android:text="Emocion"
         android:textColor="@color/colorTxt"
         android:textStyle="bold"
+        android:textSize="25dp"
         android:layout_margin="@dimen/activity_margin"
         android:layout_gravity="center"/>
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:id="@+id/imgEmocion"
         android:layout_gravity="center"/>
     <LinearLayout
@@ -45,14 +46,24 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="@dimen/activity_margin"
-            android:background="#29ef39"
+            android:background="@drawable/ic_action_name"
         />
         <Button
             android:id="@+id/btnStop"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="@dimen/activity_margin"
-            android:background="#ef3029"
+            android:backgroundTint="#ef3029"
+            android:visibility="gone"
+            android:background="@drawable/ic_action_stop"
+            />
+        <Button
+            android:id="@+id/btnPlay"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:layout_margin="@dimen/activity_margin"
+            android:background="@drawable/ic_action_play1"
             />
     </LinearLayout>
 
