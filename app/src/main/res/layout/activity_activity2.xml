@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/wheelLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical"
+    android:background="@color/BackgDialogs"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="janettha.activity1.Act2.Activity2">
+
+
     <TextView
-        android:padding="@dimen/activity_margin"
+        android:id="@+id/section_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Gira la ruleta para contar una historia acerca de cuando sientes..."
         android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/activity_margin"
+        android:layout_centerHorizontal="true"
         android:textAlignment="center"
+        android:textStyle="bold"
         android:textSize="20dp"
-        android:text="Gira la ruleta para contar una historia acerca de cuando sientes... "
+        android:textColor="@color/colorTxt"
+        android:background="@color/Act2Clear"
+        android:padding="@dimen/activity_margin"
         />
+
     <github.hellocsl.cursorwheel.CursorWheelLayout
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
@@ -45,12 +54,13 @@
     <Button
         android:id="@+id/EmocionDialog"
         android:layout_width="150dp"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:layout_below="@+id/id_wheel_menu_center_item"
         android:layout_gravity="center"
         android:text="Gira la ruleta"
         android:visibility="gone"
         tools:ignore="MissingConstraints" />
+
 
 </LinearLayout>

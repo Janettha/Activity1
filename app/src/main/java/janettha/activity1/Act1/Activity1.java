@@ -1,191 +1,223 @@
 package janettha.activity1.Act1;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.NavUtils;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
-import java.util.Locale;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
+import janettha.activity1.Activities_Login.loginUser;
+import janettha.activity1.Menu.MainmenuActivity;
+import janettha.activity1.Models.Emocion;
+import janettha.activity1.Models.Emociones;
 import janettha.activity1.R;
 
-public class Activity1 extends AppCompatActivity implements TextToSpeech.OnInitListener {
-
+public class Activity1 extends FragmentActivity {
+    /* GOOGLE - Slide Between Fragments with ViewPager */
     /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     * The number of pages (wizard steps) to show in this demo.
      */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
+    private static final int NUM_PAGES = 3;
     /**
-     * The {@link ViewPager} that will host the section contents.
+     * The pager widget, which handles animation and allows swiping horizontally to access previous
+     * and next wizard steps.
      */
-    private ViewPager mViewPager;
+    private ViewPager mPager;
+    /**
+     * The pager adapter, which provides the pages to the view pager widget.
+     */
+    private PagerAdapter mPagerAdapter;
 
-    private static TextToSpeech tts;
-    public String text;
+    public final int LIM_emociones = 16;
+
+    public static final String ARG_r = "Redaccion";
+    public static final String ARG_sexo = "SexoUser";
+    public static final String ARG_e1 = "Emocion1";
+    public static final String ARG_IDe1 = "Emocion1ID";
+    public static final String ARG_e2 = "Emocion2";
+    public static final String ARG_IDe2 = "Emocion2ID";
+    public static final String ARG_e3 = "Emocion3";
+    public static final String ARG_IDe3 = "Emocion3ID";
+    private TextToSpeech tts;
+
+
+    //public final String keySP = "UserSex";
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editorSP;
+    private String sexo;
+
+    List<Emocion> emociones = new ArrayList<Emocion>();
+    List<Actividad1> listAct1 = new ArrayList<Actividad1>();
+
+    int r1, r2, r3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_1);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        sharedPreferences = getSharedPreferences(loginUser.keySP, MODE_PRIVATE);
+        //editorSP = sharedPreferences.edit();
+        sexo = sharedPreferences.getString("sexo", "m");
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        Emociones em = new Emociones();
+        emociones = em.Emociones(getBaseContext(),sexo);
+        fillData(this, sexo);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        this.text = "";
-        TextToSpeech tts = new TextToSpeech(this, this);
+        try {
+            /* Se pasan parámetros a Bundle */
+            Bundle b = new Bundle();
+            mPager = (ViewPager) findViewById(R.id.pager);
+
+            //b.putString(ARG_tx, emociones.get(0).getName());
+
+            // Instantiate a ViewPager and a PagerAdapter.
+            //FragmentManager fragmentManager = getSupportFragmentManager();
+            mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+            mPager.setAdapter(mPagerAdapter);
+
+
+        } catch (ClassCastException e) {
+            Log.e("Fragment Manager", "Can't get fragment manager");
+        }
+
+        r1 = (int) (Math.random() * LIM_emociones ) ;
+        r2 = (int) (Math.random() * LIM_emociones ) ;
+        r3 = (int) (Math.random() * LIM_emociones ) ;
+
+
+        while(r1 == r2){
+            r2 = (int) (Math.random() * LIM_emociones ) ;
+        }
+        while(r3 == r1 && r3 == r2){
+            r3 = (int) (Math.random() * LIM_emociones ) ;
+        }
+
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_activity1, menu);
+
+        menu.findItem(R.id.action_previous).setEnabled(mPager.getCurrentItem() > 0);
+
+        // Add either a "next" or "finish" button to the action bar, depending on which page
+        // is currently selected.
+        MenuItem item = menu.add(Menu.NONE, R.id.action_next, Menu.NONE,
+                (mPager.getCurrentItem() == mPagerAdapter.getCount() - 1)
+                        ? R.string.action_finish
+                        : R.string.action_next);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.home:
+                // Navigate "up" the demo structure to the launchpad activity.
+                // See http://developer.android.com/design/patterns/navigation.html for more.
+                NavUtils.navigateUpTo(this, new Intent(this, MainmenuActivity.class));
+                return true;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            case R.id.action_previous:
+                // Go to the previous step in the wizard. If there is no previous step,
+                // setCurrentItem will do nothing.
+                if(mPager.getCurrentItem() != 0)
+                    mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+                return true;
+
+            case R.id.action_next:
+                // Advance to the next step in the wizard. If there is no next step, setCurrentItem
+                // will do nothing.
+                if (mPager.getCurrentItem() != NUM_PAGES)
+                    mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+                return true;
+
         }
 
         return super.onOptionsItemSelected(item);
     }
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
-    @Override
-    public void onInit(int status) {
-        if(status == TextToSpeech.SUCCESS){
-            int resultado = Activity1.tts.setLanguage(Locale.getDefault());
-            if(resultado == TextToSpeech.LANG_NOT_SUPPORTED || resultado == TextToSpeech.LANG_MISSING_DATA){
-                Log.e("TTS","Este lenguaje no es soportado");
-            }else{
-                //PlaceholderFragment.btnPlay.setEnabled(true);
-                //speakOut();
-            }
-        }else{
-            Log.e("TTS", "Inicialización del lenguaje es fallida.");
-        }
-    }
-
-    //private static void speakOut() {
-        //tts.speak(text,TextToSpeech.QUEUE_FLUSH, null);
-    //}
-
-    private static void setText(String s){
-        //this.text = s;
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment{
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-        public static final int LIM_emociones = 11;
-        private static Button btnPlay;
-        private static TextView textView;
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_activity1, container, false);
-            textView = (TextView) rootView.findViewById(R.id.redaccion);
-            //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            btnPlay = (Button) rootView.findViewById(R.id.buttonPlay);
-            btnPlay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {// Activity1.setTextV(textView.getText().toString());
-                }
-            });
-
-            return rootView;
-        }
-
-
-
-
-    }
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
+        @SuppressLint("WrongViewCast")
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            if(position == 0) {
+                return FragmentAct1.create(position, getBaseContext(), listAct1.get(r1), sexo);
+            }else if(position == 1) {
+                return FragmentAct1.create(position, getBaseContext(), listAct1.get(r2), sexo);
+            }else if(position == 2) {
+                return FragmentAct1.create(position, getBaseContext(), listAct1.get(r3), sexo);
+            }else return null;
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            return NUM_PAGES;
         }
+    }
+
+    private List<Actividad1> fillData (Context c, String s){
+        InputStream fileE;
+        try {
+            //InputStream fileE = view.getResources().openRawResource(R.raw.emociones);
+            if(s.equals("f"))
+                fileE = c.getResources().openRawResource(R.raw.redaccionesf);
+            else
+                fileE = c.getResources().openRawResource(R.raw.redaccionesm);
+
+            BufferedReader brE = new BufferedReader(new InputStreamReader(fileE));
+            //Lectura de emocion en actividad de redacciones
+            int i = 0;
+            String line1="";
+            if (fileE != null) {
+                while ((line1 = brE.readLine()) != null) {
+                    String[] array = line1.split("-"); // Split according to the hyphen and put them in an array
+                    /* Revisar f o m
+                    if(s.equals("f")){
+                        ruta = "android.resource://janettha.activity1/drawable/f";
+                    }else if(s.equals("m")){
+                        ruta = "android.resource://janettha.activity1/drawable/m";
+                    }*/
+                    Actividad1 a1 = new Actividad1(Integer.parseInt(array[0]),array[1],emociones.get(Integer.parseInt(array[2])), array[3], emociones.get(Integer.parseInt(array[4])), array[5],emociones.get(Integer.parseInt(array[6])), array[7]);
+                    //Actividad1 a3 = new Actividad1(0,array[1],emociones.get(0), array[3], emociones.get(0), array[5],emociones.get(0), array[7]);
+                    //Actividad1 a3 = new Actividad1(0,array[0], emociones.get(0),array[0], emociones.get(0), array[0], emociones.get(0),array[0]);
+                    listAct1.add(i, a1);
+                    i++;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return listAct1;
+    }
+
+    public Actividad1 getAct1(int i) {
+        return listAct1.get(i);
     }
 }

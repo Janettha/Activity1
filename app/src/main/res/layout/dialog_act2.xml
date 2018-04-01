@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/llact2"
     android:orientation="vertical"
     android:layout_gravity="center"
+    android:background="@color/BackgDialogs"
     >
     <TextView
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Toca y manten presionado el botón para grabar una historia."
+        android:text="Toca y manten presionado el botón para grabar una historia que recuerdes acerca de cuando sientes:"
         android:textAlignment="center"
-        android:textStyle="bold"
+        android:textColor="@color/colorTxt"
         android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/activity_margin"
+        android:textStyle="italic"
     />
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/imgEmocion"
-        android:background="@drawable/f0"
-        android:layout_gravity="center"/>
     <TextView
         android:id="@+id/nameEmocion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Emocion"
+        android:textColor="@color/colorTxt"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:layout_margin="@dimen/activity_margin"
+        android:layout_gravity="center"/>
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/imgEmocion"
         android:layout_gravity="center"/>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -40,14 +46,24 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="@dimen/activity_margin"
-            android:background="#29ef39"
+            android:background="@drawable/ic_action_name"
         />
         <Button
             android:id="@+id/btnStop"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="@dimen/activity_margin"
-            android:background="#ef3029"
+            android:backgroundTint="#ef3029"
+            android:visibility="gone"
+            android:background="@drawable/ic_action_stop"
+            />
+        <Button
+            android:id="@+id/btnPlay"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:layout_margin="@dimen/activity_margin"
+            android:background="@drawable/ic_action_play1"
             />
     </LinearLayout>
 

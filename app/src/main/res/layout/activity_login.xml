@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryBackg"
     tools:context="janettha.activity1.Activities_Login.LoginActivity">
 
     <LinearLayout
@@ -14,6 +14,14 @@
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
+            tools:ignore="MissingConstraints"/>
+
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
@@ -21,7 +29,8 @@
             android:layout_margin="@dimen/activity_margin"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
-            android:textColorHint="@android:color/white"
+            android:textColor="@color/txtDialogs"
+            android:textColorHint="@color/colorPrimaryTxt"
             />
 
         <EditText
@@ -31,8 +40,8 @@
             android:layout_margin="@dimen/activity_margin"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
-            android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white" />
+            android:textColor="@color/txtDialogs"
+            android:textColorHint="@color/colorPrimaryTxt" />
 
         <!-- Login Button -->
         <Button
@@ -65,15 +74,9 @@
             android:text="@string/btn_link_to_register"
             android:textAllCaps="false"
             android:textSize="15dp"
+            android:textColor="@color/colorAccent"
             tools:ignore="SpUsage" />
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center|bottom"
-        android:visibility="gone"
-        tools:ignore="MissingConstraints"/>
 
 </android.support.constraint.ConstraintLayout>

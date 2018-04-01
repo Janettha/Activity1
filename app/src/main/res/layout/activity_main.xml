@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryBackg"
     tools:context="janettha.activity1.Activities_Login.MainActivity">
 
     <LinearLayout
@@ -12,17 +13,6 @@
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin"
         >
-        <TextView
-            android:id="@+id/useremail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/old_email"
-            android:layout_marginBottom="46dp"
-            android:gravity="center"
-            android:hint="@string/email_id"
-            android:textSize="30sp"
-            android:textStyle="bold|italic"
-            android:layout_margin="@dimen/activity_margin"/>
 
         <EditText
             android:id="@+id/old_email"
@@ -34,6 +24,18 @@
             android:layout_above="@+id/password"
             android:layout_centerHorizontal="true"
             />
+        <TextView
+            android:id="@+id/useremail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/old_email"
+            android:layout_marginBottom="46dp"
+            android:gravity="center"
+            android:hint="@string/email_id"
+            android:textSize="30sp"
+            android:textStyle="bold|italic"
+            android:textColor="@color/colorTxt"
+            android:layout_margin="@dimen/activity_margin"/>
 
         <EditText
             android:id="@+id/password"
@@ -65,20 +67,6 @@
             android:layout_alignParentLeft="true"
             tools:ignore="InvalidImeActionId" />
 
-        <Button
-            android:id="@+id/changePass"
-            style="?android:textAppearanceSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            android:text="@string/btn_change"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:layout_above="@+id/remove"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/activity_margin"/>
-
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="0dp"
@@ -87,63 +75,84 @@
             android:layout_gravity="center_horizontal"
             android:layout_centerHorizontal="true"
             />
-
-        <Button
-            android:id="@+id/remove"
-            style="?android:textAppearanceSmall"
+        <LinearLayout
+            android:id="@+id/llbb1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            android:text="@string/btn_remove"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
+            android:orientation="horizontal"
             android:layout_gravity="center_horizontal"
             android:layout_centerHorizontal="true"
-            android:layout_above="@+id/change_password_button"
-            android:layout_alignStart="@+id/changePass"
-            android:layout_alignLeft="@+id/changePass"
-            android:layout_margin="@dimen/activity_margin"/>
+            android:layout_above="@+id/newPassword"
+            >
+            <Button
+                android:id="@+id/changePass"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:text="@string/btn_change"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:layout_margin="@dimen/activity_margin"
+                />
 
-        <Button
-            android:id="@+id/change_password_button"
-            style="?android:textAppearanceSmall"
-            android:layout_width="300dp"
+            <Button
+                android:id="@+id/remove"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:text="@string/btn_remove"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:layout_margin="@dimen/activity_margin"
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llbb2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/change_password"
-            android:textStyle="bold"
+            android:orientation="vertical"
             android:layout_gravity="center_horizontal"
             android:layout_centerHorizontal="true"
-            android:layout_above="@+id/remove_user_button"
-            android:layout_alignStart="@+id/remove_user_button"
-            android:layout_alignLeft="@+id/remove_user_button" />
+            android:layout_above="@+id/llbb1"
+            >
+            <Button
+                android:id="@+id/change_password_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="@string/change_password"
+                android:textStyle="bold"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorTxt"
+                android:layout_margin="@dimen/activity_margin"/>
 
-        <Button
-            android:id="@+id/remove_user_button"
-            style="?android:textAppearanceSmall"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:text="@string/remove_user"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@+id/sign_out"
-            android:layout_alignStart="@+id/sign_out"
-            android:layout_alignLeft="@+id/sign_out" />
+            <Button
+                android:id="@+id/remove_user_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="@string/remove_user"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorTxt"
+                android:textStyle="bold"
+                android:layout_margin="@dimen/activity_margin"/>
+            />
 
-        <Button
-            android:id="@+id/sign_out"
-            style="?android:textAppearanceSmall"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:text="@string/btn_sign_out"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:layout_below="@+id/remove_user_button"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/activity_margin"/>
+            <Button
+                android:id="@+id/sign_out"
+                style="?android:textAppearanceSmall"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorTxt"
+                android:text="@string/btn_sign_out"
+                android:textStyle="bold"
+                android:layout_margin="@dimen/activity_margin"
+                />
+
+        </LinearLayout>
     </LinearLayout>
 
 
