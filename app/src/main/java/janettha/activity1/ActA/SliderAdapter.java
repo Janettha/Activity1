@@ -1,140 +1,133 @@
-package janettha.activity1.Act0;
-
+package janettha.activity1.ActA;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import janettha.activity1.Activities_Login.MainActivity;
-import janettha.activity1.Activities_Login.SignUpActivity;
-import janettha.activity1.Activities_Login.loginUser;
-import janettha.activity1.Menu.MainmenuActivity;
+import janettha.activity1.Act0.Actividad0;
 import janettha.activity1.Models.Emocion;
 import janettha.activity1.Models.Emociones;
 import janettha.activity1.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class FragmentAct0 extends Fragment {
 
-    private static final String ARG_PAGE = "section_number";
-    private int mPageNumber;
+public class SliderAdapter extends PagerAdapter {
 
-    List<Emocion> emociones = new ArrayList<Emocion>();
-    List<Actividad0> btnList = new ArrayList<Actividad0>();
-    private final int LIM_emociones = 11;
+    Context context;
+    LayoutInflater layoutInflater;
+    LockableViewPager vp;
 
-    private int idEmocionMain, idEmocionB, idEmocionC;
+    private int currentVP;
+
+    List<Emocion> emociones;
+    List<Actividad0> listAct0 = new ArrayList<>();
+    Emociones em;
+
+    //private Actividad0 act1, act2, act3;
+    private boolean answer;
     private String idSexo;
 
     /*DIALOG*/
-    Dialog dialog;
-    LinearLayout llPreactivityDialog;
-    TextView nameEmocionDialog;
-    ImageView imgEmocionDialog;
-    Button btnBack;
+    private Dialog dialog;
+    private LinearLayout llPreactivityDialog;
+    private TextView nameEmocionDialog;
+    private ImageView imgEmocionDialog;
+    private Button btnBack;
 
-    public static FragmentAct0 create(int pageNumber, Context context, Actividad0 actividad0, String sexo) {
-
-        FragmentAct0 fragment = new FragmentAct0();
-        Bundle args = new Bundle();
-
-        args.putInt(ARG_PAGE, actividad0.getIDMain());
-        //args.putString(Activity1.ARG_tx,emociones.get(id).getName());
-        args.putInt(Preactivity.ARG_Main,actividad0.emocionMain().getId());
-        args.putInt(Preactivity.ARG_B,actividad0.emocionB().getId());
-        args.putInt(Preactivity.ARG_C,actividad0.emocionC().getId());
-        args.putString(loginUser.keySP, sexo);
-
-        fragment.setArguments(args);
-        return fragment;
+    public SliderAdapter(Context context, Actividad0 a0, Actividad0 a1, Actividad0 a2, String sexo, LockableViewPager v) {
+        this.context = context;
+        this.vp = v;
+        em = new Emociones();
+        listAct0.add(a0);
+        listAct0.add(a1);
+        listAct0.add(a2);
+        //act1 = a0;
+        //act2 = a1;
+        //act3 = a2;
+        idSexo = sexo;
+        emociones = em.Emociones(context, idSexo);
     }
 
-    public FragmentAct0() {
+
+    @Override
+    public int getCount() {
+        return listAct0.size();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Emociones em = new Emociones();
-
-        if(getArguments() != null) {
-            mPageNumber = getArguments().getInt(ARG_PAGE);
-            idEmocionMain = getArguments().getInt(Preactivity.ARG_Main);
-            idEmocionB = getArguments().getInt(Preactivity.ARG_B);
-            idEmocionC = getArguments().getInt(Preactivity.ARG_C);
-
-            idSexo = getArguments().getString(loginUser.keySP);
-            emociones = em.Emociones(getContext(), idSexo);
-        }
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+        return view == (LinearLayout) object;
     }
 
+
+    @NonNull
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        /*VIEW*/
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        View rootView = layoutInflater.inflate(R.layout.fragment_preactivity, container, false);
+        View guardarView = layoutInflater.inflate(R.layout.guarda_respuestas,container, false );
+
+    /*VIEW ejercicios*/
         ImageView imgFeel;
-        Button btnA1, btnA2, btnA3, btNext;
+        Button btnA1, btnA2, btnA3;
 
-        Uri ruta;
-        int rMain, rB, rC;
-        int r = 0;
+        currentVP = position;
 
-
-        // Inflate the layout containing a title and body text.
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_preactivity, container, false);
+        int rMain = emociones.get(listAct0.get(position).emocionMain().getId()).getId();
+        int rB = emociones.get(listAct0.get(position).emocionB().getId()).getId();
+        int rC = emociones.get(listAct0.get(position).emocionC().getId()).getId();
+        int r;
 
         imgFeel = (ImageView) rootView.findViewById(R.id.imgFeel);
         btnA1 = (Button) rootView.findViewById(R.id.ans1);
         btnA2 = (Button) rootView.findViewById(R.id.ans2);
         btnA3 = (Button) rootView.findViewById(R.id.ans3);
 
-        rMain = emociones.get(idEmocionMain).getId();
-        rB = emociones.get(idEmocionB).getId();
-        rC = emociones.get(idEmocionC).getId();
-
-        r = (int) (Math.random() * LIM_emociones ) ;
-        if(r < 4){
+        r = (int) (Math.random() * 2);
+        if (r == 0) {
             rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
-            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, idSexo,rMain, rMain, rB, rC);
-        }else if(r>3 && r<8) {
+            interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rMain, rB, rC);
+        } else if (r == 1) {
             rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
-            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, idSexo,rMain, rC, rMain, rB);
-        }else if(r>7 && r<12) {
+            interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rC, rMain, rB);
+        } else if (r == 2) {
             rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
-            interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, idSexo,rMain, rB, rC, rMain);
+            interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rB, rC, rMain);
         }
 
+    /*VIEW guardar*/
+        EditText correo;
+        Button YES, NO;
+
+        correo = (EditText)guardarView.findViewById(R.id.confirmCorreo);
+        YES = (Button)guardarView.findViewById(R.id.GuardarSI);
+        NO = (Button)guardarView.findViewById(R.id.GuardarNO);
+
+        container.addView(rootView);
         return rootView;
     }
 
-    public int getPageNumber() {
-        return mPageNumber;
-    }
-
-    private void interfaceFrame(View v, ImageView txFeel, Button txtFeel1, Button txtFeel2, Button txtFeel3, String s, int r, int r1, int r2, int r3){
+    private void interfaceFrame(View v, ImageView txFeel, Button txtFeel1, Button txtFeel2, Button txtFeel3, String s, int r, int r1, int r2, int r3) {
 
         Uri ruta;
-
+        //answer = false;
         final int ex_1, ex_2, ex_3;
         //expl = getArguments().getString(Activity1.ARG_r);
         ex_1 = r1;
@@ -167,11 +160,11 @@ public class FragmentAct0 extends Fragment {
         txtFeel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ran == ran1) {
+                if (ran == ran1) {
                     MyCustomAlertDialog(v, emociones.get(ran1), emociones.get(ran1).getName(), true);
 
-                }else {
-                    MyCustomAlertDialog(v,emociones.get(ran1),emociones.get(ran1).getName(),false);
+                } else {
+                    MyCustomAlertDialog(v, emociones.get(ran1), emociones.get(ran1).getName(), false);
                 }
 
             }
@@ -179,29 +172,28 @@ public class FragmentAct0 extends Fragment {
         txtFeel2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ran == ran2){
-                    MyCustomAlertDialog(v,emociones.get(ran2),emociones.get(ran2).getName(),true);
-                }else {
-                    MyCustomAlertDialog(v,emociones.get(ran2),emociones.get(ran2).getName(),false);
+                if (ran == ran2) {
+                    MyCustomAlertDialog(v, emociones.get(ran2), emociones.get(ran2).getName(), true);
+                } else {
+                    MyCustomAlertDialog(v, emociones.get(ran2), emociones.get(ran2).getName(), false);
                 }
             }
         });
         txtFeel3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ran == ran3) {
+                if (ran == ran3) {
                     MyCustomAlertDialog(v, emociones.get(ran3), emociones.get(ran3).getName(), true);
-                }else {
-                    MyCustomAlertDialog(v,emociones.get(ran3),emociones.get(ran3).getName(),false);
+                } else {
+                    MyCustomAlertDialog(v, emociones.get(ran3), emociones.get(ran3).getName(), false);
                 }
             }
         });
 
-
     }
 
     public void MyCustomAlertDialog(View v, Emocion em, String respuesta, boolean resp) {
-        dialog = new Dialog(getContext());
+        dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_act0);
         dialog.setTitle("Ya casi lo logras");
 
@@ -210,18 +202,21 @@ public class FragmentAct0 extends Fragment {
         imgEmocionDialog = (ImageView) dialog.findViewById(R.id.imgRespuesta);
         btnBack = (Button) dialog.findViewById(R.id.btnBack);
 
-        if(resp == false) {
+        if(!resp) {
             //dialog.setTitle("Inténtalo de nuevo");
             btnBack.setBackgroundResource(R.color.Incorrecto);
             btnBack.setText(" Inténtalo de nuevo ");
-        }else if(resp == true) {
+        }else if(resp) {
             //dialog.setTitle("Correcto");
             btnBack.setBackgroundResource(R.color.Correcto);
             btnBack.setText(" Correcto ");
+            vp.setPagingEnabled(true);
+            currentVP = vp.getPosition();
+            //answer = true;
         }
 
         Uri ruta = Uri.parse(em.getUrl());
-        Picasso.with(getContext())
+        Picasso.with(context)
                 .load(ruta).fit()
                 .into(imgEmocionDialog);
         nameEmocionDialog.setText(respuesta);
@@ -231,6 +226,11 @@ public class FragmentAct0 extends Fragment {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(currentVP <3)
+                    vp.setCurrentItem(currentVP+1);
+                else
+
+
                 dialog.cancel();
             }
         });
@@ -239,9 +239,21 @@ public class FragmentAct0 extends Fragment {
 
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public boolean getAnswer(){
+        return answer;
     }
 
+    public void setAnswer(boolean b){
+        answer = b;
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        container.removeView((LinearLayout)object);
+    }
+
+
+    /* *
+         SWIPPING CONFIGURATION
+    * */
 }

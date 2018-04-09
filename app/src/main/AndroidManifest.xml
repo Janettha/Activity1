@@ -57,18 +57,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="Menu.MainmenuActivity" />
 
-            <intent-filter
-                tools:ignore="AppLinkUrlError">
+            <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Activities_Login.loginUser"
             android:label="@string/title_activity_loginUser"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".Util.DBPrueba" />
+        <activity
+            android:name=".ActA.ActA"
+            android:label="@string/title_activity_act"></activity>
     </application>
 
 </manifest>

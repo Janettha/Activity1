@@ -51,6 +51,7 @@
             android:layout_height="wrap_content"
             />
     </github.hellocsl.cursorwheel.CursorWheelLayout>
+
     <Button
         android:id="@+id/EmocionDialog"
         android:layout_width="150dp"

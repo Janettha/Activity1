@@ -15,6 +15,7 @@ import android.widget.Button;
 import janettha.activity1.Act0.Preactivity;
 import janettha.activity1.Act2.Activity2;
 import janettha.activity1.Act1.Activity1;
+import janettha.activity1.ActA.ActA;
 import janettha.activity1.Activities_Login.loginUser;
 import janettha.activity1.R;
 
@@ -37,7 +38,7 @@ public class MainmenuActivity extends AppCompatActivity {
         btnA1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainmenuActivity.this, Preactivity.class);
+                Intent intent = new Intent(MainmenuActivity.this, ActA.class);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
                 startActivity( intent );
             }

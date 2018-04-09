@@ -12,9 +12,12 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,8 +38,12 @@ public class Preactivity extends AppCompatActivity {
 
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
+    private LinearLayout mDotLayout;
+
 
     public final int LIM_emociones = 11;
+
+    private TextView []mDots;
 
     //private static final String keySP = "UserSex";
     private SharedPreferences sharedPreferences;
@@ -57,6 +64,11 @@ public class Preactivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preactivity);
 
+        mDotLayout = (android.widget.LinearLayout) findViewById(R.id.dotsLayout);
+        mPager = (ViewPager) findViewById(R.id.pager);
+        Bundle b = new Bundle();
+        randomID();
+
         sharedPreferences = getSharedPreferences(loginUser.keySP, MODE_PRIVATE);
         //editorSP = sharedPreferences.edit();
         sexo = sharedPreferences.getString("sexo", "m");
@@ -65,37 +77,91 @@ public class Preactivity extends AppCompatActivity {
         emociones = em.Emociones(getBaseContext(),sexo);
         fillData(this, sexo);
 
+
         try {
-            /* Se pasan parámetros a Bundle */
-            Bundle b = new Bundle();
-            mPager = (ViewPager) findViewById(R.id.pager);
-
-            //b.putString(ARG_tx, emociones.get(0).getName());
-
-            // Instantiate a ViewPager and a PagerAdapter.
-            //FragmentManager fragmentManager = getSupportFragmentManager();
             mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
             mPager.setAdapter(mPagerAdapter);
-
-
+            mPager.addOnPageChangeListener(viewListener);
         } catch (ClassCastException e) {
             Log.e("Fragment Manager", "Can't get fragment manager");
         }
+    }
 
+    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener(){
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset,
+                                   int positionOffsetPixels) {
+            if (position == 0 && positionOffset > 0.5) {
+                mPager.setCurrentItem(0, true);
+            }
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            //backgroundDots(position);
+            addDotsIndicator(position);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
+
+    public void randomID(){
         r1 = (int) (Math.random() * LIM_emociones ) ;
         r2 = (int) (Math.random() * LIM_emociones ) ;
         r3 = (int) (Math.random() * LIM_emociones ) ;
 
-
         while(r1 == r2){
             r2 = (int) (Math.random() * LIM_emociones ) ;
         }
-        while(r3 == r1 && r3 == r2){
+        while(r1 == r3 || r2 == r3){
             r3 = (int) (Math.random() * LIM_emociones ) ;
         }
-
     }
 
+    public void addDotsIndicator(int position){
+        mDots = new TextView[3];
+        mDotLayout.removeAllViews();
+        for(int i=0; i< mDots.length; i++){
+            mDots[i] = new TextView(this);
+            mDots[i].setText(Html.fromHtml("&#8226;"));
+            mDots[i].setTextSize(35);
+            mDots[i].setTextColor(getResources().getColor(R.color.white));
+            mDotLayout.addView(mDots[i]);
+        }
+        if (mDots.length > 0){
+            if(position == 0) {
+                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.get(r1).getColor()));
+                mDots[position].setTextColor(android.graphics.Color.parseColor(emociones.get(r1).getColorB()));
+            }else if(position == 1){
+                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.get(r2).getColor()));
+                mDots[position].setTextColor(android.graphics.Color.parseColor(emociones.get(r2).getColorB()));
+            }else if(position == 2) {
+                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.get(r3).getColor()));
+                mDots[position].setTextColor(android.graphics.Color.parseColor(emociones.get(r3).getColorB()));
+            }
+        }
+    }
+
+    public void backgroundDots(int position){
+        switch (position){
+            case 0:
+                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.get(r1).getColor()));
+                break;
+            case 1:
+                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.get(r2).getColor()));
+                break;
+            case 2:
+                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.get(r3).getColor()));
+                break;
+            default:
+                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor("#abd6df"));
+                break;
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -140,6 +206,7 @@ public class Preactivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
         public ScreenSlidePagerAdapter(FragmentManager fm) {
@@ -149,19 +216,28 @@ public class Preactivity extends AppCompatActivity {
         @SuppressLint("WrongViewCast")
         @Override
         public Fragment getItem(int position) {
+            //Fragment f = new Fragment();
             if(position == 0) {
-                return FragmentAct0.create(0, getBaseContext(), listAct0.get(r1), sexo);
+                return FragmentAct0.create(0,  getBaseContext(), listAct0.get(r1), sexo);
+                //mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.get(r1).getColor()));
+                //return f;
             }else if(position == 1) {
                 return FragmentAct0.create(1, getBaseContext(), listAct0.get(r2), sexo);
+                //mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.get(r2).getColor()));
+                //return f;
             }else if(position == 2) {
                 return FragmentAct0.create(2, getBaseContext(), listAct0.get(r3), sexo);
+                //mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.get(r3).getColor()));
+                //return f;
             }else return null;
+            //return f;
         }
 
         @Override
         public int getCount() {
             return NUM_PAGES;
         }
+
     }
 
     private List<Actividad0> fillData (Context c, String s){
@@ -198,10 +274,6 @@ public class Preactivity extends AppCompatActivity {
         }
 
         return listAct0;
-    }
-
-    public Actividad0 getAct3(int i) {
-        return listAct0.get(i);
     }
 
 }
