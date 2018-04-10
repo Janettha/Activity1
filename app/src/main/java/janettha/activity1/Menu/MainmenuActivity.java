@@ -2,6 +2,7 @@ package janettha.activity1.Menu;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Calendar;
+
 import janettha.activity1.Act0.Preactivity;
 import janettha.activity1.Act2.Activity2;
 import janettha.activity1.Act1.Activity1;
@@ -19,9 +25,16 @@ import janettha.activity1.ActA.ActA;
 import janettha.activity1.Activities_Login.loginUser;
 import janettha.activity1.R;
 
+import static janettha.activity1.Activities_Login.loginUser.keySP;
+
 public class MainmenuActivity extends AppCompatActivity {
 
     private Button btnA1, btnA2, btnA3;
+
+    private DatabaseReference mDatabaseUser;
+
+    private SharedPreferences sharedPreferences;
+    String userU;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +48,15 @@ public class MainmenuActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
+        sharedPreferences = getSharedPreferences(keySP, MODE_PRIVATE);
+        userU = sharedPreferences.getString("usuario", "");
+        //mDatabaseUser = FirebaseDatabase.getInstance().getReference("users");
+
         btnA1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String time = Calendar.getInstance().getTime().toString();
+                FirebaseDatabase.getInstance().getReference().child("users").child(userU).child("finS").setValue(time);
                 Intent intent = new Intent(MainmenuActivity.this, ActA.class);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
                 startActivity( intent );
@@ -71,6 +90,7 @@ public class MainmenuActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //final Intent intent = new Intent(this, loginUser.class);
+
         new AlertDialog.Builder(this)
                 .setTitle("¿Realmente deseas salir?")
                 .setMessage("El usuario actual será olvidado.")
@@ -82,6 +102,8 @@ public class MainmenuActivity extends AppCompatActivity {
                         if (arg1 == 0) {
                             startActivity(new Intent(MainmenuActivity.this, loginUser.class));
                         }else{
+                            String time = Calendar.getInstance().getTime().toString();
+                            FirebaseDatabase.getInstance().getReference().child("users").child(userU).child("finS").setValue(time);
                             finish();
                             Intent intent = new Intent(Intent.ACTION_MAIN);
                             intent.addCategory(Intent.CATEGORY_HOME);

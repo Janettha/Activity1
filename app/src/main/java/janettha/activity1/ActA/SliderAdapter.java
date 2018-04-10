@@ -226,11 +226,7 @@ public class SliderAdapter extends PagerAdapter {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(currentVP <3)
-                    vp.setCurrentItem(currentVP+1);
-                else
-
-
+                vp.setCurrentItem(currentVP+1);
                 dialog.cancel();
             }
         });

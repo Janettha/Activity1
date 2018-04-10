@@ -74,7 +74,7 @@ public class loginUser extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         mReferenceTutor = FirebaseDatabase.getInstance().getReference("tutores");
-        mDatabaseUser = FirebaseDatabase.getInstance().getReference("usuarios");
+        mDatabaseUser = FirebaseDatabase.getInstance().getReference("users");
 
         sharedPreferences = getSharedPreferences(keySP, MODE_PRIVATE);
         editorSP = sharedPreferences.edit();
@@ -166,6 +166,9 @@ public class loginUser extends AppCompatActivity {
                                 //FirebaseUser tutor = mAuth.getCurrentUser();
                                 Usuarios user = new Usuarios(userU, nameU, surnamesU, sexo, edadU, tutor.getUser());
                                 FirebaseDatabase.getInstance().getReference().child("users").child(user.getUser()).setValue(user);
+
+                                editorSP.putString("usuario", user.getUser());
+                                editorSP.apply();
                             }
                         }
                     }
@@ -189,25 +192,37 @@ public class loginUser extends AppCompatActivity {
             cargarDatos();
         }
     }
-        @Override
-        public void onBackPressed() {
-            //final Intent intent = new Intent(this, loginUser.class);
-            new AlertDialog.Builder(this)
-                    .setTitle("¿Realmente deseas salir?")
-                    //.setMessage("El usuario actual será olvidado.")
-                    .setNegativeButton(android.R.string.no, null)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-                        public void onClick(DialogInterface arg0, int arg1) {
-                            loginUser.super.onBackPressed();
-                            finish();
-                            Intent intent = new Intent(Intent.ACTION_MAIN);
-                            intent.addCategory(Intent.CATEGORY_HOME);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                        }
-                    }).create().show();
-        }
+    @Override
+    public void onBackPressed() {
+        //final Intent intent = new Intent(this, loginUser.class);
+        String time = Calendar.getInstance().getTime().toString();
+        FirebaseDatabase.getInstance().getReference().child("users").child(userU).child("finS").setValue(time);
+
+        new AlertDialog.Builder(this)
+                .setTitle("¿Realmente deseas salir?")
+                //.setMessage("El usuario actual será olvidado.")
+                .setNegativeButton(android.R.string.no, null)
+
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        loginUser.super.onBackPressed();
+
+                        String time = Calendar.getInstance().getTime().toString();
+                        FirebaseDatabase.getInstance().getReference().child("users").child(userU).child("finS").setValue(time);
+
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        finish();
+                        startActivity(intent);
+                    }
+                }).create().show();
+
+    }
+
 
     private void guardarDatos(){
         editorSP.putString("usuario", userU);
