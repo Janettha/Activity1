@@ -8,6 +8,8 @@ public class Respuesta {
     private int respuesta;
     private boolean calif;
 
+    public Respuesta(){}
+
     public Respuesta(int id, String inicioS, String finS, int respuesta, boolean calif) {
         this.id = id;
         this.inicioS = inicioS;
@@ -24,6 +26,6 @@ public class Respuesta {
 
     public int getRespuesta() {        return respuesta;    }
 
-    public boolean isCalif() {        return calif;    }
+    public boolean getCalif() {        return calif;    }
 
 }

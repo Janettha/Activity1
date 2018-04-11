@@ -66,11 +66,12 @@
         <activity
             android:name=".Activities_Login.loginUser"
             android:label="@string/title_activity_loginUser"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Util.DBPrueba" />
         <activity
             android:name=".ActA.ActA"
-            android:label="@string/title_activity_act"></activity>
+            android:label="@string/title_activity_act" />
+        <activity android:name=".PDF.ViewPDFActivity"></activity>
     </application>
 
 </manifest>

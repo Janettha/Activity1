@@ -23,6 +23,7 @@ import janettha.activity1.Act2.Activity2;
 import janettha.activity1.Act1.Activity1;
 import janettha.activity1.ActA.ActA;
 import janettha.activity1.Activities_Login.loginUser;
+import janettha.activity1.Models.Tutores;
 import janettha.activity1.R;
 
 import static janettha.activity1.Activities_Login.loginUser.keySP;
@@ -35,6 +36,7 @@ public class MainmenuActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     String userU;
+    private Tutores tutor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,4 +137,6 @@ public class MainmenuActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 }

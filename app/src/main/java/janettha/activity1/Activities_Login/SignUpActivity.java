@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -105,6 +106,8 @@ public class SignUpActivity extends AppCompatActivity {
                                     Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
+                                        updateProfile(inputName.getText().toString());
+
                                         FirebaseUser tutor = mFirebaseAuth.getCurrentUser();
                                         //,  )
                                         Tutores user = new Tutores(inputUser.getText().toString(), inputName.getText().toString(), tutor.getEmail());
@@ -122,6 +125,26 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void updateProfile(String inputName) {
+        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(inputName)
+                .build();
+
+        user.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("UpdateNameTutor", "User profile updated.");
+                        }else{
+                            Log.d("UpdateNameTutor", "User profile updat FAIL.");
+                        }
+                    }
+                });
     }
 
     @Override

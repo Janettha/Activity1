@@ -167,6 +167,8 @@ public class loginUser extends AppCompatActivity {
                                 Usuarios user = new Usuarios(userU, nameU, surnamesU, sexo, edadU, tutor.getUser());
                                 FirebaseDatabase.getInstance().getReference().child("users").child(user.getUser()).setValue(user);
 
+                                editorSP.putString("tutor", tutor.getUser());
+                                editorSP.putString("tutorEmail", tutor.getEmail());
                                 editorSP.putString("usuario", user.getUser());
                                 editorSP.apply();
                             }

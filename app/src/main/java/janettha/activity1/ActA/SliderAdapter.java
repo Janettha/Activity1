@@ -1,12 +1,18 @@
 package janettha.activity1.ActA;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,16 +22,24 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import janettha.activity1.Act0.Actividad0;
 import janettha.activity1.Models.Emocion;
 import janettha.activity1.Models.Emociones;
+import janettha.activity1.Models.Respuesta;
+import janettha.activity1.Models.Tutores;
+import janettha.activity1.PDF.TemplatePDF;
 import janettha.activity1.R;
+
+import static android.content.Context.MODE_PRIVATE;
+import static janettha.activity1.Activities_Login.loginUser.keySP;
 
 
 public class SliderAdapter extends PagerAdapter {
@@ -43,6 +57,8 @@ public class SliderAdapter extends PagerAdapter {
     //private Actividad0 act1, act2, act3;
     private boolean answer;
     private String idSexo;
+    private String user, tutor, email;
+    private SharedPreferences sharedPreferences;
 
     /*DIALOG*/
     private Dialog dialog;
@@ -51,7 +67,13 @@ public class SliderAdapter extends PagerAdapter {
     private ImageView imgEmocionDialog;
     private Button btnBack;
 
-    public SliderAdapter(Context context, Actividad0 a0, Actividad0 a1, Actividad0 a2, String sexo, LockableViewPager v) {
+    /*PDF Respuesta*/
+    TemplatePDF templatePDF;
+    ArrayList<Respuesta>respuestas = new ArrayList<>();
+    Respuesta respuestaPDF;
+    String fInicio, fFin;
+
+    public SliderAdapter(Context context, String userU, Actividad0 a0, Actividad0 a1, Actividad0 a2, String sexo, LockableViewPager v) {
         this.context = context;
         this.vp = v;
         em = new Emociones();
@@ -63,6 +85,12 @@ public class SliderAdapter extends PagerAdapter {
         //act3 = a2;
         idSexo = sexo;
         emociones = em.Emociones(context, idSexo);
+        respuestaPDF = new Respuesta();
+        user = userU;
+        tutor = tutor;
+        Toast.makeText(context, "User: "+user, Toast.LENGTH_SHORT).show();
+        templatePDF = new TemplatePDF(context);
+        pdfConfig();
     }
 
 
@@ -82,13 +110,15 @@ public class SliderAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View rootView = layoutInflater.inflate(R.layout.fragment_preactivity, container, false);
-        View guardarView = layoutInflater.inflate(R.layout.guarda_respuestas,container, false );
+        //View guardarView = layoutInflater.inflate(R.layout.guarda_respuestas,container, false );
 
     /*VIEW ejercicios*/
         ImageView imgFeel;
         Button btnA1, btnA2, btnA3;
 
         currentVP = position;
+        fInicio = Calendar.getInstance().getTime().toString();
+
 
         int rMain = emociones.get(listAct0.get(position).emocionMain().getId()).getId();
         int rB = emociones.get(listAct0.get(position).emocionB().getId()).getId();
@@ -112,14 +142,14 @@ public class SliderAdapter extends PagerAdapter {
             interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rB, rC, rMain);
         }
 
-    /*VIEW guardar*/
+    /*VIEW guardar
         EditText correo;
         Button YES, NO;
 
         correo = (EditText)guardarView.findViewById(R.id.confirmCorreo);
         YES = (Button)guardarView.findViewById(R.id.GuardarSI);
         NO = (Button)guardarView.findViewById(R.id.GuardarNO);
-
+*/
         container.addView(rootView);
         return rootView;
     }
@@ -160,39 +190,35 @@ public class SliderAdapter extends PagerAdapter {
         txtFeel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ran == ran1) {
-                    MyCustomAlertDialog(v, emociones.get(ran1), emociones.get(ran1).getName(), true);
-
-                } else {
-                    MyCustomAlertDialog(v, emociones.get(ran1), emociones.get(ran1).getName(), false);
-                }
+                boolean respTF;
+                if (ran == ran1) respTF=true;
+                else             respTF=false;
+                MyCustomAlertDialog(v, emociones.get(ran1), emociones.get(ran1).getName(), respTF);
 
             }
         });
         txtFeel2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ran == ran2) {
-                    MyCustomAlertDialog(v, emociones.get(ran2), emociones.get(ran2).getName(), true);
-                } else {
-                    MyCustomAlertDialog(v, emociones.get(ran2), emociones.get(ran2).getName(), false);
-                }
+                boolean respTF;
+                if (ran == ran2) respTF=true;
+                else             respTF=false;
+                MyCustomAlertDialog(v, emociones.get(ran2), emociones.get(ran2).getName(), respTF);
             }
         });
         txtFeel3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ran == ran3) {
-                    MyCustomAlertDialog(v, emociones.get(ran3), emociones.get(ran3).getName(), true);
-                } else {
-                    MyCustomAlertDialog(v, emociones.get(ran3), emociones.get(ran3).getName(), false);
-                }
+                boolean respTF;
+                if (ran == ran3) respTF=true;
+                else             respTF=false;
+                MyCustomAlertDialog(v, emociones.get(ran3), emociones.get(ran3).getName(), respTF);
             }
         });
 
     }
 
-    public void MyCustomAlertDialog(View v, Emocion em, String respuesta, boolean resp) {
+    public void MyCustomAlertDialog(View v, Emocion em, String respuesta, final boolean resp) {
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_act0);
         dialog.setTitle("Ya casi lo logras");
@@ -202,18 +228,10 @@ public class SliderAdapter extends PagerAdapter {
         imgEmocionDialog = (ImageView) dialog.findViewById(R.id.imgRespuesta);
         btnBack = (Button) dialog.findViewById(R.id.btnBack);
 
-        if(!resp) {
-            //dialog.setTitle("Inténtalo de nuevo");
-            btnBack.setBackgroundResource(R.color.Incorrecto);
-            btnBack.setText(" Inténtalo de nuevo ");
-        }else if(resp) {
-            //dialog.setTitle("Correcto");
-            btnBack.setBackgroundResource(R.color.Correcto);
-            btnBack.setText(" Correcto ");
-            vp.setPagingEnabled(true);
-            currentVP = vp.getPosition();
-            //answer = true;
-        }
+        currentVP = vp.getPosition();
+        fFin = Calendar.getInstance().getTime().toString();
+        respuestaPDF = new Respuesta(emociones.get(listAct0.get(currentVP).emocionMain().getId()).getId(), fInicio, fFin, em.getId(), resp);
+        respuestas.add(respuestaPDF);
 
         Uri ruta = Uri.parse(em.getUrl());
         Picasso.with(context)
@@ -223,16 +241,51 @@ public class SliderAdapter extends PagerAdapter {
         //nameEmocionDialog.setTextColor(Color.parseColor(em.getColorB()));
         llPreactivityDialog.setBackgroundColor(Color.parseColor(em.getColor()));
 
+        if(!resp) {
+            //dialog.setTitle("Inténtalo de nuevo");
+            btnBack.setBackgroundResource(R.color.Incorrecto);
+            btnBack.setText(" Inténtalo de nuevo ");
+        }else if(resp) {
+            //dialog.setTitle("Correcto");
+            btnBack.setBackgroundResource(R.color.Correcto);
+            btnBack.setText(" Correcto ");
+        }
+            //answer = true;
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                vp.setCurrentItem(currentVP+1);
-                dialog.cancel();
+                if(resp){
+                    btnBack.setBackgroundResource(R.color.Correcto);
+                    btnBack.setText(" Correcto ");
+                    dialog.cancel();
+                    vp.setPagingEnabled(true);
+                    if(currentVP == 2) {
+                        pdfConfig();
+                        pdfView();
+                    }
+                    vp.setCurrentItem(currentVP+1);
+                }else{
+                    btnBack.setBackgroundResource(R.color.Incorrecto);
+                    btnBack.setText(" Inténtalo de nuevo ");
+                    dialog.cancel();
+                }
             }
         });
 
         dialog.show();
+    }
 
+    private void pdfConfig(){
+        templatePDF.openPDF();
+        templatePDF.addMetaData(user);
+        templatePDF.addHeader(user, fInicio, fFin, Calendar.getInstance().getTime().toString());
+        templatePDF.addParrafo(1);
+        templatePDF.createTable(respuestas);
+        templatePDF.closeDocument();
+    }
+
+    public void pdfView(){
+        templatePDF.viewPDF();
     }
 
     public boolean getAnswer(){
