@@ -24,6 +24,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -60,6 +62,8 @@ public class SliderAdapter extends PagerAdapter {
     private String user, tutor, email;
     private SharedPreferences sharedPreferences;
 
+    private DatabaseReference mDatabaseUser;
+
     /*DIALOG*/
     private Dialog dialog;
     private LinearLayout llPreactivityDialog;
@@ -91,6 +95,7 @@ public class SliderAdapter extends PagerAdapter {
         Toast.makeText(context, "User: "+user, Toast.LENGTH_SHORT).show();
         templatePDF = new TemplatePDF(context);
         pdfConfig();
+        mDatabaseUser = FirebaseDatabase.getInstance().getReference("users");
     }
 
 
@@ -262,6 +267,13 @@ public class SliderAdapter extends PagerAdapter {
                     if(currentVP == 2) {
                         pdfConfig();
                         pdfView();
+                        int indice=listAct0.get(0).emocionMain().getId()+3;
+                        //mDatabaseUser.child(user).child("indiceA1").toString();
+                        //Log.e("DB/A1", "UserDB: "+mDatabaseUser.child(user).child("indiceA1").toString());
+                        if(indice<13) {
+                            mDatabaseUser.child(user).child("indiceA1").setValue(indice);
+                            Log.e("DB/A1", "User: " + user + " indiceA1: " + String.valueOf(indice));
+                        }
                     }
                     vp.setCurrentItem(currentVP+1);
                 }else{

@@ -20,6 +20,9 @@ public class Usuarios {
     private int edad;
     private String inicioS;
     private String finS;
+    private int indiceA1;
+    private int indiceA2;
+    private int indiceA3;
 
     public Usuarios() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -34,9 +37,12 @@ public class Usuarios {
         this.tutor = tutor;
         this.inicioS = Calendar.getInstance().getTime().toString();
         this.finS = "";
+        this.indiceA1 =0;
+        this.indiceA2 =0;
+        this.indiceA3 =0;
     }
 
-    public Usuarios(String user, String nombre, String apellidos, String sexo, int edad, String tutor, String finS){
+    public Usuarios(String user, String nombre, String apellidos, String sexo, int edad, String tutor, String finS, int a1, int a2, int a3){
         this.user = user;
         this.nombre = nombre;
         this.apellidos= apellidos;
@@ -45,6 +51,9 @@ public class Usuarios {
         this.tutor = tutor;
         this.inicioS = Calendar.getInstance().getTime().toString();
         this.finS = finS;
+        this.indiceA1 = a1;
+        this.indiceA2 = a2;
+        this.indiceA3 = a3;
     }
 
     public String getUser() {
@@ -99,6 +108,18 @@ public class Usuarios {
 
     public void setFinS(String finS) {        this.finS = finS;    }
 
+    public int getIndiceA1() {        return indiceA1;    }
+
+    public void setIndiceA1(int indiceA1) {        this.indiceA1 = indiceA1;    }
+
+    public int getIndiceA2() {        return indiceA2;    }
+
+    public void setIndiceA2(int indiceA2) {        this.indiceA2 = indiceA2;    }
+
+    public int getIndiceA3() {        return indiceA3;    }
+
+    public void setIndiceA3(int indiceA3) {        this.indiceA3 = indiceA3;    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -110,6 +131,9 @@ public class Usuarios {
         result.put("edad", edad);
         result.put("inicioS", inicioS);
         result.put("finS", finS);
+        result.put("indiceA1", indiceA1);
+        result.put("indiceA2", indiceA2);
+        result.put("indiceA3", indiceA3);
         return result;
     }
 

@@ -260,7 +260,8 @@ public class loginUser extends AppCompatActivity {
                         Toast.makeText(loginUser.this, userT.getUser(), Toast.LENGTH_SHORT).show();
 
                         //FirebaseUser tutor = mAuth.getCurrentUser();
-                        Usuarios user = new Usuarios(userT.getUser(), userT.getNombre(), userT.getApellidos(), userT.getSexo(), userT.getEdad(), tutorName, userT.getFinS());
+                        Usuarios user;
+                        user = new Usuarios(userT.getUser(), userT.getNombre(), userT.getApellidos(), userT.getSexo(), userT.getEdad(), tutorName, userT.getFinS(), userT.getIndiceA1(), userT.getIndiceA2(), userT.getIndiceA3());
                         FirebaseDatabase.getInstance().getReference().child("users").child(user.getUser()).setValue(user);
                         //Log.e(TAG, "onUserFound: Se ha agregado a un newUser: "+ newUser + " Edad: "+ userT.getEdad());
 
