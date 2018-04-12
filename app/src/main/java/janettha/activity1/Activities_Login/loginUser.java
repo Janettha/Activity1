@@ -55,6 +55,7 @@ public class loginUser extends AppCompatActivity {
     private DatabaseReference mReferenceTutor;
     private DatabaseReference mDatabaseUser;
     private ValueEventListener mTutorListener;
+    private ValueEventListener mUserListener;
 
     public static final String keySP = "UserSex";
     private SharedPreferences sharedPreferences;
@@ -63,7 +64,8 @@ public class loginUser extends AppCompatActivity {
     private static final String TAG = "loginUserActivity";
 
     private String userTutor, userU, passU, nameU, surnamesU, sexo, fechaU;
-    int edadU;
+    private int edadU;
+    private boolean newUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,18 +161,23 @@ public class loginUser extends AppCompatActivity {
                             Tutores tutor = objectArrayList.get(i);
                             //Tutores tutor = dataSnapshot.getValue(Tutores.class);
                             if (tutor.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
-                                Log.e(TAG, "onDataChange: Message data is updated: " + tutor.getName());
+                            //if(tutor.getUser().equals(mAuth.getCurrentUser().getDisplayName())){
+                                Log.e(TAG, "onTutorFound: Se encontró tutor: " + tutor.getName());
 
                                 Toast.makeText(loginUser.this, tutor.toString(), Toast.LENGTH_SHORT).show();
 
-                                //FirebaseUser tutor = mAuth.getCurrentUser();
-                                Usuarios user = new Usuarios(userU, nameU, surnamesU, sexo, edadU, tutor.getUser());
-                                FirebaseDatabase.getInstance().getReference().child("users").child(user.getUser()).setValue(user);
+                                cargarUser(tutor.getUser(), userU);
+                                if(newUser) {
+                                    Log.e(TAG, "onUserFound: ¿Es un nuevo usuario? " + newUser);
+                                    //FirebaseUser tutor = mAuth.getCurrentUser();
+                                    Usuarios user = new Usuarios(userU, nameU, surnamesU, sexo, edadU, tutor.getUser());
+                                    FirebaseDatabase.getInstance().getReference().child("users").child(user.getUser()).setValue(user);
 
-                                editorSP.putString("tutor", tutor.getUser());
-                                editorSP.putString("tutorEmail", tutor.getEmail());
-                                editorSP.putString("usuario", user.getUser());
-                                editorSP.apply();
+                                    editorSP.putString("tutor", tutor.getUser());
+                                    editorSP.putString("tutorEmail", tutor.getEmail());
+                                    //editorSP.putString("usuario", user.getUser());
+                                    editorSP.apply();
+                                }
                             }
                         }
                     }
@@ -182,10 +189,9 @@ public class loginUser extends AppCompatActivity {
 
                     }
                 });
+
                 if(userU != null || userU != "") {
                     startActivity(new Intent(loginUser.this, MainmenuActivity.class));
-                }else{
-                    Toast.makeText(loginUser.this, "Ingrese los datos solicitados", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -196,10 +202,16 @@ public class loginUser extends AppCompatActivity {
     }
 
     @Override
+    public void finish() {
+        super.finish();
+        String time = Calendar.getInstance().getTime().toString();
+        if(userU!="" || userU!=null)
+            FirebaseDatabase.getInstance().getReference().child("users").child(userU).child("finS").setValue(time);
+    }
+
+    @Override
     public void onBackPressed() {
         //final Intent intent = new Intent(this, loginUser.class);
-        String time = Calendar.getInstance().getTime().toString();
-        FirebaseDatabase.getInstance().getReference().child("users").child(userU).child("finS").setValue(time);
 
         new AlertDialog.Builder(this)
                 .setTitle("¿Realmente deseas salir?")
@@ -211,8 +223,8 @@ public class loginUser extends AppCompatActivity {
 
                         loginUser.super.onBackPressed();
 
-                        String time = Calendar.getInstance().getTime().toString();
-                        FirebaseDatabase.getInstance().getReference().child("users").child(userU).child("finS").setValue(time);
+                        //String time = Calendar.getInstance().getTime().toString();
+                        //FirebaseDatabase.getInstance().getReference().child("users").child(userU).child("finS").setValue(time);
 
                         Intent intent = new Intent(Intent.ACTION_MAIN);
                         intent.addCategory(Intent.CATEGORY_HOME);
@@ -222,9 +234,54 @@ public class loginUser extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }).create().show();
-
     }
 
+    private void cargarUser(final String tutorName, final String userName){
+        newUser = true;
+        final String uName = userName;
+        mUserListener = mDatabaseUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {}
+                GenericTypeIndicator<HashMap<String, Usuarios>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Usuarios>>() {
+                };
+                Map<String, Usuarios> objectHashMap = dataSnapshot.getValue(objectsGTypeInd);
+                ArrayList<Usuarios> objectArrayList = new ArrayList<Usuarios>(objectHashMap.values());
+                for (int i = 0; i < objectArrayList.size(); i++) {
+                    Usuarios userT = objectArrayList.get(i);
+                    //Tutores tutor = dataSnapshot.getValue(Tutores.class);
+                    //Log.e(TAG, "onUserFound: Nuevo usuario: "+newUser);
+                    //Log.e(TAG, "onUserFound: Usuario DB: " + userT.getUser() + " user app:"+uName);
+                    if (userT.getUser().equals(uName) && newUser) { // add newUser != null
+                        newUser = false;
+                        //if(tutor.getUser().equals(mAuth.getCurrentUser().getDisplayName())){
+                        //Log.e(TAG, "onUserFound: ¿Es un nuevo usuario? " + newUser + " User: "+ userT.getUser());
+
+                        Toast.makeText(loginUser.this, userT.getUser(), Toast.LENGTH_SHORT).show();
+
+                        //FirebaseUser tutor = mAuth.getCurrentUser();
+                        Usuarios user = new Usuarios(userT.getUser(), userT.getNombre(), userT.getApellidos(), userT.getSexo(), userT.getEdad(), tutorName, userT.getFinS());
+                        FirebaseDatabase.getInstance().getReference().child("users").child(user.getUser()).setValue(user);
+                        //Log.e(TAG, "onUserFound: Se ha agregado a un newUser: "+ newUser + " Edad: "+ userT.getEdad());
+
+                        editorSP.putString("tutor", tutorName);
+                        editorSP.putString("tutorEmail", tutor.getEmail());
+                        editorSP.putString("usuario", userT.getUser());
+                        editorSP.apply();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Failed to read value
+                Log.e(TAG, "onCancelled: Failed to read message");
+
+            }
+        });
+
+    }
 
     private void guardarDatos(){
         editorSP.putString("usuario", userU);

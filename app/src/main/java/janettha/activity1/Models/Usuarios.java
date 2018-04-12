@@ -13,12 +13,11 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class Usuarios {
     private String user;
-    private String Nombre;
-    private String Apellidos;
+    private String nombre;
+    private String apellidos;
     private String sexo;
     private String tutor;
     private int edad;
-    private boolean act1[];
     private String inicioS;
     private String finS;
 
@@ -26,14 +25,26 @@ public class Usuarios {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public Usuarios(String user, String Nombre, String Apellidos, String sexo, int edad, String tutor){
+    public Usuarios(String user, String nombre, String apellidos, String sexo, int edad, String tutor){
         this.user = user;
-        this.Nombre = Nombre;
-        this.Apellidos= Apellidos;
+        this.nombre = nombre;
+        this.apellidos= apellidos;
         this.sexo = sexo;
         this.edad = edad;
         this.tutor = tutor;
         this.inicioS = Calendar.getInstance().getTime().toString();
+        this.finS = "";
+    }
+
+    public Usuarios(String user, String nombre, String apellidos, String sexo, int edad, String tutor, String finS){
+        this.user = user;
+        this.nombre = nombre;
+        this.apellidos= apellidos;
+        this.sexo = sexo;
+        this.edad = edad;
+        this.tutor = tutor;
+        this.inicioS = Calendar.getInstance().getTime().toString();
+        this.finS = finS;
     }
 
     public String getUser() {
@@ -45,19 +56,19 @@ public class Usuarios {
     }
 
     public String getNombre() {
-        return this.Nombre;
+        return this.nombre;
     }
 
     public void setNombre(String nombre) {
-        this.Nombre = nombre;
+        this.nombre = nombre;
     }
 
     public String getApellidos() {
-        return this.Apellidos;
+        return this.apellidos;
     }
 
     public void setApellidos(String apellidos) {
-        this.Apellidos = apellidos;
+        this.apellidos = apellidos;
     }
 
     public String getSexo() {
@@ -91,8 +102,8 @@ public class Usuarios {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("Nombre", Nombre);
-        result.put("Apellidos", Apellidos);
+        result.put("nombre", nombre);
+        result.put("apellidos", apellidos);
         result.put("tutor", tutor);
         result.put("sexo", sexo);
         result.put("user", user);
