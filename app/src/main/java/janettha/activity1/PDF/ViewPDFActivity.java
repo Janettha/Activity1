@@ -1,6 +1,7 @@
 package janettha.activity1.PDF;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -13,6 +14,8 @@ import com.github.barteksc.pdfviewer.PDFView;
 
 import java.io.File;
 
+import janettha.activity1.Act1.Activity1;
+import janettha.activity1.Menu.MainmenuActivity;
 import janettha.activity1.R;
 
 public class ViewPDFActivity extends AppCompatActivity {
@@ -63,5 +66,11 @@ public class ViewPDFActivity extends AppCompatActivity {
             }
             break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //final Intent intent = new Intent(this, loginUser.class);
+        startActivity(new Intent(ViewPDFActivity.this, MainmenuActivity.class));
     }
 }

@@ -1,24 +1,17 @@
 package janettha.activity1.ActA;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,12 +29,9 @@ import janettha.activity1.Act0.Actividad0;
 import janettha.activity1.Models.Emocion;
 import janettha.activity1.Models.Emociones;
 import janettha.activity1.Models.Respuesta;
-import janettha.activity1.Models.Tutores;
 import janettha.activity1.PDF.TemplatePDF;
 import janettha.activity1.R;
-
-import static android.content.Context.MODE_PRIVATE;
-import static janettha.activity1.Activities_Login.loginUser.keySP;
+import janettha.activity1.Util.LockableViewPager;
 
 
 public class SliderAdapter extends PagerAdapter {
@@ -50,6 +40,7 @@ public class SliderAdapter extends PagerAdapter {
     LayoutInflater layoutInflater;
     LockableViewPager vp;
 
+    static int A1;
     private int currentVP;
 
     List<Emocion> emociones;
@@ -77,10 +68,14 @@ public class SliderAdapter extends PagerAdapter {
     Respuesta respuestaPDF;
     String fInicio, fFin;
 
-    public SliderAdapter(Context context, String userU, Actividad0 a0, Actividad0 a1, Actividad0 a2, String sexo, LockableViewPager v) {
+    public SliderAdapter(Context context, String userU, int numA1, Actividad0 a0, Actividad0 a1, Actividad0 a2, String sexo, LockableViewPager v) {
+
         this.context = context;
         this.vp = v;
+        A1 = numA1;
+
         em = new Emociones();
+
         listAct0.add(a0);
         listAct0.add(a1);
         listAct0.add(a2);
@@ -118,24 +113,31 @@ public class SliderAdapter extends PagerAdapter {
         //View guardarView = layoutInflater.inflate(R.layout.guarda_respuestas,container, false );
 
     /*VIEW ejercicios*/
+        TextView indicaciones;
         ImageView imgFeel;
         Button btnA1, btnA2, btnA3;
 
         currentVP = position;
         fInicio = Calendar.getInstance().getTime().toString();
 
-
         int rMain = emociones.get(listAct0.get(position).emocionMain().getId()).getId();
         int rB = emociones.get(listAct0.get(position).emocionB().getId()).getId();
         int rC = emociones.get(listAct0.get(position).emocionC().getId()).getId();
         int r;
 
+        indicaciones = (TextView) rootView.findViewById(R.id.section_label);
         imgFeel = (ImageView) rootView.findViewById(R.id.imgFeel);
         btnA1 = (Button) rootView.findViewById(R.id.ans1);
         btnA2 = (Button) rootView.findViewById(R.id.ans2);
         btnA3 = (Button) rootView.findViewById(R.id.ans3);
 
-        r = (int) (Math.random() * 2);
+        if(idSexo.equals("f")){
+            indicaciones.setText("Lee o escucha la pequeña situación y elije ¿cómo se siente Lili?");
+        }else{
+            indicaciones.setText("Lee o escucha la pequeña situación y elije ¿cómo se siente Juan Carlos?");
+        }
+
+        r = (int) (Math.random() * 3);
         if (r == 0) {
             rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
             interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rMain, rB, rC);
@@ -267,10 +269,10 @@ public class SliderAdapter extends PagerAdapter {
                     if(currentVP == 2) {
                         pdfConfig();
                         pdfView();
-                        int indice=listAct0.get(0).emocionMain().getId()+3;
                         //mDatabaseUser.child(user).child("indiceA1").toString();
                         //Log.e("DB/A1", "UserDB: "+mDatabaseUser.child(user).child("indiceA1").toString());
-                        if(indice<13) {
+                        if(A1<12) {
+                            int indice=listAct0.get(0).emocionMain().getId()+3;
                             mDatabaseUser.child(user).child("indiceA1").setValue(indice);
                             Log.e("DB/A1", "User: " + user + " indiceA1: " + String.valueOf(indice));
                         }

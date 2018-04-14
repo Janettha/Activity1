@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActA.ActA">
+    tools:context=".ActB.ActB">
 
     <janettha.activity1.Util.LockableViewPager
         android:id="@+id/slideViewPager"

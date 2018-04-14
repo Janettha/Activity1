@@ -13,5 +13,5 @@
     <!-- Actividad 1 -->
     <dimen name="imgLayout_h">350dp</dimen>
     <dimen name="imgLayout_w">380dp</dimen>
-    <dimen name="imgAct1">80dp</dimen>
+    <dimen name="imgAct1">90dp</dimen>
 </resources>

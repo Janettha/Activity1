@@ -71,7 +71,8 @@
         <activity
             android:name=".ActA.ActA"
             android:label="@string/title_activity_act" />
-        <activity android:name=".PDF.ViewPDFActivity"></activity>
+        <activity android:name=".PDF.ViewPDFActivity" />
+        <activity android:name=".ActB.ActB"></activity>
     </application>
 
 </manifest>

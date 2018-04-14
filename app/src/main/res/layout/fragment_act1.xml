@@ -2,15 +2,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/BackgDialogs"
-    tools:context="janettha.activity1.Act1.Activity1"
-    android:id="@+id/act1"
+    android:id="@+id/Layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_alignParentBottom="true"
-    android:orientation="vertical"
-    android:layout_below="@+id/Instruccion"
-    >
+    android:orientation="vertical">
 
         <TextView
         android:id="@+id/Instruccion"
@@ -30,12 +25,11 @@
             android:id="@+id/LRed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight=".4"
             android:orientation="horizontal"
             android:layout_gravity="center_horizontal"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:background="@color/BackgDialogs"
             >
             <TextView
                 android:id="@+id/txtText"
@@ -45,7 +39,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:background="@color/BackgDialogs"
                 android:text="Redaccion sobre la actividad de Juanita y sus actividades recreativas acerca de Redaccion sobre la actividad de Juanita y sus actividades recreativas acerca de ...
                     Redaccion sobre la actividad de Juanita y sus actividades recreativas acerca de Redaccion sobre la actividad de Juanita y sus actividades recreativas acerca de"
                 android:textColor="@color/colorTxt"

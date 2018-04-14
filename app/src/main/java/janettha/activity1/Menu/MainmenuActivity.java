@@ -30,6 +30,7 @@ import janettha.activity1.Act0.Preactivity;
 import janettha.activity1.Act2.Activity2;
 import janettha.activity1.Act1.Activity1;
 import janettha.activity1.ActA.ActA;
+import janettha.activity1.ActB.ActB;
 import janettha.activity1.Activities_Login.loginUser;
 import janettha.activity1.Models.Tutores;
 import janettha.activity1.Models.Usuarios;
@@ -82,8 +83,11 @@ public class MainmenuActivity extends AppCompatActivity {
         btnA2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String time = Calendar.getInstance().getTime().toString();
+                FirebaseDatabase.getInstance().getReference().child("users").child(userU).child("finS").setValue(time);
                 Intent intent = new Intent(MainmenuActivity.this, Activity1.class);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+
                 if(a1 == 12) {
                     intent.putExtra("a2", a2);
                     startActivity(intent);
@@ -96,7 +100,7 @@ public class MainmenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainmenuActivity.this, Activity2.class);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
-                if(a2 == 12) {
+                if(a2 == 16) {
                     intent.putExtra("a3", a3);
                     startActivity(intent);
                 }

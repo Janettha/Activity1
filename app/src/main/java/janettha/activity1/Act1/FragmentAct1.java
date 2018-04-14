@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,28 +21,44 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 import janettha.activity1.Menu.MainmenuActivity;
 import janettha.activity1.Models.Emocion;
 import janettha.activity1.Models.Emociones;
+import janettha.activity1.Models.Respuesta;
+import janettha.activity1.PDF.TemplatePDF;
 import janettha.activity1.R;
+import janettha.activity1.Util.LockableViewPager;
 
 
 public class FragmentAct1 extends Fragment {
+
+    Context context;
+    LayoutInflater layoutInflater;
+
+    static LockableViewPager vp;
+    //boolean vp;
+
+    private int currentVP;
 
     List<Emocion> emociones = new ArrayList<Emocion>();
     public final int LIM_emociones = 11;
 
     public static final String ARG_PAGE = "page";
-    private int mPageNumber;
+    private static int mPageNumber, idDBA2, A2;
     private String textoRedaccion;
-    private String exEmocion1, exEmocion2, exEmocion3, sexo;
-    private int idEmocion1, idEmocion2, idEmocion3;
+    private String exEmocion1, exEmocion2, exEmocion3, sexo, user;
+    private int idEmocion1;
+    private int idEmocion2;
+    private int idEmocion3;
     TextToSpeech t1;
 
     /*DIALOG*/
@@ -50,12 +67,32 @@ public class FragmentAct1 extends Fragment {
     ImageView imgEmocionDialog;
     Button btnBack;
 
-    public static FragmentAct1 create(int pageNumber, Context context, Actividad1 actividad1, String sexo) {
+    private DatabaseReference mDatabaseUser;
+
+    /*PDF Respuesta*/
+    static TemplatePDF templatePDF;
+    ArrayList<Respuesta>respuestas = new ArrayList<>();
+    Respuesta respuestaPDF;
+    static String fInicio, fFin;
+
+    public static FragmentAct1 create(int pageNumber, Context context, String user, int numA2DB, Actividad1 actividad1, String sexo, LockableViewPager lockVP, TemplatePDF tPDF) {
 
         FragmentAct1 fragment = new FragmentAct1();
         Bundle args = new Bundle();
+        vp = lockVP;
+        templatePDF = tPDF;
 
-        args.putInt(ARG_PAGE, actividad1.getID());
+        fInicio = Calendar.getInstance().getTime().toString();
+        //idA1 = actividad1.getID();
+        mPageNumber = pageNumber;
+        A2 = actividad1.getID();
+        idDBA2 = numA2DB;
+
+        Log.e("Fragment A1","numPager: "+ mPageNumber);
+        Log.e("Fragment A1","numActividad: "+ A2);
+        Log.e("Fragment A1","nActividad_DB: "+ idDBA2);
+
+        //args.putInt(ARG_PAGE, actividad1.getID());
         //args.putString(Activity1.ARG_tx,emociones.get(id).getName());
         args.putString(Activity1.ARG_r,actividad1.getRedaccion());
         args.putString(Activity1.ARG_e1,actividad1.getExpl1());
@@ -65,6 +102,7 @@ public class FragmentAct1 extends Fragment {
         args.putString(Activity1.ARG_e3,actividad1.getExpl3());
         args.putInt(Activity1.ARG_IDe3,actividad1.getEmocion3().getId());
         args.putString(Activity1.ARG_sexo, sexo);
+        args.putString(Activity1.ARG_u,user);
 
         fragment.setArguments(args);
         return fragment;
@@ -81,7 +119,7 @@ public class FragmentAct1 extends Fragment {
         Emociones em = new Emociones();
 
         if(getArguments() != null) {
-            mPageNumber = getArguments().getInt(ARG_PAGE);
+            //idA1 = getArguments().getInt(ARG_PAGE);
             textoRedaccion = getArguments().getString(Activity1.ARG_r);
             idEmocion1 = getArguments().getInt(Activity1.ARG_IDe1);
             exEmocion1 = getArguments().getString(Activity1.ARG_e1);
@@ -89,9 +127,15 @@ public class FragmentAct1 extends Fragment {
             exEmocion2 = getArguments().getString(Activity1.ARG_e2);
             idEmocion3 = getArguments().getInt(Activity1.ARG_IDe3);
             exEmocion3 = getArguments().getString(Activity1.ARG_e3);
+            user = getArguments().getString(Activity1.ARG_u);
             sexo = getArguments().getString(Activity1.ARG_sexo);
             emociones = em.Emociones(getContext(), sexo);
         }
+
+        //templatePDF = new TemplatePDF(getContext());
+        //pdfConfig();
+        respuestaPDF = new Respuesta();
+        mDatabaseUser = FirebaseDatabase.getInstance().getReference("users");
 
     }
 
@@ -141,15 +185,14 @@ public class FragmentAct1 extends Fragment {
         bgAct1.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
         txRedaccion.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
 
-
-        r = (int) (Math.random() * LIM_emociones ) ;
-        if(r < 4){
+        r = (int) (Math.random() * 3 ) ;
+        if(r == 0){
             rootView.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
             interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo,id1, id1, id2, id3, exEmocion1, exEmocion2, exEmocion3);
-        }else if(r>3 && r<8) {
+        }else if(r == 1) {
             rootView.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
             interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo, id1, id3, id1, id2, exEmocion3, exEmocion1, exEmocion2);
-        }else if(r>7 && r<12) {
+        }else if(r == 2) {
             rootView.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
             interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo, id1, id2, id3, id1, exEmocion2, exEmocion3, exEmocion1);
         }
@@ -231,9 +274,9 @@ public class FragmentAct1 extends Fragment {
             @Override
             public void onClick(View v) {
                 if(ran == ran1)
-                    MyCustomAlertDialog(v,emociones.get(ran1),"CORRECTO");
+                    MyCustomAlertDialog(v, ran, emociones.get(ran1),"CORRECTO");
                 else {
-                    MyCustomAlertDialog(v, emociones.get(ran1), ex_1);
+                    MyCustomAlertDialog(v, ran, emociones.get(ran1), ex_1);
                 }
             }
         });
@@ -241,9 +284,9 @@ public class FragmentAct1 extends Fragment {
             @Override
             public void onClick(View v) {
                 if(ran == ran2)
-                    MyCustomAlertDialog(v,emociones.get(ran2),"CORRECTO");
+                    MyCustomAlertDialog(v, ran, emociones.get(ran2),"CORRECTO");
                 else{
-                    MyCustomAlertDialog(v,emociones.get(ran2),ex_2);
+                    MyCustomAlertDialog(v, ran, emociones.get(ran2),ex_2);
                 }
             }
         });
@@ -251,9 +294,9 @@ public class FragmentAct1 extends Fragment {
             @Override
             public void onClick(View v) {
                 if(ran == ran3)
-                    MyCustomAlertDialog(v, emociones.get(ran3),"CORRECTO");
+                    MyCustomAlertDialog(v, ran, emociones.get(ran3),"CORRECTO");
                 else {
-                    MyCustomAlertDialog(v, emociones.get(ran3), ex_3);
+                    MyCustomAlertDialog(v, ran, emociones.get(ran3), ex_3);
                 }
             }
         });
@@ -261,7 +304,10 @@ public class FragmentAct1 extends Fragment {
     }
 
     @SuppressLint("ResourceAsColor")
-    public void MyCustomAlertDialog(View v, Emocion em, String explicacion) {
+    public void MyCustomAlertDialog(View v, int mainE, Emocion em, String explicacion) {
+
+        final boolean respuesta = (mainE == em.getId());
+
         dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.dialog_act1);
         dialog.setTitle(em.getName());
@@ -283,10 +329,12 @@ public class FragmentAct1 extends Fragment {
         nameEmocionDialog.setText(em.getName());
         //nameEmocionDialog.setTextColor(Color.parseColor(em.getColorB()));
 
-        if(explicacion.substring(0,1).equals("¿")) {
+
+        //if(explicacion.substring(0,1).equals("¿")) {
+        if(respuesta){
             btnBack.setBackgroundResource(R.color.Incorrecto);
             btnBack.setText(" Inténtalo de nuevo ");
-        }else if(explicacion.equals("CORRECTO")) {
+        }else {// if(explicacion.equals("CORRECTO")) {
             btnBack.setBackgroundResource(R.color.Correcto);
             nameEmocionDialog.setText(" ");
             //btnBack.setText(" Correcto ");
@@ -294,19 +342,52 @@ public class FragmentAct1 extends Fragment {
             explicacionDialogo.setText(" ¡LO LOGRASTE! ");
         }
 
+        fFin = Calendar.getInstance().getTime().toString();
+        respuestaPDF = new Respuesta(em.getId(), fInicio, fFin, emociones.get(mainE).getId(), respuesta);
+        //respuestas.add(respuestaPDF);
+        templatePDF.addRespuesta(respuestaPDF);
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.cancel();
-                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, getPageNumber());
-                if(mPageNumber == 3){
+                if(respuesta) {
+                    vp.setPagingEnabled(true);
+                    vp.setCurrentItem(mPageNumber+1);
+                    if (mPageNumber == 2) {
+                        pdfConfig();
+                        pdfView();
+                        //Log.e("DB/A1", "UserDB: "+mDatabaseUser.child(user).child("indiceA1").toString());
+                        if (idDBA2 < 17) {
+                            int indice = idDBA2 + 3;
+                            mDatabaseUser.child(user).child("indiceA2").setValue(indice);
+                            Log.e("DB/A2", "User: " + user + " indiceA2: " + String.valueOf(indice));
+                        }
+                    }
+                    Log.e("Fragment A2 Dialog", "numPager: " + mPageNumber);
                 }
+                dialog.cancel();
             }
         });
 
         dialog.show();
 
     }
+    private void pdfConfig(){
+        templatePDF.openPDF();
+        templatePDF.addMetaData(user);
+        templatePDF.addHeader(user, fInicio, fFin, Calendar.getInstance().getTime().toString());
+        templatePDF.addParrafo(2);
+        //templatePDF.createTable(respuestas);
+        templatePDF.createTable(templatePDF.getRespuestasActB());
+        templatePDF.closeDocument();
+    }
 
+    public void pdfView(){
+        templatePDF.viewPDF();
+    }
+
+    public ArrayList<Respuesta> getRespuestas(){
+        return respuestas;
+    }
 
 }

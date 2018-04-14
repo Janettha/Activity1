@@ -58,6 +58,7 @@ public class TemplatePDF {
 
     String tutor, email;
 
+    ArrayList<Respuesta>respuestasActB = new ArrayList<>();
 
     public TemplatePDF(Context context) {
         this.context = context;
@@ -186,5 +187,12 @@ public class TemplatePDF {
         tutor = mAuth.getCurrentUser().getDisplayName();
     }
 
+    public void addRespuesta(Respuesta r){
+        respuestasActB.add(r);
+    }
+
+    public ArrayList<Respuesta> getRespuestasActB(){
+        return respuestasActB;
+    }
 
 }
