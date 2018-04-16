@@ -88,9 +88,10 @@ public class FragmentAct1 extends Fragment {
         A2 = actividad1.getID();
         idDBA2 = numA2DB;
 
-        Log.e("Fragment A1","numPager: "+ mPageNumber);
-        Log.e("Fragment A1","numActividad: "+ A2);
-        Log.e("Fragment A1","nActividad_DB: "+ idDBA2);
+        Log.e("Fragment A2a","numPager: "+ mPageNumber);
+        Log.e("Fragment A2a","numActividad: "+ A2);
+        Log.e("Fragment A2a","nActividad_DB: "+ idDBA2);
+        Log.e("Fragment A2a","nameActividad: "+ actividad1.getEmocion1().getName());
 
         //args.putInt(ARG_PAGE, actividad1.getID());
         //args.putString(Activity1.ARG_tx,emociones.get(id).getName());
@@ -186,17 +187,20 @@ public class FragmentAct1 extends Fragment {
         txRedaccion.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
 
         r = (int) (Math.random() * 3 ) ;
-        if(r == 0){
-            rootView.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
-            interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo,id1, id1, id2, id3, exEmocion1, exEmocion2, exEmocion3);
-        }else if(r == 1) {
-            rootView.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
-            interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo, id1, id3, id1, id2, exEmocion3, exEmocion1, exEmocion2);
-        }else if(r == 2) {
-            rootView.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
-            interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo, id1, id2, id3, id1, exEmocion2, exEmocion3, exEmocion1);
+        switch (r){
+            case 0:
+                rootView.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
+                interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo,id1, id1, id2, id3, exEmocion1, exEmocion2, exEmocion3);
+                break;
+            case 1:
+                rootView.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
+                interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo, id1, id3, id1, id2, exEmocion3, exEmocion1, exEmocion2);
+                break;
+            case 2:
+                rootView.setBackgroundColor(Color.parseColor(emociones.get(id1).getColor()));
+                interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo, id1, id2, id3, id1, exEmocion2, exEmocion3, exEmocion1);
+                break;
         }
-
         t1=new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -331,7 +335,7 @@ public class FragmentAct1 extends Fragment {
 
 
         //if(explicacion.substring(0,1).equals("¿")) {
-        if(respuesta){
+        if(!respuesta){
             btnBack.setBackgroundResource(R.color.Incorrecto);
             btnBack.setText(" Inténtalo de nuevo ");
         }else {// if(explicacion.equals("CORRECTO")) {
@@ -344,27 +348,32 @@ public class FragmentAct1 extends Fragment {
 
         fFin = Calendar.getInstance().getTime().toString();
         respuestaPDF = new Respuesta(em.getId(), fInicio, fFin, emociones.get(mainE).getId(), respuesta);
-        //respuestas.add(respuestaPDF);
+        respuestas.add(respuestaPDF);
         templatePDF.addRespuesta(respuestaPDF);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(respuesta) {
-                    vp.setPagingEnabled(true);
-                    vp.setCurrentItem(mPageNumber+1);
-                    if (mPageNumber == 2) {
-                        pdfConfig();
-                        pdfView();
-                        //Log.e("DB/A1", "UserDB: "+mDatabaseUser.child(user).child("indiceA1").toString());
-                        if (idDBA2 < 17) {
-                            int indice = idDBA2 + 3;
-                            mDatabaseUser.child(user).child("indiceA2").setValue(indice);
-                            Log.e("DB/A2", "User: " + user + " indiceA2: " + String.valueOf(indice));
-                        }
+
+                Log.e("Fragment A2 Dialog", "INI numPager: " + mPageNumber);
+                Log.e("Fragment A2 Dialog", "INI vpNum: " + vp.getCurrentItem());
+                if (respuesta && vp.getCurrentItem() == 2) {
+                    pdfConfig();
+                    pdfView();
+                    Log.e("DB/A2", "UserDB: " + mDatabaseUser.child(user).child("indiceA1").toString());
+                    if (idDBA2 < 17) {
+                        int indice = idDBA2 + 3;
+                        mDatabaseUser.child(user).child("indiceA2").setValue(indice);
+                        Log.e("DB/A2", "User: " + user + " indiceA2: " + String.valueOf(indice));
                     }
-                    Log.e("Fragment A2 Dialog", "numPager: " + mPageNumber);
                 }
+                if (respuesta && vp.getCurrentItem() < 2) {
+                    vp.setCurrentItem(vp.getCurrentItem() + 1);
+                    vp.setPagingEnabled(true);
+                }
+                Log.e("Fragment A2 Dialog", "FIN numPager: " + mPageNumber);
+                Log.e("Fragment A2 Dialog", "FIN vpNum: " + vp.getCurrentItem());
+
                 dialog.cancel();
             }
         });

@@ -100,7 +100,7 @@ public class MainmenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainmenuActivity.this, Activity2.class);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
-                if(a2 == 16) {
+                if(a2 > 16) {
                     intent.putExtra("a3", a3);
                     startActivity(intent);
                 }

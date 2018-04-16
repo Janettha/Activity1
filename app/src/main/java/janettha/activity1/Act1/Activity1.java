@@ -105,7 +105,6 @@ public class Activity1 extends FragmentActivity {
         fillData(this, sexo);
         context = getBaseContext();
         templatePDF = new TemplatePDF(context);
-        addDotsIndicator(0);
 
         Bundle b = getIntent().getExtras();
         if(b != null){
@@ -113,6 +112,8 @@ public class Activity1 extends FragmentActivity {
         }
         if(A2>LIM_emociones)   randomID();
         else         secuencialID(A2);
+
+        addDotsIndicator(r1);
 
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
@@ -122,8 +123,13 @@ public class Activity1 extends FragmentActivity {
 
     private void secuencialID(int indice){
         r1 = indice;
-        r2 = indice+1;
-        r3 = indice+2;
+        if(A2 != 16) {
+            r2 = 0;
+            r3 = 1;
+        }else{
+            r2 = indice + 1;
+            r3 = indice + 2;
+        }
     }
 
     private void randomID(){
@@ -148,19 +154,19 @@ public class Activity1 extends FragmentActivity {
         @SuppressLint("WrongViewCast")
         @Override
         public Fragment getItem(int position) {
-            FragmentAct1 f1, f2, f3;
+            FragmentAct1 f;
             if(position == 0) {
                 //mPager.setPagingEnabled(false);
-                f1 = FragmentAct1.create(position, context, userU, A2, listAct1.get(r1), sexo, mPager, templatePDF);
-                return f1;
+                f = FragmentAct1.create(position, context, userU, A2, listAct1.get(r1), sexo, mPager, templatePDF);
+                return f;
             }else if(position == 1) {
                 //mPager.setPagingEnabled(false);
-                f2 = FragmentAct1.create(position, context, userU, A2, listAct1.get(r2), sexo, mPager, templatePDF);
-                return f2;
+                f = FragmentAct1.create(position, context, userU, A2, listAct1.get(r2), sexo, mPager, templatePDF);
+                return f;
             }else if(position == 2) {
                 //mPager.setPagingEnabled(false);
-                f3 = FragmentAct1.create(position, context, userU, A2, listAct1.get(r3), sexo, mPager, templatePDF);
-                return f3;
+                f = FragmentAct1.create(position, context, userU, A2, listAct1.get(r3), sexo, mPager, templatePDF);
+                return f;
             }else return null;
 
 
