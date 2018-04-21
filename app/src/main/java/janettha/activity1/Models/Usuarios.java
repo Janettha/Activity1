@@ -36,7 +36,7 @@ public class Usuarios {
         this.edad = edad;
         this.tutor = tutor;
         this.inicioS = Calendar.getInstance().getTime().toString();
-        this.finS = "";
+        this.finS = Calendar.getInstance().getTime().toString();
         this.indiceA1 =0;
         this.indiceA2 =0;
         this.indiceA3 =0;

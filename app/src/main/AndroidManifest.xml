@@ -40,7 +40,7 @@
                 android:value="Menu.MainmenuActivity" />
         </activity>
         <activity
-            android:name=".Act1.Activity1"
+            android:name=".ActB.Activity1"
             android:label="@string/title_activity_1"
             android:parentActivityName="Menu.MainmenuActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -49,7 +49,7 @@
                 android:value="Menu.MainmenuActivity" />
         </activity>
         <activity
-            android:name=".Act2.Activity2"
+            android:name=".ActC.Activity2"
             android:label="@string/title_activity_2"
             android:parentActivityName="Menu.MainmenuActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -72,7 +72,6 @@
             android:name=".ActA.ActA"
             android:label="@string/title_activity_act" />
         <activity android:name=".PDF.ViewPDFActivity" />
-        <activity android:name=".ActB.ActB"></activity>
     </application>
 
 </manifest>

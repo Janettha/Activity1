@@ -3,7 +3,6 @@ package janettha.activity1.Act0;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,20 +14,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import janettha.activity1.Activities_Login.MainActivity;
-import janettha.activity1.Activities_Login.SignUpActivity;
+import janettha.activity1.ActA.ActividadA;
 import janettha.activity1.Activities_Login.loginUser;
-import janettha.activity1.Menu.MainmenuActivity;
 import janettha.activity1.Models.Emocion;
 import janettha.activity1.Models.Emociones;
 import janettha.activity1.R;
+import janettha.activity1.Util.SoundManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,12 +35,14 @@ public class FragmentAct0 extends Fragment {
     private static final String ARG_PAGE = "section_number";
     private int mPageNumber;
 
-    List<Emocion> emociones = new ArrayList<Emocion>();
-    List<Actividad0> btnList = new ArrayList<Actividad0>();
+    Emociones emociones;
+    List<ActividadA> btnList = new ArrayList<ActividadA>();
     private final int LIM_emociones = 11;
 
-    private int idEmocionMain, idEmocionB, idEmocionC;
     private String idSexo;
+    private int idEmocionMain, idEmocionB, idEmocionC;
+
+    private static SoundManager soundManager;
 
     /*DIALOG*/
     Dialog dialog;
@@ -52,10 +51,12 @@ public class FragmentAct0 extends Fragment {
     ImageView imgEmocionDialog;
     Button btnBack;
 
-    public static FragmentAct0 create(int pageNumber, Context context, Actividad0 actividad0, String sexo) {
+    public static FragmentAct0 create(int pageNumber, Context context, ActividadA actividad0, String sexo) {
 
         FragmentAct0 fragment = new FragmentAct0();
         Bundle args = new Bundle();
+
+        //soundManager = new SoundManager(context);
 
         args.putInt(ARG_PAGE, actividad0.getIDMain());
         //args.putString(Activity1.ARG_tx,emociones.get(id).getName());
@@ -75,7 +76,7 @@ public class FragmentAct0 extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Emociones em = new Emociones();
+        emociones = new Emociones();
 
         if(getArguments() != null) {
             mPageNumber = getArguments().getInt(ARG_PAGE);
@@ -84,7 +85,7 @@ public class FragmentAct0 extends Fragment {
             idEmocionC = getArguments().getInt(Preactivity.ARG_C);
 
             idSexo = getArguments().getString(loginUser.keySP);
-            emociones = em.Emociones(getContext(), idSexo);
+            emociones.Emociones(getContext(), idSexo);
         }
     }
 
@@ -108,19 +109,19 @@ public class FragmentAct0 extends Fragment {
         btnA2 = (Button) rootView.findViewById(R.id.ans2);
         btnA3 = (Button) rootView.findViewById(R.id.ans3);
 
-        rMain = emociones.get(idEmocionMain).getId();
-        rB = emociones.get(idEmocionB).getId();
-        rC = emociones.get(idEmocionC).getId();
+        rMain = emociones.getEmocion(idEmocionMain).getId();
+        rB = emociones.getEmocion(idEmocionB).getId();
+        rC = emociones.getEmocion(idEmocionC).getId();
 
         r = (int) (Math.random() * LIM_emociones ) ;
         if(r < 4){
-            rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
+            rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(rMain).getColor()));
             interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, idSexo,rMain, rMain, rB, rC);
         }else if(r>3 && r<8) {
-            rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
+            rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(rMain).getColor()));
             interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, idSexo,rMain, rC, rMain, rB);
         }else if(r>7 && r<12) {
-            rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
+            rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(rMain).getColor()));
             interfaceFrame(rootView,imgFeel, btnA1, btnA2, btnA3, idSexo,rMain, rB, rC, rMain);
         }
 
@@ -148,52 +149,51 @@ public class FragmentAct0 extends Fragment {
         ran3 = r3;
 
         /*Pictures de botones*/
-        ruta = Uri.parse(emociones.get(r).getUrl());
+        ruta = Uri.parse(emociones.getEmocion(r).getUrl());
         Picasso.with(v.getContext())
                 .load(ruta).fit()
                 .into(txFeel); //fit para la imagen en la vista
 
         /*Nombre y color de botones*/
-        v.setBackgroundColor(Color.parseColor(emociones.get(r).getColor()));
-        txtFeel1.setBackgroundColor(Color.parseColor(emociones.get(r).getColorB()));
-        txtFeel2.setBackgroundColor(Color.parseColor(emociones.get(r).getColorB()));
-        txtFeel3.setBackgroundColor(Color.parseColor(emociones.get(r).getColorB()));
+        v.setBackgroundColor(Color.parseColor(emociones.getEmocion(r).getColor()));
+        txtFeel1.setBackgroundColor(Color.parseColor(emociones.getEmocion(r).getColorB()));
+        txtFeel2.setBackgroundColor(Color.parseColor(emociones.getEmocion(r).getColorB()));
+        txtFeel3.setBackgroundColor(Color.parseColor(emociones.getEmocion(r).getColorB()));
 
-        txtFeel1.setText(emociones.get(ex_1).getName());
-        txtFeel2.setText(emociones.get(ex_2).getName());
-        txtFeel3.setText(emociones.get(ex_3).getName());
+        txtFeel1.setText(emociones.getEmocion(ex_1).getName());
+        txtFeel2.setText(emociones.getEmocion(ex_2).getName());
+        txtFeel3.setText(emociones.getEmocion(ex_3).getName());
 
 
         txtFeel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ran == ran1) {
-                    MyCustomAlertDialog(v, emociones.get(ran1), emociones.get(ran1).getName(), true);
-
-                }else {
-                    MyCustomAlertDialog(v,emociones.get(ran1),emociones.get(ran1).getName(),false);
-                }
+                boolean respTF;
+                if(ran == ran1) respTF = true;
+                else            respTF = false;
+                soundManager.playSound(soundManager.loadSoundTF(respTF));
+                MyCustomAlertDialog(v, emociones.getEmocion(ran1), emociones.getEmocion(ran1).getName(), respTF);
 
             }
         });
         txtFeel2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ran == ran2){
-                    MyCustomAlertDialog(v,emociones.get(ran2),emociones.get(ran2).getName(),true);
-                }else {
-                    MyCustomAlertDialog(v,emociones.get(ran2),emociones.get(ran2).getName(),false);
-                }
+                boolean respTF;
+                if(ran == ran2) respTF = true;
+                else            respTF = false;
+                soundManager.playSound(soundManager.loadSoundTF(respTF));
+                MyCustomAlertDialog(v, emociones.getEmocion(ran2), emociones.getEmocion(ran2).getName(), respTF);
             }
         });
         txtFeel3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ran == ran3) {
-                    MyCustomAlertDialog(v, emociones.get(ran3), emociones.get(ran3).getName(), true);
-                }else {
-                    MyCustomAlertDialog(v,emociones.get(ran3),emociones.get(ran3).getName(),false);
-                }
+                boolean respTF;
+                if(ran == ran3) respTF = true;
+                else            respTF = false;
+                soundManager.playSound(soundManager.loadSoundTF(respTF));
+                MyCustomAlertDialog(v,emociones.getEmocion(ran3),emociones.getEmocion(ran3).getName(),respTF);
             }
         });
 

@@ -37,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_horizontal"
         android:layout_below="@+id/nameEmocion"
         android:layout_gravity="center"
         android:layout_margin="@dimen/activity_margin"
@@ -46,6 +47,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="@dimen/activity_margin"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/ic_action_name"
         />
         <Button
@@ -55,6 +57,7 @@
             android:layout_margin="@dimen/activity_margin"
             android:backgroundTint="#ef3029"
             android:visibility="gone"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/ic_action_stop"
             />
         <Button
@@ -63,6 +66,7 @@
             android:layout_height="50dp"
             android:visibility="gone"
             android:layout_margin="@dimen/activity_margin"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/ic_action_play1"
             />
     </LinearLayout>

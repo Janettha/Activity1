@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         email = (TextView) findViewById(R.id.useremail);
 
         //get current user
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();  //Esto puede causar conflicto ya que lo estas haciendo Final
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         setDataToView(user);
 
         authListener = new FirebaseAuth.AuthStateListener() {

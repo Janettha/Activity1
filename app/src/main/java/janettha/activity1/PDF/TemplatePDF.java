@@ -53,8 +53,7 @@ public class TemplatePDF {
     private Font fHighText = new Font(Font.FontFamily.TIMES_ROMAN, 15, Font.BOLD, BaseColor.YELLOW);
 
     private String headers[] = {"Ejercicio", "INICIO", "FIN", "Respuesta", "Calificacion"};
-    Emociones em = new Emociones();
-    List<Emocion> emociones;
+    Emociones emociones = new Emociones();
 
     String tutor, email;
 
@@ -62,7 +61,7 @@ public class TemplatePDF {
 
     public TemplatePDF(Context context) {
         this.context = context;
-        emociones = em.Emociones(context, "m");
+        emociones.Emociones(context, "m");
     }
 
     public void openPDF(){
@@ -150,10 +149,10 @@ public class TemplatePDF {
 
         for(int indexR = 0; indexR < Respuesta.size(); indexR++){
             String[]row = new String[headers.length];
-            row[0] = em.getEmocion(Respuesta.get(indexR).getId()).getName();
+            row[0] = emociones.getEmocion(Respuesta.get(indexR).getId()).getName();
             row[1] = Respuesta.get(indexR).getInicioS();
             row[2] = Respuesta.get(indexR).getFinS();
-            row[3] = em.getEmocion(Respuesta.get(indexR).getRespuesta()).getName();
+            row[3] = emociones.getEmocion(Respuesta.get(indexR).getRespuesta()).getName();
             if(Respuesta.get(indexR).getCalif()) {
                 row[4] = "Correcto";
             }else{

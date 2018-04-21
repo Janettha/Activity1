@@ -25,13 +25,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import janettha.activity1.Act0.Actividad0;
 import janettha.activity1.Models.Emocion;
 import janettha.activity1.Models.Emociones;
 import janettha.activity1.Models.Respuesta;
 import janettha.activity1.PDF.TemplatePDF;
 import janettha.activity1.R;
 import janettha.activity1.Util.LockableViewPager;
+import janettha.activity1.Util.MediaPlayerSounds;
 
 
 public class SliderAdapter extends PagerAdapter {
@@ -43,12 +43,13 @@ public class SliderAdapter extends PagerAdapter {
     static int A1;
     private int currentVP;
 
-    List<Emocion> emociones;
-    List<Actividad0> listAct0 = new ArrayList<>();
-    Emociones em;
+    List<ActividadA> listActA = new ArrayList<>();
+    Emociones emociones;
 
     //private Actividad0 act1, act2, act3;
     private boolean answer;
+    private MediaPlayerSounds mediaPlayerSounds;
+
     private String idSexo;
     private String user, tutor, email;
     private SharedPreferences sharedPreferences;
@@ -68,35 +69,42 @@ public class SliderAdapter extends PagerAdapter {
     Respuesta respuestaPDF;
     String fInicio, fFin;
 
-    public SliderAdapter(Context context, String userU, int numA1, Actividad0 a0, Actividad0 a1, Actividad0 a2, String sexo, LockableViewPager v) {
+    public SliderAdapter(Context context, String userU, int numA1, ActividadA a0, ActividadA a1, ActividadA a2, String sexo, LockableViewPager v) {
 
+        if(context != null) Log.e("Context", context.toString());
         this.context = context;
         this.vp = v;
         A1 = numA1;
 
-        em = new Emociones();
+        emociones = new Emociones();
+        mDatabaseUser = FirebaseDatabase.getInstance().getReference("users");
 
-        listAct0.add(a0);
-        listAct0.add(a1);
-        listAct0.add(a2);
-        //act1 = a0;
-        //act2 = a1;
-        //act3 = a2;
+        listActA.add(a0);
+        listActA.add(a1);
+        listActA.add(a2);
+
+        mediaPlayerSounds = new MediaPlayerSounds(context);
+
         idSexo = sexo;
-        emociones = em.Emociones(context, idSexo);
+        emociones.Emociones(context, idSexo);
         respuestaPDF = new Respuesta();
         user = userU;
         tutor = tutor;
         Toast.makeText(context, "User: "+user, Toast.LENGTH_SHORT).show();
+/*
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            soundManager = new SoundManager(context);
+        }
+*/
         templatePDF = new TemplatePDF(context);
         pdfConfig();
-        mDatabaseUser = FirebaseDatabase.getInstance().getReference("users");
+
     }
 
 
     @Override
     public int getCount() {
-        return listAct0.size();
+        return listActA.size();
     }
 
     @Override
@@ -120,9 +128,9 @@ public class SliderAdapter extends PagerAdapter {
         currentVP = position;
         fInicio = Calendar.getInstance().getTime().toString();
 
-        int rMain = emociones.get(listAct0.get(position).emocionMain().getId()).getId();
-        int rB = emociones.get(listAct0.get(position).emocionB().getId()).getId();
-        int rC = emociones.get(listAct0.get(position).emocionC().getId()).getId();
+        int rMain = emociones.getEmocion(listActA.get(position).emocionMain().getId()).getId();
+        int rB = emociones.getEmocion(listActA.get(position).emocionB().getId()).getId();
+        int rC = emociones.getEmocion(listActA.get(position).emocionC().getId()).getId();
         int r;
 
         indicaciones = (TextView) rootView.findViewById(R.id.section_label);
@@ -139,13 +147,13 @@ public class SliderAdapter extends PagerAdapter {
 
         r = (int) (Math.random() * 3);
         if (r == 0) {
-            rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
+            rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(rMain).getColor()));
             interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rMain, rB, rC);
         } else if (r == 1) {
-            rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
+            rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(rMain).getColor()));
             interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rC, rMain, rB);
         } else if (r == 2) {
-            rootView.setBackgroundColor(Color.parseColor(emociones.get(rMain).getColor()));
+            rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(rMain).getColor()));
             interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rB, rC, rMain);
         }
 
@@ -157,6 +165,8 @@ public class SliderAdapter extends PagerAdapter {
         YES = (Button)guardarView.findViewById(R.id.GuardarSI);
         NO = (Button)guardarView.findViewById(R.id.GuardarNO);
 */
+
+
         container.addView(rootView);
         return rootView;
     }
@@ -178,20 +188,20 @@ public class SliderAdapter extends PagerAdapter {
         ran3 = r3;
 
         /*Pictures de botones*/
-        ruta = Uri.parse(emociones.get(r).getUrl());
+        ruta = Uri.parse(emociones.getEmocion(r).getUrl());
         Picasso.with(v.getContext())
                 .load(ruta).fit()
                 .into(txFeel); //fit para la imagen en la vista
 
         /*Nombre y color de botones*/
-        v.setBackgroundColor(Color.parseColor(emociones.get(r).getColor()));
-        txtFeel1.setBackgroundColor(Color.parseColor(emociones.get(r).getColorB()));
-        txtFeel2.setBackgroundColor(Color.parseColor(emociones.get(r).getColorB()));
-        txtFeel3.setBackgroundColor(Color.parseColor(emociones.get(r).getColorB()));
+        v.setBackgroundColor(Color.parseColor(emociones.getEmocion(r).getColor()));
+        txtFeel1.setBackgroundColor(Color.parseColor(emociones.getEmocion(r).getColorB()));
+        txtFeel2.setBackgroundColor(Color.parseColor(emociones.getEmocion(r).getColorB()));
+        txtFeel3.setBackgroundColor(Color.parseColor(emociones.getEmocion(r).getColorB()));
 
-        txtFeel1.setText(emociones.get(ex_1).getName());
-        txtFeel2.setText(emociones.get(ex_2).getName());
-        txtFeel3.setText(emociones.get(ex_3).getName());
+        txtFeel1.setText(emociones.getEmocion(ex_1).getName());
+        txtFeel2.setText(emociones.getEmocion(ex_2).getName());
+        txtFeel3.setText(emociones.getEmocion(ex_3).getName());
 
 
         txtFeel1.setOnClickListener(new View.OnClickListener() {
@@ -200,8 +210,12 @@ public class SliderAdapter extends PagerAdapter {
                 boolean respTF;
                 if (ran == ran1) respTF=true;
                 else             respTF=false;
-                MyCustomAlertDialog(v, emociones.get(ran1), emociones.get(ran1).getName(), respTF);
-
+                try {
+                    mediaPlayerSounds.playSound(mediaPlayerSounds.loadSoundTF(respTF));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                MyCustomAlertDialog(v, emociones.getEmocion(ran1), emociones.getEmocion(ran1).getName(), respTF);
             }
         });
         txtFeel2.setOnClickListener(new View.OnClickListener() {
@@ -210,7 +224,12 @@ public class SliderAdapter extends PagerAdapter {
                 boolean respTF;
                 if (ran == ran2) respTF=true;
                 else             respTF=false;
-                MyCustomAlertDialog(v, emociones.get(ran2), emociones.get(ran2).getName(), respTF);
+                try {
+                    mediaPlayerSounds.playSound(mediaPlayerSounds.loadSoundTF(respTF));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                MyCustomAlertDialog(v, emociones.getEmocion(ran2), emociones.getEmocion(ran2).getName(), respTF);
             }
         });
         txtFeel3.setOnClickListener(new View.OnClickListener() {
@@ -219,7 +238,12 @@ public class SliderAdapter extends PagerAdapter {
                 boolean respTF;
                 if (ran == ran3) respTF=true;
                 else             respTF=false;
-                MyCustomAlertDialog(v, emociones.get(ran3), emociones.get(ran3).getName(), respTF);
+                try {
+                    mediaPlayerSounds.playSound(mediaPlayerSounds.loadSoundTF(respTF));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                MyCustomAlertDialog(v, emociones.getEmocion(ran3), emociones.getEmocion(ran3).getName(), respTF);
             }
         });
 
@@ -237,7 +261,7 @@ public class SliderAdapter extends PagerAdapter {
 
         currentVP = vp.getPosition();
         fFin = Calendar.getInstance().getTime().toString();
-        respuestaPDF = new Respuesta(emociones.get(listAct0.get(currentVP).emocionMain().getId()).getId(), fInicio, fFin, em.getId(), resp);
+        respuestaPDF = new Respuesta(emociones.getEmocion(listActA.get(currentVP).emocionMain().getId()).getId(), fInicio, fFin, em.getId(), resp);
         respuestas.add(respuestaPDF);
 
         Uri ruta = Uri.parse(em.getUrl());
@@ -269,12 +293,23 @@ public class SliderAdapter extends PagerAdapter {
                     if(currentVP == 2) {
                         pdfConfig();
                         pdfView();
+                        try {
+                            mediaPlayerSounds.playSound(mediaPlayerSounds.loadFinEx());
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         //mDatabaseUser.child(user).child("indiceA1").toString();
                         //Log.e("DB/A1", "UserDB: "+mDatabaseUser.child(user).child("indiceA1").toString());
                         if(A1<12) {
-                            int indice=listAct0.get(0).emocionMain().getId()+3;
+                            int indice=listActA.get(0).emocionMain().getId()+3;
                             mDatabaseUser.child(user).child("indiceA1").setValue(indice);
                             Log.e("DB/A1", "User: " + user + " indiceA1: " + String.valueOf(indice));
+                        }else{
+                            try {
+                                mediaPlayerSounds.playSound(mediaPlayerSounds.loadInicio());
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                     vp.setCurrentItem(currentVP+1);
@@ -315,8 +350,4 @@ public class SliderAdapter extends PagerAdapter {
         container.removeView((LinearLayout)object);
     }
 
-
-    /* *
-         SWIPPING CONFIGURATION
-    * */
 }

@@ -21,8 +21,8 @@ public class Emociones {
 
     public Emociones(){};
 
-    public List<Emocion> Emociones(Context c, String s)  {
-
+    //public List<Emocion> Emociones(Context c, String s)  {
+    public void Emociones(Context c, String s)  {
         try {
             //InputStream fileE = view.getResources().openRawResource(R.raw.emociones);
             InputStream fileE = c.getResources().openRawResource(R.raw.emociones);
@@ -45,7 +45,7 @@ public class Emociones {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return emociones;
+        //return emociones;
     }
 
 

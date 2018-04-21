@@ -1,9 +1,13 @@
 package janettha.activity1.Menu;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,22 +29,25 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import janettha.activity1.Act0.Preactivity;
-import janettha.activity1.Act2.Activity2;
-import janettha.activity1.Act1.Activity1;
+import janettha.activity1.ActC.Activity2;
+import janettha.activity1.ActB.Activity1;
 import janettha.activity1.ActA.ActA;
-import janettha.activity1.ActB.ActB;
 import janettha.activity1.Activities_Login.loginUser;
 import janettha.activity1.Models.Tutores;
 import janettha.activity1.Models.Usuarios;
 import janettha.activity1.R;
+import janettha.activity1.Util.MediaPlayerSounds;
 
+import static android.provider.Settings.System.AIRPLANE_MODE_ON;
 import static janettha.activity1.Activities_Login.loginUser.keySP;
 
 public class MainmenuActivity extends AppCompatActivity {
 
     private Button btnA1, btnA2, btnA3;
     private int a1, a2, a3;
+    //private SoundManager soundManager;
+
+    private MediaPlayerSounds mediaPlayerSounds;
 
     private DatabaseReference mDatabaseUser;
     private ValueEventListener mUserListener;
@@ -68,9 +74,18 @@ public class MainmenuActivity extends AppCompatActivity {
         mDatabaseUser = FirebaseDatabase.getInstance().getReference("users");
         inidiceActividad();
 
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        mediaPlayerSounds = new MediaPlayerSounds(this);
+
         btnA1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    mediaPlayerSounds.playSound(mediaPlayerSounds.loadNewAct());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 String time = Calendar.getInstance().getTime().toString();
                 FirebaseDatabase.getInstance().getReference().child("users").child(userU).child("finS").setValue(time);
                 Intent intent = new Intent(MainmenuActivity.this, ActA.class);
@@ -89,6 +104,12 @@ public class MainmenuActivity extends AppCompatActivity {
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
 
                 if(a1 == 12) {
+                    try {
+                        mediaPlayerSounds.playSound(mediaPlayerSounds.loadNewAct());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
                     intent.putExtra("a2", a2);
                     startActivity(intent);
                 }
@@ -100,7 +121,14 @@ public class MainmenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainmenuActivity.this, Activity2.class);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+
                 if(a2 > 16) {
+                    try {
+                        mediaPlayerSounds.playSound(mediaPlayerSounds.loadNewAct());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
                     intent.putExtra("a3", a3);
                     startActivity(intent);
                 }
@@ -197,4 +225,8 @@ public class MainmenuActivity extends AppCompatActivity {
         });
     }
 
+    static boolean isAirplaneModeOn(Context context) {
+        ContentResolver contentResolver = context.getContentResolver();
+        return Settings.System.getInt(contentResolver, AIRPLANE_MODE_ON, 0) != 0;
+    }
 }

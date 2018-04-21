@@ -26,6 +26,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import janettha.activity1.ActA.ActividadA;
 import janettha.activity1.Activities_Login.loginUser;
 import janettha.activity1.Menu.MainmenuActivity;
 import janettha.activity1.Models.Emocion;
@@ -54,8 +55,8 @@ public class Preactivity extends AppCompatActivity {
     public static final String ARG_B = "Answer 2";
     public static final String ARG_C = "Answer 3";
 
-    List<Emocion> emociones = new ArrayList<Emocion>();
-    List<Actividad0> listAct0 = new ArrayList<Actividad0>();
+    Emociones emociones;
+    List<ActividadA> listAct0 = new ArrayList<ActividadA>();
 
     int r1, r2, r3;
 
@@ -73,8 +74,8 @@ public class Preactivity extends AppCompatActivity {
         //editorSP = sharedPreferences.edit();
         sexo = sharedPreferences.getString("sexo", "m");
 
-        Emociones em = new Emociones();
-        emociones = em.Emociones(getBaseContext(),sexo);
+        emociones = new Emociones();
+        emociones.Emociones(getBaseContext(),sexo);
         fillData(this, sexo);
 
 
@@ -134,14 +135,14 @@ public class Preactivity extends AppCompatActivity {
         }
         if (mDots.length > 0){
             if(position == 0) {
-                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.get(r1).getColor()));
-                mDots[position].setTextColor(android.graphics.Color.parseColor(emociones.get(r1).getColorB()));
+                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.getEmocion(r1).getColor()));
+                mDots[position].setTextColor(android.graphics.Color.parseColor(emociones.getEmocion(r1).getColorB()));
             }else if(position == 1){
-                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.get(r2).getColor()));
-                mDots[position].setTextColor(android.graphics.Color.parseColor(emociones.get(r2).getColorB()));
+                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.getEmocion(r2).getColor()));
+                mDots[position].setTextColor(android.graphics.Color.parseColor(emociones.getEmocion(r2).getColorB()));
             }else if(position == 2) {
-                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.get(r3).getColor()));
-                mDots[position].setTextColor(android.graphics.Color.parseColor(emociones.get(r3).getColorB()));
+                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.getEmocion(r3).getColor()));
+                mDots[position].setTextColor(android.graphics.Color.parseColor(emociones.getEmocion(r3).getColorB()));
             }
         }
     }
@@ -149,13 +150,13 @@ public class Preactivity extends AppCompatActivity {
     public void backgroundDots(int position){
         switch (position){
             case 0:
-                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.get(r1).getColor()));
+                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.getEmocion(r1).getColor()));
                 break;
             case 1:
-                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.get(r2).getColor()));
+                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.getEmocion(r2).getColor()));
                 break;
             case 2:
-                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.get(r3).getColor()));
+                mDotLayout.setBackgroundColor(android.graphics.Color.parseColor(emociones.getEmocion(r3).getColor()));
                 break;
             default:
                 mDotLayout.setBackgroundColor(android.graphics.Color.parseColor("#abd6df"));
@@ -240,10 +241,10 @@ public class Preactivity extends AppCompatActivity {
 
     }
 
-    private List<Actividad0> fillData (Context c, String s){
+    private List<ActividadA> fillData (Context c, String s){
 
         Emocion eMain, e2, e3 = new Emocion();
-        Actividad0 a0;
+        ActividadA a0;
 
         try {
             //InputStream fileE = view.getResources().openRawResource(R.raw.emociones);
@@ -261,10 +262,10 @@ public class Preactivity extends AppCompatActivity {
                     int id3 = Integer.parseInt(array[2]);
                     //System.out.print("----------------------ID-----------------"+id+","+id2+","+id3);
                     // emociones.get(id).getSexo()
-                    eMain = new Emocion(id, emociones.get(id).getName(), s, emociones.get(id).getUrl(), emociones.get(id).getColor(), emociones.get(id).getColorB());
-                    e2 = new Emocion(id2, emociones.get(id2).getName(), s, emociones.get(id2).getUrl(), emociones.get(id2).getColor(), emociones.get(id2).getColorB());
-                    e3 = new Emocion(id3, emociones.get(id3).getName(), s, emociones.get(id3).getUrl(), emociones.get(id3).getColor(), emociones.get(id3).getColorB());
-                    a0 = new Actividad0(i, eMain, e2, e3);
+                    eMain = new Emocion(id, emociones.getEmocion(id).getName(), s, emociones.getEmocion(id).getUrl(), emociones.getEmocion(id).getColor(), emociones.getEmocion(id).getColorB());
+                    e2 = new Emocion(id2, emociones.getEmocion(id2).getName(), s, emociones.getEmocion(id2).getUrl(), emociones.getEmocion(id2).getColor(), emociones.getEmocion(id2).getColorB());
+                    e3 = new Emocion(id3, emociones.getEmocion(id3).getName(), s, emociones.getEmocion(id3).getUrl(), emociones.getEmocion(id3).getColor(), emociones.getEmocion(id3).getColorB());
+                    a0 = new ActividadA(i, eMain, e2, e3);
                     listAct0.add(i, a0);
                     i++;
                 }

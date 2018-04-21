@@ -161,7 +161,7 @@ public class loginUser extends AppCompatActivity {
                             Tutores tutor = objectArrayList.get(i);
                             //Tutores tutor = dataSnapshot.getValue(Tutores.class);
                             if (tutor.getEmail().equals(mAuth.getCurrentUser().getEmail())) {
-                            //if(tutor.getUser().equals(mAuth.getCurrentUser().getDisplayName())){
+                                //if(tutor.getUser().equals(mAuth.getCurrentUser().getDisplayName())){
                                 Log.e(TAG, "onTutorFound: Se encontró tutor: " + tutor.getName());
 
                                 Toast.makeText(loginUser.this, tutor.toString(), Toast.LENGTH_SHORT).show();
