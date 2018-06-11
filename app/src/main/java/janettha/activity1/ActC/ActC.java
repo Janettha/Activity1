@@ -43,6 +43,7 @@ import janettha.activity1.ActC.Adapters.WheelmageAdapter;
 import janettha.activity1.Models.Emocion;
 import janettha.activity1.Models.Emociones;
 import janettha.activity1.R;
+import janettha.activity1.Util.Date;
 import janettha.activity1.Util.MediaPlayerSounds;
 
 /*
@@ -161,8 +162,7 @@ public class ActC extends AppCompatActivity implements CursorWheelLayout.OnMenuS
             wheel_img.setOnMenuSelectedListener(new CursorWheelLayout.OnMenuSelectedListener() {
                 public void onItemSelected(CursorWheelLayout parent, View view, int pos) {
 
-                    int date[] = new int[6], i;
-                    String time = new String();
+                    Date date = new Date();
                     DialogFlag = true;
                     //Toast.makeText(Activity2.this, "Top Menu click position:" + pos + " Dialog: "+DialogFlag, Toast.LENGTH_SHORT).show();
 
@@ -170,19 +170,7 @@ public class ActC extends AppCompatActivity implements CursorWheelLayout.OnMenuS
                     //mFileName = ""mFile;
                     mFileName = mFile;
                     //mFileName += listImg.get(wheel_img.getSelectedPosition()).getId() + "_" + listImg.get(wheel_img.getSelectedPosition()).getName() + extension;
-
-                    date[0] = Calendar.getInstance().getTime().getDate();
-                    date[1] = Calendar.getInstance().getTime().getMonth();
-                    date[2] = Calendar.getInstance().getTime().getYear();
-                    date[3] = Calendar.getInstance().getTime().getHours();
-                    date[4] = Calendar.getInstance().getTime().getMinutes();
-                    date[5] = Calendar.getInstance().getTime().getSeconds();
-                    for (i=0; i<date.length; i++) {
-                        time += String.valueOf(date[i]);
-                    }
-
-
-                    mFileName += (pos+1)+"_"+listImg.getEmocion(pos).getName()+"_"+time+extension;
+                    mFileName += (pos+1)+"_"+listImg.getEmocion(pos).getName()+"_"+date.getTime()+extension;
 
                     textWheel.setText(String.valueOf(posicion+1));
                     lwheel.setBackgroundColor(Color.parseColor(listImg.getEmocion(posicion).getColor()));

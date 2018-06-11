@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
+import com.google.android.gms.vision.barcode.Barcode;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -17,12 +19,33 @@ import java.util.Calendar;
 
 public class Date {
 
+    Calendar calendar;
     private int diaU, mesU, anioU;
+    private int d, m, a, h, mn, s;
+    int date[] = new int[6], i;
+    String time = new String();
 
     public Date(int diaU, int mesU, int anioU){
         this.diaU = diaU;
         this.mesU = mesU;
         this.anioU = anioU;
+    }
+
+    public Date (){
+        calendar = Calendar.getInstance();
+    }
+
+    public String getTime(){
+        date[0] = calendar.get(Calendar.YEAR);
+        date[1] = calendar.get(Calendar.MONTH);
+        date[2] = calendar.get(Calendar.DAY_OF_YEAR);
+        date[3] = calendar.get(Calendar.HOUR_OF_DAY);
+        date[4] = calendar.get(Calendar.MINUTE);
+        date[5] = calendar.get(Calendar.SECOND);
+        for (i=0; i<date.length; i++) {
+            time += String.valueOf(date[i]);
+        }
+        return time;
     }
 
     public String getToString(){
