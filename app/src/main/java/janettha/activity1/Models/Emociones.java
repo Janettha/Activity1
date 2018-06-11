@@ -48,6 +48,9 @@ public class Emociones {
         //return emociones;
     }
 
+    public List<Emocion> getEmociones() {
+        return emociones;
+    }
 
     public Emocion getEmocion(int i) {
         return emociones.get(i);

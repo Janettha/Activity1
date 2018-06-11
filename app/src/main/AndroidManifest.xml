@@ -40,7 +40,7 @@
                 android:value="Menu.MainmenuActivity" />
         </activity>
         <activity
-            android:name=".ActB.Activity1"
+            android:name=".ActB.ActB"
             android:label="@string/title_activity_1"
             android:parentActivityName="Menu.MainmenuActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -49,7 +49,7 @@
                 android:value="Menu.MainmenuActivity" />
         </activity>
         <activity
-            android:name=".ActC.Activity2"
+            android:name=".ActC.ActC"
             android:label="@string/title_activity_2"
             android:parentActivityName="Menu.MainmenuActivity"
             android:theme="@style/AppTheme.NoActionBar">

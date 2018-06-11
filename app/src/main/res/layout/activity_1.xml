@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActA.ActA">
+    tools:context=".ActB.ActB">
 
     <janettha.activity1.Util.LockableViewPager
         android:id="@+id/pager"
@@ -14,7 +14,7 @@
         />
 
     <LinearLayout
-        android:id="@+id/dotsLayout"
+        android:id="@+id/dotsLayoutA2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -29,8 +29,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import janettha.activity1.ActC.Activity2;
-import janettha.activity1.ActB.Activity1;
+import janettha.activity1.ActC.ActC;
+import janettha.activity1.ActB.ActB;
 import janettha.activity1.ActA.ActA;
 import janettha.activity1.Activities_Login.loginUser;
 import janettha.activity1.Models.Tutores;
@@ -70,7 +70,6 @@ public class MainmenuActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(keySP, MODE_PRIVATE);
         userU = sharedPreferences.getString("usuario", "");
-        //mDatabaseUser = FirebaseDatabase.getInstance().getReference("users");
         mDatabaseUser = FirebaseDatabase.getInstance().getReference("users");
         inidiceActividad();
 
@@ -100,10 +99,11 @@ public class MainmenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String time = Calendar.getInstance().getTime().toString();
                 FirebaseDatabase.getInstance().getReference().child("users").child(userU).child("finS").setValue(time);
-                Intent intent = new Intent(MainmenuActivity.this, Activity1.class);
+                Intent intent = new Intent(MainmenuActivity.this, ActB.class);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
 
-                if(a1 == 12) {
+                if(a1 > 16) {
+                    Log.e("ActB","YA ENTRAMOS - a1="+a1);
                     try {
                         mediaPlayerSounds.playSound(mediaPlayerSounds.loadNewAct());
                     } catch (InterruptedException e) {
@@ -119,7 +119,7 @@ public class MainmenuActivity extends AppCompatActivity {
         btnA3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainmenuActivity.this, Activity2.class);
+                Intent intent = new Intent(MainmenuActivity.this, ActC.class);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
 
                 if(a2 > 16) {
@@ -134,17 +134,10 @@ public class MainmenuActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
-        //getIntent().setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public void onBackPressed() {
-        //final Intent intent = new Intent(this, loginUser.class);
-
         new AlertDialog.Builder(this)
                 .setTitle("¿Realmente deseas salir?")
                 .setMessage("El usuario actual será olvidado.")
@@ -194,23 +187,17 @@ public class MainmenuActivity extends AppCompatActivity {
         mUserListener = mDatabaseUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {}
                 GenericTypeIndicator<HashMap<String, Usuarios>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Usuarios>>() {
                 };
                 Map<String, Usuarios> objectHashMap = dataSnapshot.getValue(objectsGTypeInd);
                 ArrayList<Usuarios> objectArrayList = new ArrayList<Usuarios>(objectHashMap.values());
                 for (int i = 0; i < objectArrayList.size(); i++) {
                     Usuarios userT = objectArrayList.get(i);
-                    //Tutores tutor = dataSnapshot.getValue(Tutores.class);
-                    //Log.e(TAG, "onUserFound: Nuevo usuario: "+newUser);
-                    //Log.e(TAG, "onUserFound: Usuario DB: " + userT.getUser() + " user app:"+uName);
                     if (userT.getUser().equals(userU)) { // add newUser != null
                         a1 = userT.getIndiceA1();
                         a2 = userT.getIndiceA2();
                         a3 = userT.getIndiceA3();
-                        //FirebaseDatabase.getInstance().getReference().child("users").child(user.getUser()).setValue(user);
-                        //Log.e(TAG, "onUserFound: Se ha agregado a un newUser: "+ newUser + " Edad: "+ userT.getEdad());
-
+                        Log.e("Indices",a1+"-"+a2+"-"+a3);
                         break;
                     }
                 }

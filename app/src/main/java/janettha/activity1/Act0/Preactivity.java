@@ -243,7 +243,7 @@ public class Preactivity extends AppCompatActivity {
 
     private List<ActividadA> fillData (Context c, String s){
 
-        Emocion eMain, e2, e3 = new Emocion();
+        List<Emocion> emociones = new ArrayList<Emocion>();
         ActividadA a0;
 
         try {
@@ -262,10 +262,10 @@ public class Preactivity extends AppCompatActivity {
                     int id3 = Integer.parseInt(array[2]);
                     //System.out.print("----------------------ID-----------------"+id+","+id2+","+id3);
                     // emociones.get(id).getSexo()
-                    eMain = new Emocion(id, emociones.getEmocion(id).getName(), s, emociones.getEmocion(id).getUrl(), emociones.getEmocion(id).getColor(), emociones.getEmocion(id).getColorB());
-                    e2 = new Emocion(id2, emociones.getEmocion(id2).getName(), s, emociones.getEmocion(id2).getUrl(), emociones.getEmocion(id2).getColor(), emociones.getEmocion(id2).getColorB());
-                    e3 = new Emocion(id3, emociones.getEmocion(id3).getName(), s, emociones.getEmocion(id3).getUrl(), emociones.getEmocion(id3).getColor(), emociones.getEmocion(id3).getColorB());
-                    a0 = new ActividadA(i, eMain, e2, e3);
+                    emociones.add(new Emocion(id, emociones.get(id).getName(), s, emociones.get(id).getUrl(), emociones.get(id).getColor(), emociones.get(id).getColorB()));
+                    emociones.add(new Emocion(id2, emociones.get(id2).getName(), s, emociones.get(id2).getUrl(), emociones.get(id2).getColor(), emociones.get(id2).getColorB()));
+                    emociones.add(new Emocion(id3, emociones.get(id3).getName(), s, emociones.get(id3).getUrl(), emociones.get(id3).getColor(), emociones.get(id3).getColorB()));
+                    a0 = new ActividadA(i, emociones);
                     listAct0.add(i, a0);
                     i++;
                 }

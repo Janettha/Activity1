@@ -79,9 +79,11 @@ public class SliderAdapter extends PagerAdapter {
         emociones = new Emociones();
         mDatabaseUser = FirebaseDatabase.getInstance().getReference("users");
 
-        listActA.add(a0);
-        listActA.add(a1);
-        listActA.add(a2);
+        listActA.add(0,a0);
+        listActA.add(1,a1);
+        listActA.add(2,a2);
+
+        Log.e("emocionesA1List",a0.emocionMain().getId()+"-"+a1.emocionMain().getId()+"-"+a2.emocionMain().getId());
 
         mediaPlayerSounds = new MediaPlayerSounds(context);
 
@@ -120,21 +122,28 @@ public class SliderAdapter extends PagerAdapter {
         View rootView = layoutInflater.inflate(R.layout.fragment_preactivity, container, false);
         //View guardarView = layoutInflater.inflate(R.layout.guarda_respuestas,container, false );
 
-    /*VIEW ejercicios*/
+    /*VIEW ejercicios
         TextView indicaciones;
         ImageView imgFeel;
-        Button btnA1, btnA2, btnA3;
-
+        //Button btnA1, btnA2, btnA3;
+*/
         currentVP = position;
         fInicio = Calendar.getInstance().getTime().toString();
 
-        int rMain = emociones.getEmocion(listActA.get(position).emocionMain().getId()).getId();
-        int rB = emociones.getEmocion(listActA.get(position).emocionB().getId()).getId();
-        int rC = emociones.getEmocion(listActA.get(position).emocionC().getId()).getId();
+        int rMain = listActA.get(position).emocionMain().getId();
+        int rB = listActA.get(position).emocionB().getId();
+        int rC = listActA.get(position).emocionC().getId();
         int r;
+        Log.e("emocionesA1",rMain+"-"+rB+"-"+rC+" - posicion: "+position);
+        Log.e("emocionesA1",listActA.get(position).emocionMain().getId()
+                +"-"+listActA.get(position).emocionB().getId()
+                +"-"+listActA.get(position).emocionC().getId()
+                +" - posicion: "+position);
 
+        /*
         indicaciones = (TextView) rootView.findViewById(R.id.section_label);
         imgFeel = (ImageView) rootView.findViewById(R.id.imgFeel);
+
         btnA1 = (Button) rootView.findViewById(R.id.ans1);
         btnA2 = (Button) rootView.findViewById(R.id.ans2);
         btnA3 = (Button) rootView.findViewById(R.id.ans3);
@@ -144,18 +153,22 @@ public class SliderAdapter extends PagerAdapter {
         }else{
             indicaciones.setText("Lee o escucha la pequeña situación y elije ¿cómo se siente Juan Carlos?");
         }
-
+*/
         r = (int) (Math.random() * 3);
         if (r == 0) {
             rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(rMain).getColor()));
-            interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rMain, rB, rC);
+            //interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rMain, rB, rC);
+            interfaceFrame(rootView, rMain, rMain, rB, rC);
         } else if (r == 1) {
             rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(rMain).getColor()));
-            interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rC, rMain, rB);
+            //interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rC, rMain, rB);
+            interfaceFrame(rootView, rMain, rC, rMain, rB);
         } else if (r == 2) {
             rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(rMain).getColor()));
-            interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rB, rC, rMain);
+            //interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rB, rC, rMain);
+            interfaceFrame(rootView, rMain, rB, rC, rMain);
         }
+        Log.e("colorBG",emociones.getEmocion(rMain).getColor());
 
     /*VIEW guardar
         EditText correo;
@@ -171,11 +184,30 @@ public class SliderAdapter extends PagerAdapter {
         return rootView;
     }
 
-    private void interfaceFrame(View v, ImageView txFeel, Button txtFeel1, Button txtFeel2, Button txtFeel3, String s, int r, int r1, int r2, int r3) {
+    //private void interfaceFrame(View v, ImageView txFeel, Button txtFeel1, Button txtFeel2, Button txtFeel3, String s, int r, int r1, int r2, int r3) {
+    private void interfaceFrame(View v, int r, int r1, int r2, int r3) {
+
+        TextView indicaciones;
+        ImageView txFeel;
+        Button txtFeel1, txtFeel2, txtFeel3;
 
         Uri ruta;
         //answer = false;
         final int ex_1, ex_2, ex_3;
+
+        indicaciones = (TextView) v.findViewById(R.id.section_label);
+        txFeel = (ImageView) v.findViewById(R.id.imgFeel);
+
+        txtFeel1 = (Button) v.findViewById(R.id.ans1);
+        txtFeel2 = (Button) v.findViewById(R.id.ans2);
+        txtFeel3 = (Button) v.findViewById(R.id.ans3);
+
+        if(idSexo.equals("f")){
+            indicaciones.setText("Lee o escucha la pequeña situación y elije ¿cómo se siente Lili?");
+        }else{
+            indicaciones.setText("Lee o escucha la pequeña situación y elije ¿cómo se siente Juan Carlos?");
+        }
+
         //expl = getArguments().getString(Activity1.ARG_r);
         ex_1 = r1;
         ex_2 = r2;
@@ -249,7 +281,7 @@ public class SliderAdapter extends PagerAdapter {
 
     }
 
-    public void MyCustomAlertDialog(View v, Emocion em, String respuesta, final boolean resp) {
+    private void MyCustomAlertDialog(View v, Emocion em, String respuesta, final boolean resp) {
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_act0);
         dialog.setTitle("Ya casi lo logras");
@@ -333,17 +365,10 @@ public class SliderAdapter extends PagerAdapter {
         templatePDF.closeDocument();
     }
 
-    public void pdfView(){
+    private void pdfView(){
         templatePDF.viewPDF();
     }
 
-    public boolean getAnswer(){
-        return answer;
-    }
-
-    public void setAnswer(boolean b){
-        answer = b;
-    }
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
