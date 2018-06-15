@@ -34,8 +34,6 @@ public class ActividadMaster{
         this.listEmociones = listEmociones;
     }
 
-    public int getIDMain(){ return this.id; }
-
     public Emocion emocionMain(){        return this.listEmociones.get(0); }
     public Emocion emocionB(){
                                                                 return this.listEmociones.get(1);

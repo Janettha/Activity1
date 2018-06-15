@@ -65,8 +65,6 @@ public class ActC extends AppCompatActivity implements CursorWheelLayout.OnMenuS
 
     private static final String LOG_TAG = "AudioRecordTest";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
-    //private static final String mFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/audiosEmociones/";
-    //private static final String mFileS = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
     private static String mFile;
     private static String mFileS;
 
@@ -88,6 +86,9 @@ public class ActC extends AppCompatActivity implements CursorWheelLayout.OnMenuS
     private String sexo, userName;
 
     private FirebaseAuth mAuth;
+
+    public ActC() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

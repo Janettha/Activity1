@@ -35,16 +35,12 @@ public class ActA extends Activity {
     private LockableViewPager mSlideViewPager;
     private LinearLayout mDotLayout;
 
-    private SliderAdapter sliderAdapter;
-
     public final int LIM_emociones = 11;
     private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editorSP;
     public String sexo, userU;
 
     int r[] = new int[3];
     int A1;
-    private TextView[] mDots;
 
     Emociones emociones;
     List<ActividadA> listAct0 = new ArrayList<>();
@@ -54,8 +50,8 @@ public class ActA extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acta);
 
-        mSlideViewPager = (LockableViewPager) findViewById(R.id.slideViewPager);
-        mDotLayout = (LinearLayout) findViewById(R.id.dotsLayout);
+        mSlideViewPager = findViewById(R.id.slideViewPager);
+        mDotLayout = findViewById(R.id.dotsLayout);
 
         //se determina número de actividad
         Bundle bundle = getIntent().getExtras();
@@ -79,7 +75,7 @@ public class ActA extends Activity {
         Context c = this;
 
         Log.e("emocionesA1List",listAct0.get(r[0]).emocionMain().getId()+"-"+listAct0.get(r[1]).emocionMain().getId()+"-"+listAct0.get(r[2]).emocionMain().getId());
-        sliderAdapter = new SliderAdapter(c, userU, A1, listAct0.get(r[0]), listAct0.get(r[1]), listAct0.get(r[2]), sexo, mSlideViewPager);
+        SliderAdapter sliderAdapter = new SliderAdapter(c, userU, A1, listAct0.get(r[0]), listAct0.get(r[1]), listAct0.get(r[2]), sexo, mSlideViewPager);
         mSlideViewPager.setAdapter(sliderAdapter);
         mSlideViewPager.addOnPageChangeListener(viewListener);
 
@@ -108,9 +104,9 @@ public class ActA extends Activity {
     };
 
     public void addDotsIndicator(int position){
-        mDots = new TextView[3];
+        TextView[] mDots = new TextView[3];
         mDotLayout.removeAllViews();
-        for(int i=0; i< mDots.length; i++){
+        for(int i = 0; i< mDots.length; i++){
             mDots[i] = new TextView(this);
             mDots[i].setText(Html.fromHtml("&#8226;"));
             mDots[i].setTextSize(35);

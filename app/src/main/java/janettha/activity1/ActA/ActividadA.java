@@ -19,4 +19,5 @@ public class ActividadA extends ActividadMaster{
         super(id,listEmociones);
     }
 
+    public int getIDMain(){ return this.id; }
 }

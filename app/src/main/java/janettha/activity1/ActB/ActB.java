@@ -37,7 +37,6 @@ public class ActB extends FragmentActivity {
 
     private static final int NUM_PAGES = 3;
     private LockableViewPager mPager;
-    private PagerAdapter mPagerAdapter;
     public final int LIM_emociones = 16;
 
     public static final String ARG_r = "Redaccion";
@@ -51,16 +50,14 @@ public class ActB extends FragmentActivity {
     public static final String ARG_IDe3 = "Emocion3ID";
     private TextToSpeech tts;
 
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editorSP;
-    private String sexo, userU;
+    private String sexo;
+    private String userU;
 
     Emociones emociones;
     List<ActividadB> listActB = new ArrayList<>();
 
     int r[] = new int[3];
     int A2;
-    private TextView[]mDots;
     private LinearLayout mDotLayout;
 
     Context context;
@@ -70,11 +67,11 @@ public class ActB extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_1);
-        mPager = (LockableViewPager) findViewById(R.id.pager);
-        mDotLayout = (LinearLayout) findViewById(R.id.dotsLayoutA2);
+        mPager = findViewById(R.id.pager);
+        mDotLayout = findViewById(R.id.dotsLayoutA2);
         mDotLayout.removeAllViews();
 
-        sharedPreferences = getSharedPreferences(loginUser.keySP, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(loginUser.keySP, MODE_PRIVATE);
         sexo = sharedPreferences.getString("sexo", "m");
         userU = sharedPreferences.getString("usuario", "");
 
@@ -98,7 +95,7 @@ public class ActB extends FragmentActivity {
 
         addDotsIndicator(0);
 
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.addOnPageChangeListener(viewListener);
 
@@ -178,7 +175,7 @@ public class ActB extends FragmentActivity {
         }
     };
 
-    private List<ActividadB> fillData (Context c, String s){
+    private void fillData (Context c, String s){
         InputStream fileE;
         try {
             if(s.equals("f"))
@@ -188,9 +185,12 @@ public class ActB extends FragmentActivity {
 
             BufferedReader brE = new BufferedReader(new InputStreamReader(fileE));
             int i = 0;
-            String line1="";
-            if (fileE != null) {
+            String line1;
+
+            if(fileE != null){
+
                 while ((line1 = brE.readLine()) != null) {
+
                     String[] array = line1.split("-"); // Split according to the hyphen and put them in an array
 
                     List<String> explicaciones = new ArrayList<String>();
@@ -210,18 +210,19 @@ public class ActB extends FragmentActivity {
                     listActB.add(i, a2);
                     i++;
                 }
+            }else{
+                Log.e("FileE", "Archivo vacio");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return listActB;
     }
 
     public void addDotsIndicator(int position){
-        mDots = new TextView[3];
+        TextView[] mDots = new TextView[3];
         mDotLayout.removeAllViews();
-        for(int i=0; i< mDots.length; i++){
+        for(int i = 0; i< mDots.length; i++){
             mDots[i] = new TextView(this);
             mDots[i].setText(Html.fromHtml("&#8226;"));
             mDots[i].setTextSize(35);
@@ -243,6 +244,8 @@ public class ActB extends FragmentActivity {
                 Log.e("ActividadB-Dots",listActB.get(r[2]).emocionMain().getName());
             }
             Log.e("ActividadB-Dots",listActB.get(r[0]).emocionMain().getName()+"-"+listActB.get(r[1]).emocionMain().getName()+"-"+listActB.get(r[2]).emocionMain().getName());
+        }else{
+            Log.e("Dots", "No pudieron ser creados");
         }
     }
 

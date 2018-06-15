@@ -46,13 +46,11 @@ public class SliderAdapter extends PagerAdapter {
     List<ActividadA> listActA = new ArrayList<>();
     Emociones emociones;
 
-    //private Actividad0 act1, act2, act3;
-    private boolean answer;
     private MediaPlayerSounds mediaPlayerSounds;
 
     private String idSexo;
-    private String user, tutor, email;
-    private SharedPreferences sharedPreferences;
+    private String user;
+    private String tutor;
 
     private DatabaseReference mDatabaseUser;
 
@@ -91,7 +89,6 @@ public class SliderAdapter extends PagerAdapter {
         emociones.Emociones(context, idSexo);
         respuestaPDF = new Respuesta();
         user = userU;
-        tutor = tutor;
         Toast.makeText(context, "User: "+user, Toast.LENGTH_SHORT).show();
 /*
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -120,65 +117,37 @@ public class SliderAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View rootView = layoutInflater.inflate(R.layout.fragment_preactivity, container, false);
-        //View guardarView = layoutInflater.inflate(R.layout.guarda_respuestas,container, false );
 
-    /*VIEW ejercicios
-        TextView indicaciones;
-        ImageView imgFeel;
-        //Button btnA1, btnA2, btnA3;
-*/
+        int r[] = new int[4];
         currentVP = position;
         fInicio = Calendar.getInstance().getTime().toString();
 
-        int rMain = listActA.get(position).emocionMain().getId();
-        int rB = listActA.get(position).emocionB().getId();
-        int rC = listActA.get(position).emocionC().getId();
-        int r;
-        Log.e("emocionesA1",rMain+"-"+rB+"-"+rC+" - posicion: "+position);
+
+        r[1] = listActA.get(position).emocionMain().getId();
+        r[2] = listActA.get(position).emocionB().getId();
+        r[3] = listActA.get(position).emocionC().getId();
+
+        Log.e("emocionesA1",r[1]+"-"+r[2]+"-"+r[3]+" - posicion: "+position);
         Log.e("emocionesA1",listActA.get(position).emocionMain().getId()
                 +"-"+listActA.get(position).emocionB().getId()
                 +"-"+listActA.get(position).emocionC().getId()
                 +" - posicion: "+position);
 
-        /*
-        indicaciones = (TextView) rootView.findViewById(R.id.section_label);
-        imgFeel = (ImageView) rootView.findViewById(R.id.imgFeel);
-
-        btnA1 = (Button) rootView.findViewById(R.id.ans1);
-        btnA2 = (Button) rootView.findViewById(R.id.ans2);
-        btnA3 = (Button) rootView.findViewById(R.id.ans3);
-
-        if(idSexo.equals("f")){
-            indicaciones.setText("Lee o escucha la pequeña situación y elije ¿cómo se siente Lili?");
-        }else{
-            indicaciones.setText("Lee o escucha la pequeña situación y elije ¿cómo se siente Juan Carlos?");
-        }
-*/
-        r = (int) (Math.random() * 3);
-        if (r == 0) {
-            rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(rMain).getColor()));
+        r[0] = (int) (Math.random() * 3);
+        if (r[0] == 0) {
+            rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(r[1]).getColor()));
             //interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rMain, rB, rC);
-            interfaceFrame(rootView, rMain, rMain, rB, rC);
-        } else if (r == 1) {
-            rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(rMain).getColor()));
+            interfaceFrame(rootView, r[1], r[1], r[2], r[3]);
+        } else if (r[0] == 1) {
+            rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(r[1]).getColor()));
             //interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rC, rMain, rB);
-            interfaceFrame(rootView, rMain, rC, rMain, rB);
-        } else if (r == 2) {
-            rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(rMain).getColor()));
+            interfaceFrame(rootView, r[1], r[3], r[1], r[2]);
+        } else if (r[0] == 2) {
+            rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(r[1]).getColor()));
             //interfaceFrame(rootView, imgFeel, btnA1, btnA2, btnA3, idSexo, rMain, rB, rC, rMain);
-            interfaceFrame(rootView, rMain, rB, rC, rMain);
+            interfaceFrame(rootView, r[1], r[2], r[3], r[1]);
         }
-        Log.e("colorBG",emociones.getEmocion(rMain).getColor());
-
-    /*VIEW guardar
-        EditText correo;
-        Button YES, NO;
-
-        correo = (EditText)guardarView.findViewById(R.id.confirmCorreo);
-        YES = (Button)guardarView.findViewById(R.id.GuardarSI);
-        NO = (Button)guardarView.findViewById(R.id.GuardarNO);
-*/
-
+        Log.e("colorBG",emociones.getEmocion(r[1]).getColor());
 
         container.addView(rootView);
         return rootView;
@@ -192,15 +161,14 @@ public class SliderAdapter extends PagerAdapter {
         Button txtFeel1, txtFeel2, txtFeel3;
 
         Uri ruta;
-        //answer = false;
-        final int ex_1, ex_2, ex_3;
+        final int ex[] = new int[3];
 
-        indicaciones = (TextView) v.findViewById(R.id.section_label);
-        txFeel = (ImageView) v.findViewById(R.id.imgFeel);
+        indicaciones = v.findViewById(R.id.section_label);
+        txFeel = v.findViewById(R.id.imgFeel);
 
-        txtFeel1 = (Button) v.findViewById(R.id.ans1);
-        txtFeel2 = (Button) v.findViewById(R.id.ans2);
-        txtFeel3 = (Button) v.findViewById(R.id.ans3);
+        txtFeel1 = v.findViewById(R.id.ans1);
+        txtFeel2 = v.findViewById(R.id.ans2);
+        txtFeel3 = v.findViewById(R.id.ans3);
 
         if(idSexo.equals("f")){
             indicaciones.setText("Lee o escucha la pequeña situación y elije ¿cómo se siente Lili?");
@@ -209,15 +177,15 @@ public class SliderAdapter extends PagerAdapter {
         }
 
         //expl = getArguments().getString(Activity1.ARG_r);
-        ex_1 = r1;
-        ex_2 = r2;
-        ex_3 = r3;
+        ex[0] = r1;
+        ex[1] = r2;
+        ex[2] = r3;
 
-        final int ran, ran1, ran2, ran3;
-        ran = r;
-        ran1 = r1;
-        ran2 = r2;
-        ran3 = r3;
+        final int ran[] = new int[4];
+        ran[0] = r;
+        ran[1] = r1;
+        ran[2] = r2;
+        ran[3] = r3;
 
         /*Pictures de botones*/
         ruta = Uri.parse(emociones.getEmocion(r).getUrl());
@@ -231,51 +199,51 @@ public class SliderAdapter extends PagerAdapter {
         txtFeel2.setBackgroundColor(Color.parseColor(emociones.getEmocion(r).getColorB()));
         txtFeel3.setBackgroundColor(Color.parseColor(emociones.getEmocion(r).getColorB()));
 
-        txtFeel1.setText(emociones.getEmocion(ex_1).getName());
-        txtFeel2.setText(emociones.getEmocion(ex_2).getName());
-        txtFeel3.setText(emociones.getEmocion(ex_3).getName());
+        txtFeel1.setText(emociones.getEmocion(ex[1]).getName());
+        txtFeel2.setText(emociones.getEmocion(ex[2]).getName());
+        txtFeel3.setText(emociones.getEmocion(ex[3]).getName());
 
 
         txtFeel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean respTF;
-                if (ran == ran1) respTF=true;
+                if (ran[0] == ran[1]) respTF=true;
                 else             respTF=false;
                 try {
                     mediaPlayerSounds.playSound(mediaPlayerSounds.loadSoundTF(respTF));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                MyCustomAlertDialog(v, emociones.getEmocion(ran1), emociones.getEmocion(ran1).getName(), respTF);
+                MyCustomAlertDialog(v, emociones.getEmocion(ran[1]), emociones.getEmocion(ran[1]).getName(), respTF);
             }
         });
         txtFeel2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean respTF;
-                if (ran == ran2) respTF=true;
+                if (ran[0] == ran[2]) respTF=true;
                 else             respTF=false;
                 try {
                     mediaPlayerSounds.playSound(mediaPlayerSounds.loadSoundTF(respTF));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                MyCustomAlertDialog(v, emociones.getEmocion(ran2), emociones.getEmocion(ran2).getName(), respTF);
+                MyCustomAlertDialog(v, emociones.getEmocion(ran[2]), emociones.getEmocion(ran[2]).getName(), respTF);
             }
         });
         txtFeel3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean respTF;
-                if (ran == ran3) respTF=true;
+                if (ran[0] == ran[3]) respTF=true;
                 else             respTF=false;
                 try {
                     mediaPlayerSounds.playSound(mediaPlayerSounds.loadSoundTF(respTF));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                MyCustomAlertDialog(v, emociones.getEmocion(ran3), emociones.getEmocion(ran3).getName(), respTF);
+                MyCustomAlertDialog(v, emociones.getEmocion(ran[3]), emociones.getEmocion(ran[3]).getName(), respTF);
             }
         });
 

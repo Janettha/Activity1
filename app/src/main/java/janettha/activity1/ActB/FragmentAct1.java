@@ -25,10 +25,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
-import janettha.activity1.ActA.ActA;
 import janettha.activity1.Models.Emocion;
 import janettha.activity1.Models.Emociones;
 import janettha.activity1.Models.Respuesta;
@@ -40,6 +38,7 @@ import janettha.activity1.Util.MediaPlayerSounds;
 
 public class FragmentAct1 extends Fragment {
 
+    @SuppressLint("StaticFieldLeak")
     static Context context;
     LayoutInflater layoutInflater;
 
@@ -47,10 +46,9 @@ public class FragmentAct1 extends Fragment {
     //boolean vp;
 
     Emociones emociones;
-    public final int LIM_emociones = 11;
 
-    public static final String ARG_PAGE = "page";
-    private static int mPageNumber, idDBA2, A2;
+    private static int mPageNumber;
+    private static int idDBA2;
     private String textoRedaccion;
     private String exEmocion1, exEmocion2, exEmocion3, sexo, user;
     private int idEmocion1;
@@ -68,6 +66,7 @@ public class FragmentAct1 extends Fragment {
     private DatabaseReference mDatabaseUser;
 
     /*PDF Respuesta*/
+    @SuppressLint("StaticFieldLeak")
     static TemplatePDF templatePDF;
     ArrayList<Respuesta>respuestas = new ArrayList<>();
     Respuesta respuestaPDF;
@@ -83,11 +82,11 @@ public class FragmentAct1 extends Fragment {
 
         fInicio = Calendar.getInstance().getTime().toString();
         mPageNumber = pageNumber;
-        A2 = actividadB.getIDMain();
+        int a2 = actividadB.getIDMain();
         idDBA2 = numA2DB;
 
         Log.e("Fragment A2a","numPager: "+ mPageNumber);
-        Log.e("Fragment A2a","numActividad: "+ A2);
+        Log.e("Fragment A2a","numActividad: "+ a2);
         Log.e("Fragment A2a","nActividad_DB: "+ idDBA2);
         Log.e("Fragment A2a","nameActividad: "+ actividadB.emocionMain().getName());
 
@@ -139,33 +138,31 @@ public class FragmentAct1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        String ex1, ex2, ex3;
-        Uri ruta;
-        int id1, id2, id3;
-        int r = 0;
+        int id[] = new int[3];
+        int r;
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_act1, container, false);
 
         /*REDACCION*/
         ((TextView) rootView.findViewById(R.id.txtText)).setText(textoRedaccion);
-        indicaciones = (TextView) rootView.findViewById(R.id.Instruccion);
-        Button btn = (Button) rootView.findViewById(R.id.btnSpeak);
+        indicaciones = rootView.findViewById(R.id.Instruccion);
+        Button btn = rootView.findViewById(R.id.btnSpeak);
 
         /*background*/
-        LinearLayout bgAct1 = (LinearLayout) rootView.findViewById(R.id.LRed);
-        TextView txRedaccion = (TextView) rootView.findViewById(R.id.txtText);
+        LinearLayout bgAct1 = rootView.findViewById(R.id.LRed);
+        TextView txRedaccion = rootView.findViewById(R.id.txtText);
 
         /*RESPUESTAS*/
-        ImageButton btnE1 = (ImageButton) rootView.findViewById(R.id.imgRedaccion);
-        TextView txR1 = (TextView) rootView.findViewById(R.id.txRedaccion);
-        ImageButton btnE2 = (ImageButton) rootView.findViewById(R.id.imgRedaccion2);
-        TextView txR2 = (TextView) rootView.findViewById(R.id.txRedaccion2);
-        ImageButton btnE3 = (ImageButton) rootView.findViewById(R.id.imgRedaccion3);
-        TextView txR3 = (TextView) rootView.findViewById(R.id.txRedaccion3);
+        ImageButton btnE1 = rootView.findViewById(R.id.imgRedaccion);
+        TextView txR1 = rootView.findViewById(R.id.txRedaccion);
+        ImageButton btnE2 = rootView.findViewById(R.id.imgRedaccion2);
+        TextView txR2 = rootView.findViewById(R.id.txRedaccion2);
+        ImageButton btnE3 = rootView.findViewById(R.id.imgRedaccion3);
+        TextView txR3 = rootView.findViewById(R.id.txRedaccion3);
 
-        id1 = emociones.getEmocion(idEmocion1).getId();
-        id2 = emociones.getEmocion(idEmocion2).getId();
-        id3 = emociones.getEmocion(idEmocion3).getId();
+        id[0] = emociones.getEmocion(idEmocion1).getId();
+        id[1] = emociones.getEmocion(idEmocion2).getId();
+        id[2] = emociones.getEmocion(idEmocion3).getId();
 
         if(sexo.equals("f")){
             indicaciones.setText("Lee o escucha la pequeña situación y elije ¿cómo se siente Lili?");
@@ -173,22 +170,22 @@ public class FragmentAct1 extends Fragment {
             indicaciones.setText("Lee o escucha la pequeña situación y elije ¿cómo se siente Juan Carlos?");
         }
 
-        bgAct1.setBackgroundColor(Color.parseColor(emociones.getEmocion(id1).getColor()));
-        txRedaccion.setBackgroundColor(Color.parseColor(emociones.getEmocion(id1).getColor()));
+        bgAct1.setBackgroundColor(Color.parseColor(emociones.getEmocion(id[0]).getColor()));
+        txRedaccion.setBackgroundColor(Color.parseColor(emociones.getEmocion(id[0]).getColor()));
 
         r = (int) (Math.random() * 3 ) ;
         switch (r){
             case 0:
-                rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(id1).getColor()));
-                interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo,id1, id1, id2, id3, exEmocion1, exEmocion2, exEmocion3);
+                rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(id[0]).getColor()));
+                interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo,id[0], id[0], id[1], id[2], exEmocion1, exEmocion2, exEmocion3);
                 break;
             case 1:
-                rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(id1).getColor()));
-                interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo, id1, id3, id1, id2, exEmocion3, exEmocion1, exEmocion2);
+                rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(id[0]).getColor()));
+                interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo, id[0], id[2], id[0], id[1], exEmocion3, exEmocion1, exEmocion2);
                 break;
             case 2:
-                rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(id1).getColor()));
-                interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo, id1, id2, id3, id1, exEmocion2, exEmocion3, exEmocion1);
+                rootView.setBackgroundColor(Color.parseColor(emociones.getEmocion(id[0]).getColor()));
+                interfaceFrame(rootView, btnE1, txR1, btnE2, txR2, btnE3, txR3, sexo, id[0], id[1], id[2], id[0], exEmocion2, exEmocion3, exEmocion1);
                 break;
         }
         t1=new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
@@ -230,18 +227,17 @@ public class FragmentAct1 extends Fragment {
     private void interfaceFrame(View v, ImageButton imgFeel, TextView txFeel1, ImageButton imgFeel2, TextView txFeel2, ImageButton imgFeel3, TextView txFeel3, String s, int r, int r1, int r2, int r3, String e1, String e2, String e3){
 
         Uri ruta;
+        final String ex[] = new String [3];
+        final int ran[] = new int[4];
 
-        final String ex_1, ex_2, ex_3;
-        //expl = getArguments().getString(Activity1.ARG_r);
-        ex_1 = e1;
-        ex_2 = e2;
-        ex_3 = e3;
+        ex[0] = e1;
+        ex[1] = e2;
+        ex[2] = e3;
 
-        final int ran, ran1, ran2, ran3;
-        ran = r;
-        ran1 = r1;
-        ran2 = r2;
-        ran3 = r3;
+        ran[0] = r;
+        ran[1] = r1;
+        ran[2] = r2;
+        ran[3] = r3;
 
         /*Nombre de botones*/
         txFeel1.setText(emociones.getEmocion(r1).getName());
@@ -267,60 +263,60 @@ public class FragmentAct1 extends Fragment {
         imgFeel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ran == ran1) {
+                if(ran[0] == ran[1]) {
                     try {
                         mediaPlayerSounds.playSound(mediaPlayerSounds.loadSoundTF(true));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    MyCustomAlertDialog(v, ran, emociones.getEmocion(ran1), "CORRECTO");
+                    MyCustomAlertDialog(v, ran[0], emociones.getEmocion(ran[1]), "CORRECTO");
                 }else {
                     try {
                         mediaPlayerSounds.playSound(mediaPlayerSounds.loadSoundTF(false));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    MyCustomAlertDialog(v, ran, emociones.getEmocion(ran1), ex_1);
+                    MyCustomAlertDialog(v, ran[0], emociones.getEmocion(ran[1]), ex[0]);
                 }
             }
         });
         imgFeel2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ran == ran2) {
+                if(ran[0] == ran[2]) {
                     try {
                         mediaPlayerSounds.playSound(mediaPlayerSounds.loadSoundTF(true));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    MyCustomAlertDialog(v, ran, emociones.getEmocion(ran2), "CORRECTO");
+                    MyCustomAlertDialog(v, ran[0], emociones.getEmocion(ran[2]), "CORRECTO");
                 }else{
                     try {
                         mediaPlayerSounds.playSound(mediaPlayerSounds.loadSoundTF(false));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    MyCustomAlertDialog(v, ran, emociones.getEmocion(ran2),ex_2);
+                    MyCustomAlertDialog(v, ran[0], emociones.getEmocion(ran[2]),ex[1]);
                 }
             }
         });
         imgFeel3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ran == ran3) {
+                if(ran[0] == ran[3]) {
                     try {
                         mediaPlayerSounds.playSound(mediaPlayerSounds.loadSoundTF(true));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    MyCustomAlertDialog(v, ran, emociones.getEmocion(ran3), "CORRECTO");
+                    MyCustomAlertDialog(v, ran[0], emociones.getEmocion(ran[3]), "CORRECTO");
                 }else {
                     try {
                         mediaPlayerSounds.playSound(mediaPlayerSounds.loadSoundTF(false));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    MyCustomAlertDialog(v, ran, emociones.getEmocion(ran3), ex_3);
+                    MyCustomAlertDialog(v, ran[0], emociones.getEmocion(ran[3]), ex[2]);
                 }
             }
         });
@@ -336,11 +332,11 @@ public class FragmentAct1 extends Fragment {
         dialog.setContentView(R.layout.dialog_act1);
         dialog.setTitle(em.getName());
 
-        LinearLayout llDialog = (LinearLayout) dialog.findViewById(R.id.LLDialogA1);
-        explicacionDialogo = (TextView) dialog.findViewById(R.id.Explicacion);
-        nameEmocionDialog = (TextView) dialog.findViewById(R.id.nameRespuesta);
-        imgEmocionDialog = (ImageView) dialog.findViewById(R.id.imgRespuesta);
-        btnBack = (Button) dialog.findViewById(R.id.btnBack);
+        LinearLayout llDialog = dialog.findViewById(R.id.LLDialogA1);
+        explicacionDialogo = dialog.findViewById(R.id.Explicacion);
+        nameEmocionDialog = dialog.findViewById(R.id.nameRespuesta);
+        imgEmocionDialog = dialog.findViewById(R.id.imgRespuesta);
+        btnBack = dialog.findViewById(R.id.btnBack);
 
         llDialog.setBackgroundColor(Color.parseColor(em.getColor()));
 

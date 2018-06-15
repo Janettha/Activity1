@@ -17,6 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +35,7 @@ import janettha.activity1.ActC.ActC;
 import janettha.activity1.ActB.ActB;
 import janettha.activity1.ActA.ActA;
 import janettha.activity1.Activities_Login.loginUser;
+import janettha.activity1.Models.Emociones;
 import janettha.activity1.Models.Tutores;
 import janettha.activity1.Models.Usuarios;
 import janettha.activity1.R;
@@ -50,25 +53,24 @@ public class MainmenuActivity extends AppCompatActivity {
     private MediaPlayerSounds mediaPlayerSounds;
 
     private DatabaseReference mDatabaseUser;
-    private ValueEventListener mUserListener;
 
     private SharedPreferences sharedPreferences;
-    String userU;
-    private Tutores tutor;
+    String userU, sexo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_mainmenu);
-        btnA1 = (Button) findViewById(R.id.menu_act1);
-        btnA2 = (Button) findViewById(R.id.menu_act2);
-        btnA3 = (Button) findViewById(R.id.menu_act3);
+        btnA1 = findViewById(R.id.menu_act1);
+        btnA2 = findViewById(R.id.menu_act2);
+        btnA3 = findViewById(R.id.menu_act3);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
         sharedPreferences = getSharedPreferences(keySP, MODE_PRIVATE);
+        sexo = sharedPreferences.getString("sexo", "m");
         userU = sharedPreferences.getString("usuario", "");
         mDatabaseUser = FirebaseDatabase.getInstance().getReference("users");
         inidiceActividad();
@@ -184,7 +186,7 @@ public class MainmenuActivity extends AppCompatActivity {
     }
 
     private void inidiceActividad(){
-        mUserListener = mDatabaseUser.addValueEventListener(new ValueEventListener() {
+        ValueEventListener mUserListener = mDatabaseUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 GenericTypeIndicator<HashMap<String, Usuarios>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Usuarios>>() {
@@ -197,7 +199,7 @@ public class MainmenuActivity extends AppCompatActivity {
                         a1 = userT.getIndiceA1();
                         a2 = userT.getIndiceA2();
                         a3 = userT.getIndiceA3();
-                        Log.e("Indices",a1+"-"+a2+"-"+a3);
+                        Log.e("Indices", a1 + "-" + a2 + "-" + a3);
                         break;
                     }
                 }
