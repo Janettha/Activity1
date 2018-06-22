@@ -199,9 +199,9 @@ public class SliderAdapter extends PagerAdapter {
         txtFeel2.setBackgroundColor(Color.parseColor(emociones.getEmocion(r).getColorB()));
         txtFeel3.setBackgroundColor(Color.parseColor(emociones.getEmocion(r).getColorB()));
 
-        txtFeel1.setText(emociones.getEmocion(ex[1]).getName());
-        txtFeel2.setText(emociones.getEmocion(ex[2]).getName());
-        txtFeel3.setText(emociones.getEmocion(ex[3]).getName());
+        txtFeel1.setText(emociones.getEmocion(ex[0]).getName());
+        txtFeel2.setText(emociones.getEmocion(ex[1]).getName());
+        txtFeel3.setText(emociones.getEmocion(ex[2]).getName());
 
 
         txtFeel1.setOnClickListener(new View.OnClickListener() {

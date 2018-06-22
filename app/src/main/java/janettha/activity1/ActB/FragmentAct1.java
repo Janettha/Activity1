@@ -82,7 +82,7 @@ public class FragmentAct1 extends Fragment {
 
         fInicio = Calendar.getInstance().getTime().toString();
         mPageNumber = pageNumber;
-        int a2 = actividadB.getIDMain();
+        int a2 = actividadB.emocionMain().getId();
         idDBA2 = numA2DB;
 
         Log.e("Fragment A2a","numPager: "+ mPageNumber);
@@ -165,9 +165,9 @@ public class FragmentAct1 extends Fragment {
         id[2] = emociones.getEmocion(idEmocion3).getId();
 
         if(sexo.equals("f")){
-            indicaciones.setText("Lee o escucha la pequeña situación y elije ¿cómo se siente Lili?");
+            indicaciones.setText("¿Cómo se siente Lili? Elige el nombre de la emoción que se muestra en la siguiente imagen. ");
         }else{
-            indicaciones.setText("Lee o escucha la pequeña situación y elije ¿cómo se siente Juan Carlos?");
+            indicaciones.setText("¿Cómo se siente Juan Carlos? Elige el nombre de la emoción que se muestra en la siguiente imagen. ");
         }
 
         bgAct1.setBackgroundColor(Color.parseColor(emociones.getEmocion(id[0]).getColor()));

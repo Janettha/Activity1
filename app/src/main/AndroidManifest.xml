@@ -72,6 +72,7 @@
             android:name=".ActA.ActA"
             android:label="@string/title_activity_act" />
         <activity android:name=".PDF.ViewPDFActivity" />
+        <activity android:name=".Menu.UserList"></activity>
     </application>
 
 </manifest>
