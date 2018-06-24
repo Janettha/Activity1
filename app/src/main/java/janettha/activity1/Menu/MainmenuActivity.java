@@ -46,7 +46,7 @@ import static janettha.activity1.Activities_Login.loginUser.keySP;
 
 public class MainmenuActivity extends AppCompatActivity {
 
-    private Button usuarios, btnA1, btnA2, btnA3;
+    private Button btnA1, btnA2, btnA3;
     private int a1, a2, a3;
     //private SoundManager soundManager;
 
@@ -62,7 +62,7 @@ public class MainmenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_mainmenu);
-        usuarios = findViewById(R.id.usuarios);
+        //usuarios = findViewById(R.id.usuarios);
         btnA1 = findViewById(R.id.menu_act1);
         btnA2 = findViewById(R.id.menu_act2);
         btnA3 = findViewById(R.id.menu_act3);
@@ -79,6 +79,7 @@ public class MainmenuActivity extends AppCompatActivity {
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
         mediaPlayerSounds = new MediaPlayerSounds(this);
 
+        /*
         usuarios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +87,7 @@ public class MainmenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        */
         btnA1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

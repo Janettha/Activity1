@@ -201,7 +201,7 @@ public class FragmentAct1 extends Fragment {
             @Override
             public void onClick(View v) {
                 String toSpeak = textoRedaccion;
-                Toast.makeText(getContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Reproduciendo...",Toast.LENGTH_SHORT).show();
                 t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });

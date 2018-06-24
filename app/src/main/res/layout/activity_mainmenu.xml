@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimaryBackg"
     tools:context="janettha.activity1.Menu.MainmenuActivity">
     <!--android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -22,11 +23,11 @@
         android:layout_weight="0.33"
         android:orientation="vertical"
         >
-        <Button
+        <!--Button
             android:id="@+id/usuarios"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            /-->
         <Button
             android:id="@+id/menu_act1"
             android:layout_width="match_parent"

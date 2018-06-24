@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Toca y manten presionado el botón para grabar una historia que recuerdes acerca de cuando sientes:"
+        android:text="Cuéntame una historia de:"
         android:textAlignment="center"
         android:textColor="@color/colorTxt"
         android:layout_gravity="center_horizontal"

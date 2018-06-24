@@ -200,7 +200,7 @@ public class ActC extends AppCompatActivity implements CursorWheelLayout.OnMenuS
         dialog.setContentView(R.layout.dialog_act2);
         dialog.setTitle(listImg.getEmocion(pos).getName());
 
-        Toast.makeText(this,"Dialog", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Pincha el botón verde para grabar.", Toast.LENGTH_SHORT).show();
 
         llActivity2 = (LinearLayout) dialog.findViewById(R.id.llact2);
         buttonRecord = (Button) dialog.findViewById(R.id.btnRecord);
@@ -233,7 +233,7 @@ public class ActC extends AppCompatActivity implements CursorWheelLayout.OnMenuS
                     buttonRecord.setVisibility(View.INVISIBLE);
                     buttonStop.setVisibility(View.VISIBLE);
                     buttonStop.setEnabled(true);
-                    Toast.makeText(ActC.this, "Recording...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActC.this, "Grabando...", Toast.LENGTH_SHORT).show();
                 }
             });
         }else{
@@ -252,7 +252,7 @@ public class ActC extends AppCompatActivity implements CursorWheelLayout.OnMenuS
                 buttonStop.setVisibility(View.INVISIBLE);
                 buttonPlay.setVisibility(View.VISIBLE);
                 buttonPlay.setEnabled(true);
-                Toast.makeText(getApplicationContext(), "Record Stopped...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Grabación terminada...", Toast.LENGTH_SHORT).show();
                 //DialogFlag = false;
 
             }
@@ -284,6 +284,7 @@ public class ActC extends AppCompatActivity implements CursorWheelLayout.OnMenuS
     }
 
     private void requestPermissions() {
+        Toast.makeText(this, "Por favor, conceda permiso para continuar.", Toast.LENGTH_SHORT).show();
         ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -295,12 +296,13 @@ public class ActC extends AppCompatActivity implements CursorWheelLayout.OnMenuS
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode){
-            case REQUEST_RECORD_AUDIO_PERMISSION:
-            {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    Toast.makeText(this, "Permission Granted.", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(this, "Permission Denied.", Toast.LENGTH_SHORT).show();
+            case REQUEST_RECORD_AUDIO_PERMISSION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(this, "Permiso otorgago.", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this, "Permiso denegado.", Toast.LENGTH_SHORT).show();
+                    requestPermissions();
+                }
             }
             break;
         }
@@ -339,7 +341,7 @@ public class ActC extends AppCompatActivity implements CursorWheelLayout.OnMenuS
         filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(getApplicationContext(),"Saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Audio guardado.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -360,9 +362,9 @@ public class ActC extends AppCompatActivity implements CursorWheelLayout.OnMenuS
             public void onClick(View v) {
                 onRecord(mStartRecording);
                 if (mStartRecording) {
-                    setText("Stop recording");
+                    setText("Grabación terminada.");
                 } else {
-                    setText("Start recording");
+                    setText("Iniciando grabación.");
                 }
                 mStartRecording = !mStartRecording;
             }
@@ -370,7 +372,7 @@ public class ActC extends AppCompatActivity implements CursorWheelLayout.OnMenuS
 
         public RecordButton(Context ctx) {
             super(ctx);
-            setText("Start recording");
+            setText("Iniciando grabación.");
             setOnClickListener(clicker);
         }
     }
